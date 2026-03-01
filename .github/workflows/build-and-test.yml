@@ -1,0 +1,83 @@
+name: Build and Test (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      configuration:
+        description: 'Build configuration'
+        required: false
+        type: string
+        default: 'Release'
+      upload-test-results:
+        description: 'Whether to upload test results as artifacts'
+        required: false
+        type: boolean
+        default: false
+      create-pack:
+        description: 'Whether to pack NuGet packages'
+        required: false
+        type: boolean
+        default: false
+    outputs:
+      version:
+        description: 'The calculated version from NBGV'
+        value: ${{ jobs.build.outputs.version }}
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.nbgv.outputs.SemVer2 }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET (stable)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - name: Setup .NET (preview)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 11.0.x
+          dotnet-quality: preview
+
+      - name: Calculate Version with NBGV
+        uses: dotnet/nbgv@master
+        id: nbgv
+        with:
+          setAllVars: true
+
+      - name: Version Info
+        run: |
+          echo "Calculated version: ${{ steps.nbgv.outputs.SemVer2 }}"
+
+      - name: Build and Test
+        run: dotnet test --configuration ${{ inputs.configuration }} --verbosity normal --logger "trx;LogFileName=test-results.trx" /p:Version=${{ steps.nbgv.outputs.SemVer2 }}
+
+      - name: Upload test results
+        if: always() && inputs.upload-test-results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: '**/TestResults/**/*.trx'
+
+      - name: Pack NuGet packages
+        if: inputs.create-pack
+        run: dotnet pack --configuration ${{ inputs.configuration }} --no-build --output ./artifacts /p:PackageVersion=${{ steps.nbgv.outputs.SemVer2 }}
+
+      - name: Upload NuGet packages
+        if: inputs.create-pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: ./artifacts/*.nupkg
+          retention-days: 30

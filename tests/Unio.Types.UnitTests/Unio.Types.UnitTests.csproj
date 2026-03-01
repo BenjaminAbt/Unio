@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Unio\Unio.csproj" />
+    <ProjectReference Include="..\..\src\Unio.Types\Unio.Types.csproj" />
+  </ItemGroup>
+
+</Project>

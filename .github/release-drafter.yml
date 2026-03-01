@@ -1,0 +1,115 @@
+# Release Drafter Configuration
+# Documentation: https://github.com/release-drafter/release-drafter
+
+name-template: 'Version $RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+
+# Categories for organizing release notes
+categories:
+  - title: '🚀 Features'
+    labels:
+      - 'feature'
+      - 'enhancement'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'bug'
+      - 'fix'
+  - title: '🔧 Maintenance'
+    labels:
+      - 'maintenance'
+      - 'chore'
+      - 'refactor'
+      - 'dependencies'
+  - title: '📚 Documentation'
+    labels:
+      - 'documentation'
+      - 'docs'
+  - title: '⚡ Performance'
+    labels:
+      - 'performance'
+  - title: '🔒 Security'
+    labels:
+      - 'security'
+
+# Exclude certain labels from release notes
+exclude-labels:
+  - 'skip-changelog'
+  - 'wip'
+
+# Change template (how each PR is listed)
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&' # Escape special markdown characters
+
+# Template for the release body
+template: |
+  ## What's Changed
+
+  $CHANGES
+
+  ## 📦 NuGet Packages
+
+  The following packages are included in this release:
+
+  | Package | NuGet |
+  |---|---|
+  | `Unio` | [![NuGet](https://img.shields.io/nuget/vpre/Unio.svg)](https://www.nuget.org/packages/Unio) |
+  | `Unio.SourceGenerator` | [![NuGet](https://img.shields.io/nuget/vpre/Unio.SourceGenerator.svg)](https://www.nuget.org/packages/Unio.SourceGenerator) |
+  | `Unio.Types` | [![NuGet](https://img.shields.io/nuget/vpre/Unio.Types.svg)](https://www.nuget.org/packages/Unio.Types) |
+  | `Unio.AspNetCore` | [![NuGet](https://img.shields.io/nuget/vpre/Unio.AspNetCore.svg)](https://www.nuget.org/packages/Unio.AspNetCore) |
+
+
+  ### Installation
+
+  ```bash
+  dotnet add package Unio
+  dotnet add package Unio.SourceGenerator
+  dotnet add package Unio.Types
+  dotnet add package Unio.AspNetCore
+  ```
+
+  ## Contributors
+
+  $CONTRIBUTORS
+
+  ---
+
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
+
+# Automatically label PRs based on modified files
+autolabeler:
+  - label: 'documentation'
+    files:
+      - '*.md'
+      - 'docs/**/*'
+  - label: 'bug'
+    branch:
+      - '/fix\/.+/'
+    title:
+      - '/fix/i'
+  - label: 'feature'
+    branch:
+      - '/feature\/.+/'
+    title:
+      - '/feature/i'
+  - label: 'dependencies'
+    files:
+      - '**/packages.lock.json'
+      - '**/*.csproj'
+      - 'Directory.Packages.props'
+      - 'Directory.Build.props'
+  - label: 'github-actions'
+    files:
+      - '.github/workflows/**/*'
+  - label: 'tests'
+    files:
+      - 'tests/**/*'
+      - '**/*Tests.cs'
+      - '**/*Test.cs'
+  - label: 'performance'
+    files:
+      - 'perf/**/*'
+      - '**/*Benchmark*.cs'
+
+# Version resolver (uses version from workflow input)
+version-resolver:
+  default: patch
