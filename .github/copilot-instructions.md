@@ -100,18 +100,18 @@ result.Switch(
     s => Console.WriteLine($"string: {s}"));
 
 // Async variants
-string output = await result.MatchAsync(
+string output = await result.Match(
     async i => await ProcessIntAsync(i),
     async s => await ProcessStringAsync(s));
 
-await result.SwitchAsync(
+await result.Switch(
     async i => await HandleIntAsync(i),
     async s => await HandleStringAsync(s));
 ```
 
 ### Allocation-Free Matching with State
 
-When a lambda captures a local variable the compiler generates a new closure object per call. Use the `Match<TState, TResult>`, `Switch<TState>`, `MatchAsync<TState, TResult>` and `SwitchAsync<TState>` overloads with `static` lambdas to avoid this:
+When a lambda captures a local variable the compiler generates a new closure object per call. Use the `Match<TState, TResult>`, `Switch<TState>` overloads with `static` lambdas to avoid this:
 
 ```csharp
 Unio<int, string> result = 42;
@@ -132,13 +132,13 @@ result.Switch((prefix, Console.Out),
     static (s, i)   => s.Out.WriteLine($"{s.prefix}: {i}"),
     static (s, str) => s.Out.WriteLine($"{s.prefix}: {str}"));
 
-// MatchAsync<TState, TResult> - same pattern for async
-string output = await result.MatchAsync(prefix,
+// Match<TState, TResult> - same pattern for async
+string output = await result.Match(prefix,
     static async (p, i) => await BuildAsync(p, i),
     static async (p, s) => await BuildAsync(p, s));
 
-// SwitchAsync<TState> with ValueTuple state
-await result.SwitchAsync((prefix, logger),
+// Switch<TState> with ValueTuple state
+await result.Switch((prefix, logger),
     static async (s, i)   => await s.logger.LogAsync($"{s.prefix}:{i}"),
     static async (s, str) => await s.logger.LogAsync($"{s.prefix}:{str}"));
 ```

@@ -234,10 +234,10 @@ Each `Unio<...>` (both core and source-generated) provides:
 | `Match<TState, TResult>(TState, Func<TState, T0, TResult>, ...)` | `TResult` | Allocation-free match - passes `state` to `static` lambdas instead of capturing variables |
 | `Switch(Action<T0>, ...)` | `void` | Exhaustive side-effect switch - one action per type |
 | `Switch<TState>(TState, Action<TState, T0>, ...)` | `void` | Allocation-free switch - passes `state` to `static` lambdas instead of capturing variables |
-| `MatchAsync<TResult>(Func<T0, Task<TResult>>, ...)` | `Task<TResult>` | Exhaustive async functional match |
-| `MatchAsync<TState, TResult>(TState, Func<TState, T0, Task<TResult>>, ...)` | `Task<TResult>` | Allocation-free async match - passes `state` to `static` lambdas |
-| `SwitchAsync(Func<T0, Task>, ...)` | `Task` | Exhaustive async side-effect switch |
-| `SwitchAsync<TState>(TState, Func<TState, T0, Task>, ...)` | `Task` | Allocation-free async switch - passes `state` to `static` lambdas |
+| `Match<TResult>(Func<T0, Task<TResult>>, ...)` | `Task<TResult>` | Exhaustive async functional match |
+| `Match<TState, TResult>(TState, Func<TState, T0, Task<TResult>>, ...)` | `Task<TResult>` | Allocation-free async match - passes `state` to `static` lambdas |
+| `Switch(Func<T0, Task>, ...)` | `Task` | Exhaustive async side-effect switch |
+| `Switch<TState>(TState, Func<TState, T0, Task>, ...)` | `Task` | Allocation-free async switch - passes `state` to `static` lambdas |
 | `Equals(other)` | `bool` | Structural equality via `IEquatable<T>` |
 | `GetHashCode()` | `int` | Hash code based on index + active value |
 | `ToString()` | `string` | Delegates to the active value's `ToString()` |
@@ -294,7 +294,7 @@ union.Switch(
 
 #### Allocation-Free Matching with `TState`
 
-When a lambda captures a local variable, the compiler creates a new closure object on the heap every time the delegate is invoked. The `Match<TState, TResult>`, `Switch<TState>`, `MatchAsync<TState, TResult>` and `SwitchAsync<TState>` overloads eliminate this allocation by passing a state value directly alongside each `static` lambda:
+When a lambda captures a local variable, the compiler creates a new closure object on the heap every time the delegate is invoked. The `Match<TState, TResult>`, `Switch<TState>`, overloads eliminate this allocation by passing a state value directly alongside each `static` lambda:
 
 ```csharp
 // ❌ captures `prefix` - allocates a new closure object per call
@@ -324,17 +324,17 @@ The same pattern applies to the async variants:
 
 ```csharp
 // ❌ captures `db` - allocates per call
-string result = await union.MatchAsync(
+string result = await union.Match(
     async i => await db.GetIntAsync(i),
     async s => await db.GetStringAsync(s));
 
 // ✅ passes `db` as TState to static lambdas - zero allocation
-string result = await union.MatchAsync(db,
+string result = await union.Match(db,
     static async (d, i) => await d.GetIntAsync(i),
     static async (d, s) => await d.GetStringAsync(s));
 
 // Switch variant - pass multiple values via ValueTuple
-await union.SwitchAsync((db, logger),
+await union.Switch((db, logger),
     static async (s, i) => { await s.db.SaveAsync(i); s.logger.LogInformation("Saved int"); },
     static async (s, str) => await s.db.LogAsync(str));
 ```
@@ -520,7 +520,7 @@ public sealed partial class Result : IEquatable<Result>
 }
 ```
 
-All other members (`Index`, `IsT0`–`IsT2`, `AsT0`–`AsT2`, `TryGetT0`–`TryGetT2`, `Match<TResult>`, `Match<TState,TResult>`, `Switch`, `Switch<TState>`, `MatchAsync<TResult>`, `MatchAsync<TState,TResult>`, `SwitchAsync`, `SwitchAsync<TState>`, `MapT0`–`MapT2`, `ValueOrT0`–`ValueOrT2`, `ToString`, `IFormattable`, `ISpanFormattable`, `IUtf8SpanFormattable`) are **inherited from `UnioBase`**.
+All other members (`Index`, `IsT0`–`IsT2`, `AsT0`–`AsT2`, `TryGetT0`–`TryGetT2`, `Match<TResult>`, `Match<TState,TResult>`, `Switch`, `Switch<TState>`, `Match<TResult>`, `Match<TState,TResult>`, `MapT0`–`MapT2`, `ValueOrT0`–`ValueOrT2`, `ToString`, `IFormattable`, `ISpanFormattable`, `IUtf8SpanFormattable`) are **inherited from `UnioBase`**.
 
 ### Diagnostics
 
