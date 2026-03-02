@@ -234,6 +234,22 @@ internal static class CodeGenerator
 
         sb.AppendLine();
 
+        // MatchAsync<TState, TResult>
+        string matchAsyncWithStateParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => $"Func<TState, T{i}, Task<TResult>> whenT{i}"));
+        sb.AppendLine("    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>");
+        sb.AppendLine($"    public Task<TResult> MatchAsync<TState, TResult>(TState state, {matchAsyncWithStateParams}) =>");
+        sb.AppendLine("        _index switch");
+        sb.AppendLine("        {");
+        for (int i = 0; i < arity; i++)
+        {
+            sb.AppendLine($"            {i} => whenT{i}(state, _value{i}!),");
+        }
+
+        sb.AppendLine("            _ => throw new InvalidOperationException(\"Invalid union state.\")");
+        sb.AppendLine("        };");
+
+        sb.AppendLine();
+
         // SwitchAsync (Task)
         string switchAsyncParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => $"Func<T{i}, Task> whenT{i}"));
         sb.AppendLine("    /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>");
@@ -243,6 +259,22 @@ internal static class CodeGenerator
         for (int i = 0; i < arity; i++)
         {
             sb.AppendLine($"            {i} => whenT{i}(_value{i}!),");
+        }
+
+        sb.AppendLine("            _ => throw new InvalidOperationException(\"Invalid union state.\")");
+        sb.AppendLine("        };");
+
+        sb.AppendLine();
+
+        // SwitchAsync<TState>
+        string switchAsyncWithStateParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => $"Func<TState, T{i}, Task> whenT{i}"));
+        sb.AppendLine("    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>");
+        sb.AppendLine($"    public Task SwitchAsync<TState>(TState state, {switchAsyncWithStateParams}) =>");
+        sb.AppendLine("        _index switch");
+        sb.AppendLine("        {");
+        for (int i = 0; i < arity; i++)
+        {
+            sb.AppendLine($"            {i} => whenT{i}(state, _value{i}!),");
         }
 
         sb.AppendLine("            _ => throw new InvalidOperationException(\"Invalid union state.\")");
@@ -294,6 +326,10 @@ internal static class CodeGenerator
             sb.AppendLine($"    /// <summary>Gets the value at index {i} or invokes the factory to create a fallback.</summary>");
             sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
             sb.AppendLine($"    public T{i} ValueOrT{i}(Func<T{i}> factory) => _index == {i} ? _value{i}! : factory();");
+            sb.AppendLine();
+            sb.AppendLine($"    /// <summary>Gets the value at index {i} or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>");
+            sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
+            sb.AppendLine($"    public T{i} ValueOrT{i}<TState>(TState state, Func<TState, T{i}> factory) => _index == {i} ? _value{i}! : factory(state);");
             sb.AppendLine();
         }
 
@@ -560,11 +596,23 @@ internal static class CodeGenerator
             sb.AppendLine($"    public Task<TResult> MatchAsync<TResult>({matchAsyncParams}) => _union.MatchAsync({matchAsyncArgs});");
             sb.AppendLine();
 
+            // MatchAsync<TState, TResult>
+            string matchAsyncWithStateParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => $"Func<TState, T{i}, Task<TResult>> whenT{i}"));
+            sb.AppendLine("    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>");
+            sb.AppendLine($"    public Task<TResult> MatchAsync<TState, TResult>(TState state, {matchAsyncWithStateParams}) => _union.MatchAsync(state, {matchAsyncArgs});");
+            sb.AppendLine();
+
             // SwitchAsync
             string switchAsyncParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => $"Func<T{i}, Task> whenT{i}"));
             string switchAsyncArgs = string.Join(", ", Enumerable.Range(0, arity).Select(i => $"whenT{i}"));
             sb.AppendLine("    /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>");
             sb.AppendLine($"    public Task SwitchAsync({switchAsyncParams}) => _union.SwitchAsync({switchAsyncArgs});");
+            sb.AppendLine();
+
+            // SwitchAsync<TState>
+            string switchAsyncWithStateParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => $"Func<TState, T{i}, Task> whenT{i}"));
+            sb.AppendLine("    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>");
+            sb.AppendLine($"    public Task SwitchAsync<TState>(TState state, {switchAsyncWithStateParams}) => _union.SwitchAsync(state, {switchAsyncArgs});");
             sb.AppendLine();
 
             // MapT# - returns struct types, not base class (by design)
@@ -588,6 +636,10 @@ internal static class CodeGenerator
                 sb.AppendLine($"    /// <summary>Gets the value at index {i} or invokes the factory to create a fallback.</summary>");
                 sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
                 sb.AppendLine($"    public T{i} ValueOrT{i}(Func<T{i}> factory) => _union.ValueOrT{i}(factory);");
+                sb.AppendLine();
+                sb.AppendLine($"    /// <summary>Gets the value at index {i} or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>");
+                sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
+                sb.AppendLine($"    public T{i} ValueOrT{i}<TState>(TState state, Func<TState, T{i}> factory) => _union.ValueOrT{i}(state, factory);");
                 sb.AppendLine();
             }
 

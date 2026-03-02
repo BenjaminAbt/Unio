@@ -70,4 +70,48 @@ public class Unio2ValueOrTests
 
         Assert.Equal("fallback", result);
     }
+
+    [Fact]
+    public void ValueOrT0_WithStateFactory_WhenT0_ReturnsValue_AndDoesNotInvokeFactory()
+    {
+        Unio<int, string> union = 42;
+        bool factoryInvoked = false;
+
+        int result = union.ValueOrT0(99, s => { factoryInvoked = true; return s; });
+
+        Assert.Equal(42, result);
+        Assert.False(factoryInvoked);
+    }
+
+    [Fact]
+    public void ValueOrT0_WithStateFactory_WhenT1_InvokesFactoryWithState()
+    {
+        Unio<int, string> union = "hello";
+
+        int result = union.ValueOrT0(99, static s => s);
+
+        Assert.Equal(99, result);
+    }
+
+    [Fact]
+    public void ValueOrT1_WithStateFactory_WhenT1_ReturnsValue_AndDoesNotInvokeFactory()
+    {
+        Unio<int, string> union = "hello";
+        bool factoryInvoked = false;
+
+        string result = union.ValueOrT1("fallback", s => { factoryInvoked = true; return s; });
+
+        Assert.Equal("hello", result);
+        Assert.False(factoryInvoked);
+    }
+
+    [Fact]
+    public void ValueOrT1_WithStateFactory_WhenT0_InvokesFactoryWithState()
+    {
+        Unio<int, string> union = 42;
+
+        string result = union.ValueOrT1("fallback", static s => s);
+
+        Assert.Equal("fallback", result);
+    }
 }

@@ -204,6 +204,17 @@ public readonly struct Unio<T0, T1, T2, T3> : IEquatable<Unio<T0, T1, T2, T3>>,
             _ => throw new InvalidOperationException("Invalid union state.")
         };
 
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> MatchAsync<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3) =>
+        _index switch
+        {
+            0 => whenT0(state, _value0!),
+            1 => whenT1(state, _value1!),
+            2 => whenT2(state, _value2!),
+            3 => whenT3(state, _value3!),
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
     public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3) =>
         _index switch
@@ -212,6 +223,17 @@ public readonly struct Unio<T0, T1, T2, T3> : IEquatable<Unio<T0, T1, T2, T3>>,
             1 => whenT1(_value1!),
             2 => whenT2(_value2!),
             3 => whenT3(_value3!),
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task SwitchAsync<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3) =>
+        _index switch
+        {
+            0 => whenT0(state, _value0!),
+            1 => whenT1(state, _value1!),
+            2 => whenT2(state, _value2!),
+            3 => whenT3(state, _value3!),
             _ => throw new InvalidOperationException("Invalid union state.")
         };
 
@@ -283,6 +305,10 @@ public readonly struct Unio<T0, T1, T2, T3> : IEquatable<Unio<T0, T1, T2, T3>>,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _index == 0 ? _value0! : factory();
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _index == 0 ? _value0! : factory(state);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _index == 1 ? _value1! : fallback;
@@ -290,6 +316,10 @@ public readonly struct Unio<T0, T1, T2, T3> : IEquatable<Unio<T0, T1, T2, T3>>,
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _index == 1 ? _value1! : factory();
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _index == 1 ? _value1! : factory(state);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -299,6 +329,10 @@ public readonly struct Unio<T0, T1, T2, T3> : IEquatable<Unio<T0, T1, T2, T3>>,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _index == 2 ? _value2! : factory();
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _index == 2 ? _value2! : factory(state);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _index == 3 ? _value3! : fallback;
@@ -306,6 +340,10 @@ public readonly struct Unio<T0, T1, T2, T3> : IEquatable<Unio<T0, T1, T2, T3>>,
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _index == 3 ? _value3! : factory();
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _index == 3 ? _value3! : factory(state);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
