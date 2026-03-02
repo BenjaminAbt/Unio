@@ -1,5 +1,6 @@
 // Copyright © BEN ABT (https://benjamin-abt.com) - all rights reserved
 
+using System.Globalization;
 using Unio.Types;
 
 namespace Unio.Types.UnitTests;
@@ -298,7 +299,7 @@ public class MarkerTests
         Assert.True(result.IsT2);
 
         string message = result.Match(
-            v => $"Value: {v}",
+            v => string.Create(CultureInfo.InvariantCulture, $"Value: {v}"),
             _ => "Not found",
             _ => "Forbidden");
         Assert.Equal("Forbidden", message);

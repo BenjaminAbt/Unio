@@ -1,5 +1,7 @@
 // Copyright © BEN ABT (https://benjamin-abt.com) - all rights reserved
 
+using System.Globalization;
+
 namespace Unio.UnitTests;
 
 /// <summary>
@@ -110,7 +112,7 @@ public class Unio2Tests
         Unio<int, string> union = 42;
 
         string result = union.Match(
-            i => $"int:{i}",
+            i => string.Create(CultureInfo.InvariantCulture, $"int:{i}"),
             s => $"str:{s}");
 
         Assert.Equal("int:42", result);
@@ -122,7 +124,7 @@ public class Unio2Tests
         Unio<int, string> union = "hello";
 
         string result = union.Match(
-            i => $"int:{i}",
+            i => string.Create(CultureInfo.InvariantCulture, $"int:{i}"),
             s => $"str:{s}");
 
         Assert.Equal("str:hello", result);
@@ -135,7 +137,7 @@ public class Unio2Tests
 
         string result = union.Match(
             "prefix",
-            static (state, i) => $"{state}:int:{i}",
+            static (state, i) => string.Create(CultureInfo.InvariantCulture, $"{state}:int:{i}"),
             static (state, s) => $"{state}:str:{s}");
 
         Assert.Equal("prefix:int:42", result);

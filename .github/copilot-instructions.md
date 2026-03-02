@@ -100,18 +100,18 @@ result.Switch(
     s => Console.WriteLine($"string: {s}"));
 
 // Async variants
-string output = await result.MatchAsync(
+string output = await result.Match(
     async i => await ProcessIntAsync(i),
     async s => await ProcessStringAsync(s));
 
-await result.SwitchAsync(
+await result.Switch(
     async i => await HandleIntAsync(i),
     async s => await HandleStringAsync(s));
 ```
 
 ### Allocation-Free Matching with State
 
-When a lambda captures a local variable the compiler generates a new closure object per call. Use the `Match<TState, TResult>` and `Switch<TState>` overloads with `static` lambdas to avoid this:
+When a lambda captures a local variable the compiler generates a new closure object per call. Use the `Match<TState, TResult>`, `Switch<TState>` overloads with `static` lambdas to avoid this:
 
 ```csharp
 Unio<int, string> result = 42;
@@ -131,6 +131,16 @@ string output = result.Match(prefix,
 result.Switch((prefix, Console.Out),
     static (s, i)   => s.Out.WriteLine($"{s.prefix}: {i}"),
     static (s, str) => s.Out.WriteLine($"{s.prefix}: {str}"));
+
+// Match<TState, TResult> - same pattern for async
+string output = await result.Match(prefix,
+    static async (p, i) => await BuildAsync(p, i),
+    static async (p, s) => await BuildAsync(p, s));
+
+// Switch<TState> with ValueTuple state
+await result.Switch((prefix, logger),
+    static async (s, i)   => await s.logger.LogAsync($"{s.prefix}:{i}"),
+    static async (s, str) => await s.logger.LogAsync($"{s.prefix}:{str}"));
 ```
 
 ### Mapping
@@ -178,7 +188,7 @@ The generator produces a `sealed partial class` that **inherits** `UnioBase<...>
 - `==` and `!=` operators
 - `[MethodImpl(AggressiveInlining)]` on all generated methods
 
-All other members (`Index`, `IsT0..IsTn`, `AsT0..AsTn`, `TryGetT0..TryGetTn`, `Match<TResult>`, `Match<TState,TResult>`, `Switch`, `Switch<TState>`, `MatchAsync`, `SwitchAsync`, `ValueOrT0..ValueOrTn`, `ToString`, `IFormattable`, `ISpanFormattable`, `IUtf8SpanFormattable`) are **inherited from `UnioBase<...>`**.
+All other members (`Index`, `IsT0..IsTn`, `AsT0..AsTn`, `TryGetT0..TryGetTn`, `Match<TResult>`, `Match<TState,TResult>`, `Switch`, `Switch<TState>`, `MatchAsync<TResult>`, `MatchAsync<TState,TResult>`, `SwitchAsync`, `SwitchAsync<TState>`, `ValueOrT0..ValueOrTn`, `ToString`, `IFormattable`, `ISpanFormattable`, `IUtf8SpanFormattable`) are **inherited from `UnioBase<...>`**.
 
 ### Source Generator Diagnostics
 
@@ -283,6 +293,7 @@ Test coverage areas per arity:
 - `TryGetT#` true/false paths
 - `Match`/`Switch` correct branch execution
 - `MatchAsync`/`SwitchAsync` async variants
+- `MatchAsync<TState,TResult>`/`SwitchAsync<TState>` state-passing async variants
 - `Equals`, `GetHashCode`, `==`, `!=`
 - `ToString`, `IFormattable`, `ISpanFormattable`
 

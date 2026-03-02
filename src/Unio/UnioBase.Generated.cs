@@ -89,10 +89,16 @@ public abstract class UnioBase<T0, T1> : IEquatable<UnioBase<T0, T1>>,
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1) => _union.Switch(state, whenT0, whenT1);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1) => _union.MatchAsync(whenT0, whenT1);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1) => _union.Match(whenT0, whenT1);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1) => _union.Match(state, whenT0, whenT1);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1) => _union.SwitchAsync(whenT0, whenT1);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1) => _union.Switch(whenT0, whenT1);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1) => _union.Switch(state, whenT0, whenT1);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1&gt;</c>.</summary>
     public Unio<TNew, T1> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -108,6 +114,10 @@ public abstract class UnioBase<T0, T1> : IEquatable<UnioBase<T0, T1>>,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -115,6 +125,10 @@ public abstract class UnioBase<T0, T1> : IEquatable<UnioBase<T0, T1>>,
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -244,10 +258,16 @@ public abstract class UnioBase<T0, T1, T2> : IEquatable<UnioBase<T0, T1, T2>>,
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2) => _union.Switch(state, whenT0, whenT1, whenT2);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2) => _union.MatchAsync(whenT0, whenT1, whenT2);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2) => _union.Match(whenT0, whenT1, whenT2);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2) => _union.Match(state, whenT0, whenT1, whenT2);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2) => _union.SwitchAsync(whenT0, whenT1, whenT2);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2) => _union.Switch(whenT0, whenT1, whenT2);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2) => _union.Switch(state, whenT0, whenT1, whenT2);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2&gt;</c>.</summary>
     public Unio<TNew, T1, T2> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -266,6 +286,10 @@ public abstract class UnioBase<T0, T1, T2> : IEquatable<UnioBase<T0, T1, T2>>,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -274,6 +298,10 @@ public abstract class UnioBase<T0, T1, T2> : IEquatable<UnioBase<T0, T1, T2>>,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
 
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
+
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(T2 fallback) => _union.ValueOrT2(fallback);
@@ -281,6 +309,10 @@ public abstract class UnioBase<T0, T1, T2> : IEquatable<UnioBase<T0, T1, T2>>,
     /// <summary>Gets the value at index 2 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
+
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -429,10 +461,16 @@ public abstract class UnioBase<T0, T1, T2, T3> : IEquatable<UnioBase<T0, T1, T2,
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3) => _union.Match(whenT0, whenT1, whenT2, whenT3);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3) => _union.Match(state, whenT0, whenT1, whenT2, whenT3);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3) => _union.Switch(whenT0, whenT1, whenT2, whenT3);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -454,6 +492,10 @@ public abstract class UnioBase<T0, T1, T2, T3> : IEquatable<UnioBase<T0, T1, T2,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -461,6 +503,10 @@ public abstract class UnioBase<T0, T1, T2, T3> : IEquatable<UnioBase<T0, T1, T2,
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -470,6 +516,10 @@ public abstract class UnioBase<T0, T1, T2, T3> : IEquatable<UnioBase<T0, T1, T2,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -477,6 +527,10 @@ public abstract class UnioBase<T0, T1, T2, T3> : IEquatable<UnioBase<T0, T1, T2,
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -644,10 +698,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4> : IEquatable<UnioBase<T0, T1,
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -672,6 +732,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4> : IEquatable<UnioBase<T0, T1,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -679,6 +743,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4> : IEquatable<UnioBase<T0, T1,
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -688,6 +756,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4> : IEquatable<UnioBase<T0, T1,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -696,6 +768,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4> : IEquatable<UnioBase<T0, T1,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
 
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
+
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(T4 fallback) => _union.ValueOrT4(fallback);
@@ -703,6 +779,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4> : IEquatable<UnioBase<T0, T1,
     /// <summary>Gets the value at index 4 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
+
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -889,10 +969,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5> : IEquatable<UnioBase<T0,
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -920,6 +1006,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5> : IEquatable<UnioBase<T0,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -927,6 +1017,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5> : IEquatable<UnioBase<T0,
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -936,6 +1030,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5> : IEquatable<UnioBase<T0,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -943,6 +1041,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5> : IEquatable<UnioBase<T0,
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -952,6 +1054,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5> : IEquatable<UnioBase<T0,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -959,6 +1065,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5> : IEquatable<UnioBase<T0,
     /// <summary>Gets the value at index 5 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
+
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -1164,10 +1274,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5, Action<TState, T6> whenT6) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5, T6&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5, T6> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -1198,6 +1314,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -1205,6 +1325,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -1214,6 +1338,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -1221,6 +1349,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -1230,6 +1362,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -1238,6 +1374,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
 
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
+
     /// <summary>Gets the value at index 6 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(T6 fallback) => _union.ValueOrT6(fallback);
@@ -1245,6 +1385,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
     /// <summary>Gets the value at index 6 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(Func<T6> factory) => _union.ValueOrT6(factory);
+
+    /// <summary>Gets the value at index 6 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T6 ValueOrT6<TState>(TState state, Func<TState, T6> factory) => _union.ValueOrT6(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -1469,10 +1613,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5, Action<TState, T6> whenT6, Action<TState, T7> whenT7) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5, T6, T7&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5, T6, T7> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -1506,6 +1656,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -1513,6 +1667,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -1522,6 +1680,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -1529,6 +1691,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -1538,6 +1704,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -1545,6 +1715,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
     /// <summary>Gets the value at index 5 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
+
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
 
     /// <summary>Gets the value at index 6 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -1554,6 +1728,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(Func<T6> factory) => _union.ValueOrT6(factory);
 
+    /// <summary>Gets the value at index 6 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T6 ValueOrT6<TState>(TState state, Func<TState, T6> factory) => _union.ValueOrT6(state, factory);
+
     /// <summary>Gets the value at index 7 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(T7 fallback) => _union.ValueOrT7(fallback);
@@ -1561,6 +1739,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
     /// <summary>Gets the value at index 7 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(Func<T7> factory) => _union.ValueOrT7(factory);
+
+    /// <summary>Gets the value at index 7 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T7 ValueOrT7<TState>(TState state, Func<TState, T7> factory) => _union.ValueOrT7(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -1804,10 +1986,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5, Action<TState, T6> whenT6, Action<TState, T7> whenT7, Action<TState, T8> whenT8) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7, Func<TState, T8, Task<TResult>> whenT8) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7, Func<TState, T8, Task> whenT8) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5, T6, T7, T8&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5, T6, T7, T8> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -1844,6 +2032,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -1851,6 +2043,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -1860,6 +2056,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -1867,6 +2067,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -1876,6 +2080,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -1883,6 +2091,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
     /// <summary>Gets the value at index 5 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
+
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
 
     /// <summary>Gets the value at index 6 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -1892,6 +2104,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(Func<T6> factory) => _union.ValueOrT6(factory);
 
+    /// <summary>Gets the value at index 6 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T6 ValueOrT6<TState>(TState state, Func<TState, T6> factory) => _union.ValueOrT6(state, factory);
+
     /// <summary>Gets the value at index 7 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(T7 fallback) => _union.ValueOrT7(fallback);
@@ -1900,6 +2116,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(Func<T7> factory) => _union.ValueOrT7(factory);
 
+    /// <summary>Gets the value at index 7 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T7 ValueOrT7<TState>(TState state, Func<TState, T7> factory) => _union.ValueOrT7(state, factory);
+
     /// <summary>Gets the value at index 8 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T8 ValueOrT8(T8 fallback) => _union.ValueOrT8(fallback);
@@ -1907,6 +2127,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
     /// <summary>Gets the value at index 8 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T8 ValueOrT8(Func<T8> factory) => _union.ValueOrT8(factory);
+
+    /// <summary>Gets the value at index 8 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T8 ValueOrT8<TState>(TState state, Func<TState, T8> factory) => _union.ValueOrT8(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2169,10 +2393,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5, Action<TState, T6> whenT6, Action<TState, T7> whenT7, Action<TState, T8> whenT8, Action<TState, T9> whenT9) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7, Func<TState, T8, Task<TResult>> whenT8, Func<TState, T9, Task<TResult>> whenT9) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7, Func<TState, T8, Task> whenT8, Func<TState, T9, Task> whenT9) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -2212,6 +2442,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -2219,6 +2453,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2228,6 +2466,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -2235,6 +2477,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2244,6 +2490,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -2251,6 +2501,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
     /// <summary>Gets the value at index 5 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
+
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
 
     /// <summary>Gets the value at index 6 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2260,6 +2514,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(Func<T6> factory) => _union.ValueOrT6(factory);
 
+    /// <summary>Gets the value at index 6 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T6 ValueOrT6<TState>(TState state, Func<TState, T6> factory) => _union.ValueOrT6(state, factory);
+
     /// <summary>Gets the value at index 7 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(T7 fallback) => _union.ValueOrT7(fallback);
@@ -2267,6 +2525,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
     /// <summary>Gets the value at index 7 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(Func<T7> factory) => _union.ValueOrT7(factory);
+
+    /// <summary>Gets the value at index 7 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T7 ValueOrT7<TState>(TState state, Func<TState, T7> factory) => _union.ValueOrT7(state, factory);
 
     /// <summary>Gets the value at index 8 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2276,6 +2538,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T8 ValueOrT8(Func<T8> factory) => _union.ValueOrT8(factory);
 
+    /// <summary>Gets the value at index 8 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T8 ValueOrT8<TState>(TState state, Func<TState, T8> factory) => _union.ValueOrT8(state, factory);
+
     /// <summary>Gets the value at index 9 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(T9 fallback) => _union.ValueOrT9(fallback);
@@ -2283,6 +2549,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
     /// <summary>Gets the value at index 9 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(Func<T9> factory) => _union.ValueOrT9(factory);
+
+    /// <summary>Gets the value at index 9 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T9 ValueOrT9<TState>(TState state, Func<TState, T9> factory) => _union.ValueOrT9(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2564,10 +2834,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5, Action<TState, T6> whenT6, Action<TState, T7> whenT7, Action<TState, T8> whenT8, Action<TState, T9> whenT9, Action<TState, T10> whenT10) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7, Func<TState, T8, Task<TResult>> whenT8, Func<TState, T9, Task<TResult>> whenT9, Func<TState, T10, Task<TResult>> whenT10) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7, Func<TState, T8, Task> whenT8, Func<TState, T9, Task> whenT9, Func<TState, T10, Task> whenT10) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -2610,6 +2886,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -2617,6 +2897,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2626,6 +2910,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -2633,6 +2921,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2642,6 +2934,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -2649,6 +2945,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
     /// <summary>Gets the value at index 5 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
+
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
 
     /// <summary>Gets the value at index 6 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2658,6 +2958,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(Func<T6> factory) => _union.ValueOrT6(factory);
 
+    /// <summary>Gets the value at index 6 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T6 ValueOrT6<TState>(TState state, Func<TState, T6> factory) => _union.ValueOrT6(state, factory);
+
     /// <summary>Gets the value at index 7 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(T7 fallback) => _union.ValueOrT7(fallback);
@@ -2665,6 +2969,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
     /// <summary>Gets the value at index 7 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(Func<T7> factory) => _union.ValueOrT7(factory);
+
+    /// <summary>Gets the value at index 7 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T7 ValueOrT7<TState>(TState state, Func<TState, T7> factory) => _union.ValueOrT7(state, factory);
 
     /// <summary>Gets the value at index 8 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2674,6 +2982,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T8 ValueOrT8(Func<T8> factory) => _union.ValueOrT8(factory);
 
+    /// <summary>Gets the value at index 8 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T8 ValueOrT8<TState>(TState state, Func<TState, T8> factory) => _union.ValueOrT8(state, factory);
+
     /// <summary>Gets the value at index 9 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(T9 fallback) => _union.ValueOrT9(fallback);
@@ -2682,6 +2994,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(Func<T9> factory) => _union.ValueOrT9(factory);
 
+    /// <summary>Gets the value at index 9 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T9 ValueOrT9<TState>(TState state, Func<TState, T9> factory) => _union.ValueOrT9(state, factory);
+
     /// <summary>Gets the value at index 10 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T10 ValueOrT10(T10 fallback) => _union.ValueOrT10(fallback);
@@ -2689,6 +3005,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
     /// <summary>Gets the value at index 10 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T10 ValueOrT10(Func<T10> factory) => _union.ValueOrT10(factory);
+
+    /// <summary>Gets the value at index 10 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T10 ValueOrT10<TState>(TState state, Func<TState, T10> factory) => _union.ValueOrT10(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2989,10 +3309,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5, Action<TState, T6> whenT6, Action<TState, T7> whenT7, Action<TState, T8> whenT8, Action<TState, T9> whenT9, Action<TState, T10> whenT10, Action<TState, T11> whenT11) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7, Func<TState, T8, Task<TResult>> whenT8, Func<TState, T9, Task<TResult>> whenT9, Func<TState, T10, Task<TResult>> whenT10, Func<TState, T11, Task<TResult>> whenT11) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7, Func<TState, T8, Task> whenT8, Func<TState, T9, Task> whenT9, Func<TState, T10, Task> whenT10, Func<TState, T11, Task> whenT11) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -3038,6 +3364,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -3045,6 +3375,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -3054,6 +3388,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -3061,6 +3399,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -3070,6 +3412,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -3077,6 +3423,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     /// <summary>Gets the value at index 5 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
+
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
 
     /// <summary>Gets the value at index 6 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -3086,6 +3436,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(Func<T6> factory) => _union.ValueOrT6(factory);
 
+    /// <summary>Gets the value at index 6 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T6 ValueOrT6<TState>(TState state, Func<TState, T6> factory) => _union.ValueOrT6(state, factory);
+
     /// <summary>Gets the value at index 7 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(T7 fallback) => _union.ValueOrT7(fallback);
@@ -3093,6 +3447,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     /// <summary>Gets the value at index 7 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(Func<T7> factory) => _union.ValueOrT7(factory);
+
+    /// <summary>Gets the value at index 7 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T7 ValueOrT7<TState>(TState state, Func<TState, T7> factory) => _union.ValueOrT7(state, factory);
 
     /// <summary>Gets the value at index 8 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -3102,6 +3460,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T8 ValueOrT8(Func<T8> factory) => _union.ValueOrT8(factory);
 
+    /// <summary>Gets the value at index 8 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T8 ValueOrT8<TState>(TState state, Func<TState, T8> factory) => _union.ValueOrT8(state, factory);
+
     /// <summary>Gets the value at index 9 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(T9 fallback) => _union.ValueOrT9(fallback);
@@ -3109,6 +3471,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     /// <summary>Gets the value at index 9 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(Func<T9> factory) => _union.ValueOrT9(factory);
+
+    /// <summary>Gets the value at index 9 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T9 ValueOrT9<TState>(TState state, Func<TState, T9> factory) => _union.ValueOrT9(state, factory);
 
     /// <summary>Gets the value at index 10 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -3118,6 +3484,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T10 ValueOrT10(Func<T10> factory) => _union.ValueOrT10(factory);
 
+    /// <summary>Gets the value at index 10 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T10 ValueOrT10<TState>(TState state, Func<TState, T10> factory) => _union.ValueOrT10(state, factory);
+
     /// <summary>Gets the value at index 11 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(T11 fallback) => _union.ValueOrT11(fallback);
@@ -3125,6 +3495,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     /// <summary>Gets the value at index 11 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(Func<T11> factory) => _union.ValueOrT11(factory);
+
+    /// <summary>Gets the value at index 11 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T11 ValueOrT11<TState>(TState state, Func<TState, T11> factory) => _union.ValueOrT11(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -3444,10 +3818,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5, Action<TState, T6> whenT6, Action<TState, T7> whenT7, Action<TState, T8> whenT8, Action<TState, T9> whenT9, Action<TState, T10> whenT10, Action<TState, T11> whenT11, Action<TState, T12> whenT12) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7, Func<TState, T8, Task<TResult>> whenT8, Func<TState, T9, Task<TResult>> whenT9, Func<TState, T10, Task<TResult>> whenT10, Func<TState, T11, Task<TResult>> whenT11, Func<TState, T12, Task<TResult>> whenT12) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7, Func<TState, T8, Task> whenT8, Func<TState, T9, Task> whenT9, Func<TState, T10, Task> whenT10, Func<TState, T11, Task> whenT11, Func<TState, T12, Task> whenT12) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -3496,6 +3876,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -3503,6 +3887,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -3512,6 +3900,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -3519,6 +3911,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -3528,6 +3924,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -3535,6 +3935,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 5 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
+
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
 
     /// <summary>Gets the value at index 6 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -3544,6 +3948,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(Func<T6> factory) => _union.ValueOrT6(factory);
 
+    /// <summary>Gets the value at index 6 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T6 ValueOrT6<TState>(TState state, Func<TState, T6> factory) => _union.ValueOrT6(state, factory);
+
     /// <summary>Gets the value at index 7 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(T7 fallback) => _union.ValueOrT7(fallback);
@@ -3551,6 +3959,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 7 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(Func<T7> factory) => _union.ValueOrT7(factory);
+
+    /// <summary>Gets the value at index 7 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T7 ValueOrT7<TState>(TState state, Func<TState, T7> factory) => _union.ValueOrT7(state, factory);
 
     /// <summary>Gets the value at index 8 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -3560,6 +3972,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T8 ValueOrT8(Func<T8> factory) => _union.ValueOrT8(factory);
 
+    /// <summary>Gets the value at index 8 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T8 ValueOrT8<TState>(TState state, Func<TState, T8> factory) => _union.ValueOrT8(state, factory);
+
     /// <summary>Gets the value at index 9 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(T9 fallback) => _union.ValueOrT9(fallback);
@@ -3567,6 +3983,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 9 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(Func<T9> factory) => _union.ValueOrT9(factory);
+
+    /// <summary>Gets the value at index 9 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T9 ValueOrT9<TState>(TState state, Func<TState, T9> factory) => _union.ValueOrT9(state, factory);
 
     /// <summary>Gets the value at index 10 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -3576,6 +3996,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T10 ValueOrT10(Func<T10> factory) => _union.ValueOrT10(factory);
 
+    /// <summary>Gets the value at index 10 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T10 ValueOrT10<TState>(TState state, Func<TState, T10> factory) => _union.ValueOrT10(state, factory);
+
     /// <summary>Gets the value at index 11 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(T11 fallback) => _union.ValueOrT11(fallback);
@@ -3584,6 +4008,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(Func<T11> factory) => _union.ValueOrT11(factory);
 
+    /// <summary>Gets the value at index 11 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T11 ValueOrT11<TState>(TState state, Func<TState, T11> factory) => _union.ValueOrT11(state, factory);
+
     /// <summary>Gets the value at index 12 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T12 ValueOrT12(T12 fallback) => _union.ValueOrT12(fallback);
@@ -3591,6 +4019,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 12 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T12 ValueOrT12(Func<T12> factory) => _union.ValueOrT12(factory);
+
+    /// <summary>Gets the value at index 12 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T12 ValueOrT12<TState>(TState state, Func<TState, T12> factory) => _union.ValueOrT12(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -3929,10 +4361,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5, Action<TState, T6> whenT6, Action<TState, T7> whenT7, Action<TState, T8> whenT8, Action<TState, T9> whenT9, Action<TState, T10> whenT10, Action<TState, T11> whenT11, Action<TState, T12> whenT12, Action<TState, T13> whenT13) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7, Func<TState, T8, Task<TResult>> whenT8, Func<TState, T9, Task<TResult>> whenT9, Func<TState, T10, Task<TResult>> whenT10, Func<TState, T11, Task<TResult>> whenT11, Func<TState, T12, Task<TResult>> whenT12, Func<TState, T13, Task<TResult>> whenT13) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7, Func<TState, T8, Task> whenT8, Func<TState, T9, Task> whenT9, Func<TState, T10, Task> whenT10, Func<TState, T11, Task> whenT11, Func<TState, T12, Task> whenT12, Func<TState, T13, Task> whenT13) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -3984,6 +4422,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -3991,6 +4433,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4000,6 +4446,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -4007,6 +4457,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4016,6 +4470,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -4023,6 +4481,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 5 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
+
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
 
     /// <summary>Gets the value at index 6 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4032,6 +4494,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(Func<T6> factory) => _union.ValueOrT6(factory);
 
+    /// <summary>Gets the value at index 6 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T6 ValueOrT6<TState>(TState state, Func<TState, T6> factory) => _union.ValueOrT6(state, factory);
+
     /// <summary>Gets the value at index 7 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(T7 fallback) => _union.ValueOrT7(fallback);
@@ -4039,6 +4505,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 7 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(Func<T7> factory) => _union.ValueOrT7(factory);
+
+    /// <summary>Gets the value at index 7 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T7 ValueOrT7<TState>(TState state, Func<TState, T7> factory) => _union.ValueOrT7(state, factory);
 
     /// <summary>Gets the value at index 8 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4048,6 +4518,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T8 ValueOrT8(Func<T8> factory) => _union.ValueOrT8(factory);
 
+    /// <summary>Gets the value at index 8 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T8 ValueOrT8<TState>(TState state, Func<TState, T8> factory) => _union.ValueOrT8(state, factory);
+
     /// <summary>Gets the value at index 9 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(T9 fallback) => _union.ValueOrT9(fallback);
@@ -4055,6 +4529,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 9 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(Func<T9> factory) => _union.ValueOrT9(factory);
+
+    /// <summary>Gets the value at index 9 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T9 ValueOrT9<TState>(TState state, Func<TState, T9> factory) => _union.ValueOrT9(state, factory);
 
     /// <summary>Gets the value at index 10 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4064,6 +4542,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T10 ValueOrT10(Func<T10> factory) => _union.ValueOrT10(factory);
 
+    /// <summary>Gets the value at index 10 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T10 ValueOrT10<TState>(TState state, Func<TState, T10> factory) => _union.ValueOrT10(state, factory);
+
     /// <summary>Gets the value at index 11 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(T11 fallback) => _union.ValueOrT11(fallback);
@@ -4071,6 +4553,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 11 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(Func<T11> factory) => _union.ValueOrT11(factory);
+
+    /// <summary>Gets the value at index 11 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T11 ValueOrT11<TState>(TState state, Func<TState, T11> factory) => _union.ValueOrT11(state, factory);
 
     /// <summary>Gets the value at index 12 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4080,6 +4566,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T12 ValueOrT12(Func<T12> factory) => _union.ValueOrT12(factory);
 
+    /// <summary>Gets the value at index 12 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T12 ValueOrT12<TState>(TState state, Func<TState, T12> factory) => _union.ValueOrT12(state, factory);
+
     /// <summary>Gets the value at index 13 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T13 ValueOrT13(T13 fallback) => _union.ValueOrT13(fallback);
@@ -4087,6 +4577,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 13 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T13 ValueOrT13(Func<T13> factory) => _union.ValueOrT13(factory);
+
+    /// <summary>Gets the value at index 13 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T13 ValueOrT13<TState>(TState state, Func<TState, T13> factory) => _union.ValueOrT13(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4444,10 +4938,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5, Action<TState, T6> whenT6, Action<TState, T7> whenT7, Action<TState, T8> whenT8, Action<TState, T9> whenT9, Action<TState, T10> whenT10, Action<TState, T11> whenT11, Action<TState, T12> whenT12, Action<TState, T13> whenT13, Action<TState, T14> whenT14) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13, Func<T14, Task<TResult>> whenT14) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13, Func<T14, Task<TResult>> whenT14) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7, Func<TState, T8, Task<TResult>> whenT8, Func<TState, T9, Task<TResult>> whenT9, Func<TState, T10, Task<TResult>> whenT10, Func<TState, T11, Task<TResult>> whenT11, Func<TState, T12, Task<TResult>> whenT12, Func<TState, T13, Task<TResult>> whenT13, Func<TState, T14, Task<TResult>> whenT14) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13, Func<T14, Task> whenT14) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13, Func<T14, Task> whenT14) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7, Func<TState, T8, Task> whenT8, Func<TState, T9, Task> whenT9, Func<TState, T10, Task> whenT10, Func<TState, T11, Task> whenT11, Func<TState, T12, Task> whenT12, Func<TState, T13, Task> whenT13, Func<TState, T14, Task> whenT14) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -4502,6 +5002,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -4509,6 +5013,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4518,6 +5026,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -4525,6 +5037,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4534,6 +5050,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -4541,6 +5061,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 5 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
+
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
 
     /// <summary>Gets the value at index 6 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4550,6 +5074,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(Func<T6> factory) => _union.ValueOrT6(factory);
 
+    /// <summary>Gets the value at index 6 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T6 ValueOrT6<TState>(TState state, Func<TState, T6> factory) => _union.ValueOrT6(state, factory);
+
     /// <summary>Gets the value at index 7 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(T7 fallback) => _union.ValueOrT7(fallback);
@@ -4557,6 +5085,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 7 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(Func<T7> factory) => _union.ValueOrT7(factory);
+
+    /// <summary>Gets the value at index 7 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T7 ValueOrT7<TState>(TState state, Func<TState, T7> factory) => _union.ValueOrT7(state, factory);
 
     /// <summary>Gets the value at index 8 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4566,6 +5098,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T8 ValueOrT8(Func<T8> factory) => _union.ValueOrT8(factory);
 
+    /// <summary>Gets the value at index 8 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T8 ValueOrT8<TState>(TState state, Func<TState, T8> factory) => _union.ValueOrT8(state, factory);
+
     /// <summary>Gets the value at index 9 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(T9 fallback) => _union.ValueOrT9(fallback);
@@ -4573,6 +5109,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 9 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(Func<T9> factory) => _union.ValueOrT9(factory);
+
+    /// <summary>Gets the value at index 9 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T9 ValueOrT9<TState>(TState state, Func<TState, T9> factory) => _union.ValueOrT9(state, factory);
 
     /// <summary>Gets the value at index 10 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4582,6 +5122,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T10 ValueOrT10(Func<T10> factory) => _union.ValueOrT10(factory);
 
+    /// <summary>Gets the value at index 10 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T10 ValueOrT10<TState>(TState state, Func<TState, T10> factory) => _union.ValueOrT10(state, factory);
+
     /// <summary>Gets the value at index 11 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(T11 fallback) => _union.ValueOrT11(fallback);
@@ -4589,6 +5133,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 11 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(Func<T11> factory) => _union.ValueOrT11(factory);
+
+    /// <summary>Gets the value at index 11 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T11 ValueOrT11<TState>(TState state, Func<TState, T11> factory) => _union.ValueOrT11(state, factory);
 
     /// <summary>Gets the value at index 12 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4598,6 +5146,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T12 ValueOrT12(Func<T12> factory) => _union.ValueOrT12(factory);
 
+    /// <summary>Gets the value at index 12 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T12 ValueOrT12<TState>(TState state, Func<TState, T12> factory) => _union.ValueOrT12(state, factory);
+
     /// <summary>Gets the value at index 13 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T13 ValueOrT13(T13 fallback) => _union.ValueOrT13(fallback);
@@ -4606,6 +5158,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T13 ValueOrT13(Func<T13> factory) => _union.ValueOrT13(factory);
 
+    /// <summary>Gets the value at index 13 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T13 ValueOrT13<TState>(TState state, Func<TState, T13> factory) => _union.ValueOrT13(state, factory);
+
     /// <summary>Gets the value at index 14 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T14 ValueOrT14(T14 fallback) => _union.ValueOrT14(fallback);
@@ -4613,6 +5169,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 14 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T14 ValueOrT14(Func<T14> factory) => _union.ValueOrT14(factory);
+
+    /// <summary>Gets the value at index 14 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T14 ValueOrT14<TState>(TState state, Func<TState, T14> factory) => _union.ValueOrT14(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4989,10 +5549,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5, Action<TState, T6> whenT6, Action<TState, T7> whenT7, Action<TState, T8> whenT8, Action<TState, T9> whenT9, Action<TState, T10> whenT10, Action<TState, T11> whenT11, Action<TState, T12> whenT12, Action<TState, T13> whenT13, Action<TState, T14> whenT14, Action<TState, T15> whenT15) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13, Func<T14, Task<TResult>> whenT14, Func<T15, Task<TResult>> whenT15) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13, Func<T14, Task<TResult>> whenT14, Func<T15, Task<TResult>> whenT15) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7, Func<TState, T8, Task<TResult>> whenT8, Func<TState, T9, Task<TResult>> whenT9, Func<TState, T10, Task<TResult>> whenT10, Func<TState, T11, Task<TResult>> whenT11, Func<TState, T12, Task<TResult>> whenT12, Func<TState, T13, Task<TResult>> whenT13, Func<TState, T14, Task<TResult>> whenT14, Func<TState, T15, Task<TResult>> whenT15) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13, Func<T14, Task> whenT14, Func<T15, Task> whenT15) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13, Func<T14, Task> whenT14, Func<T15, Task> whenT15) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7, Func<TState, T8, Task> whenT8, Func<TState, T9, Task> whenT9, Func<TState, T10, Task> whenT10, Func<TState, T11, Task> whenT11, Func<TState, T12, Task> whenT12, Func<TState, T13, Task> whenT13, Func<TState, T14, Task> whenT14, Func<TState, T15, Task> whenT15) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -5050,6 +5616,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -5057,6 +5627,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5066,6 +5640,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -5073,6 +5651,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5082,6 +5664,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -5089,6 +5675,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 5 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
+
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
 
     /// <summary>Gets the value at index 6 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5098,6 +5688,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(Func<T6> factory) => _union.ValueOrT6(factory);
 
+    /// <summary>Gets the value at index 6 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T6 ValueOrT6<TState>(TState state, Func<TState, T6> factory) => _union.ValueOrT6(state, factory);
+
     /// <summary>Gets the value at index 7 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(T7 fallback) => _union.ValueOrT7(fallback);
@@ -5105,6 +5699,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 7 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(Func<T7> factory) => _union.ValueOrT7(factory);
+
+    /// <summary>Gets the value at index 7 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T7 ValueOrT7<TState>(TState state, Func<TState, T7> factory) => _union.ValueOrT7(state, factory);
 
     /// <summary>Gets the value at index 8 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5114,6 +5712,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T8 ValueOrT8(Func<T8> factory) => _union.ValueOrT8(factory);
 
+    /// <summary>Gets the value at index 8 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T8 ValueOrT8<TState>(TState state, Func<TState, T8> factory) => _union.ValueOrT8(state, factory);
+
     /// <summary>Gets the value at index 9 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(T9 fallback) => _union.ValueOrT9(fallback);
@@ -5121,6 +5723,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 9 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(Func<T9> factory) => _union.ValueOrT9(factory);
+
+    /// <summary>Gets the value at index 9 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T9 ValueOrT9<TState>(TState state, Func<TState, T9> factory) => _union.ValueOrT9(state, factory);
 
     /// <summary>Gets the value at index 10 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5130,6 +5736,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T10 ValueOrT10(Func<T10> factory) => _union.ValueOrT10(factory);
 
+    /// <summary>Gets the value at index 10 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T10 ValueOrT10<TState>(TState state, Func<TState, T10> factory) => _union.ValueOrT10(state, factory);
+
     /// <summary>Gets the value at index 11 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(T11 fallback) => _union.ValueOrT11(fallback);
@@ -5137,6 +5747,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 11 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(Func<T11> factory) => _union.ValueOrT11(factory);
+
+    /// <summary>Gets the value at index 11 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T11 ValueOrT11<TState>(TState state, Func<TState, T11> factory) => _union.ValueOrT11(state, factory);
 
     /// <summary>Gets the value at index 12 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5146,6 +5760,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T12 ValueOrT12(Func<T12> factory) => _union.ValueOrT12(factory);
 
+    /// <summary>Gets the value at index 12 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T12 ValueOrT12<TState>(TState state, Func<TState, T12> factory) => _union.ValueOrT12(state, factory);
+
     /// <summary>Gets the value at index 13 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T13 ValueOrT13(T13 fallback) => _union.ValueOrT13(fallback);
@@ -5153,6 +5771,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 13 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T13 ValueOrT13(Func<T13> factory) => _union.ValueOrT13(factory);
+
+    /// <summary>Gets the value at index 13 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T13 ValueOrT13<TState>(TState state, Func<TState, T13> factory) => _union.ValueOrT13(state, factory);
 
     /// <summary>Gets the value at index 14 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5162,6 +5784,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T14 ValueOrT14(Func<T14> factory) => _union.ValueOrT14(factory);
 
+    /// <summary>Gets the value at index 14 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T14 ValueOrT14<TState>(TState state, Func<TState, T14> factory) => _union.ValueOrT14(state, factory);
+
     /// <summary>Gets the value at index 15 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T15 ValueOrT15(T15 fallback) => _union.ValueOrT15(fallback);
@@ -5169,6 +5795,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 15 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T15 ValueOrT15(Func<T15> factory) => _union.ValueOrT15(factory);
+
+    /// <summary>Gets the value at index 15 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T15 ValueOrT15<TState>(TState state, Func<TState, T15> factory) => _union.ValueOrT15(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5564,10 +6194,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5, Action<TState, T6> whenT6, Action<TState, T7> whenT7, Action<TState, T8> whenT8, Action<TState, T9> whenT9, Action<TState, T10> whenT10, Action<TState, T11> whenT11, Action<TState, T12> whenT12, Action<TState, T13> whenT13, Action<TState, T14> whenT14, Action<TState, T15> whenT15, Action<TState, T16> whenT16) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13, Func<T14, Task<TResult>> whenT14, Func<T15, Task<TResult>> whenT15, Func<T16, Task<TResult>> whenT16) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13, Func<T14, Task<TResult>> whenT14, Func<T15, Task<TResult>> whenT15, Func<T16, Task<TResult>> whenT16) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7, Func<TState, T8, Task<TResult>> whenT8, Func<TState, T9, Task<TResult>> whenT9, Func<TState, T10, Task<TResult>> whenT10, Func<TState, T11, Task<TResult>> whenT11, Func<TState, T12, Task<TResult>> whenT12, Func<TState, T13, Task<TResult>> whenT13, Func<TState, T14, Task<TResult>> whenT14, Func<TState, T15, Task<TResult>> whenT15, Func<TState, T16, Task<TResult>> whenT16) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13, Func<T14, Task> whenT14, Func<T15, Task> whenT15, Func<T16, Task> whenT16) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13, Func<T14, Task> whenT14, Func<T15, Task> whenT15, Func<T16, Task> whenT16) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7, Func<TState, T8, Task> whenT8, Func<TState, T9, Task> whenT9, Func<TState, T10, Task> whenT10, Func<TState, T11, Task> whenT11, Func<TState, T12, Task> whenT12, Func<TState, T13, Task> whenT13, Func<TState, T14, Task> whenT14, Func<TState, T15, Task> whenT15, Func<TState, T16, Task> whenT16) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -5628,6 +6264,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -5635,6 +6275,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5644,6 +6288,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -5651,6 +6299,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5660,6 +6312,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -5667,6 +6323,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 5 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
+
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
 
     /// <summary>Gets the value at index 6 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5676,6 +6336,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(Func<T6> factory) => _union.ValueOrT6(factory);
 
+    /// <summary>Gets the value at index 6 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T6 ValueOrT6<TState>(TState state, Func<TState, T6> factory) => _union.ValueOrT6(state, factory);
+
     /// <summary>Gets the value at index 7 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(T7 fallback) => _union.ValueOrT7(fallback);
@@ -5683,6 +6347,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 7 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(Func<T7> factory) => _union.ValueOrT7(factory);
+
+    /// <summary>Gets the value at index 7 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T7 ValueOrT7<TState>(TState state, Func<TState, T7> factory) => _union.ValueOrT7(state, factory);
 
     /// <summary>Gets the value at index 8 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5692,6 +6360,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T8 ValueOrT8(Func<T8> factory) => _union.ValueOrT8(factory);
 
+    /// <summary>Gets the value at index 8 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T8 ValueOrT8<TState>(TState state, Func<TState, T8> factory) => _union.ValueOrT8(state, factory);
+
     /// <summary>Gets the value at index 9 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(T9 fallback) => _union.ValueOrT9(fallback);
@@ -5699,6 +6371,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 9 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(Func<T9> factory) => _union.ValueOrT9(factory);
+
+    /// <summary>Gets the value at index 9 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T9 ValueOrT9<TState>(TState state, Func<TState, T9> factory) => _union.ValueOrT9(state, factory);
 
     /// <summary>Gets the value at index 10 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5708,6 +6384,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T10 ValueOrT10(Func<T10> factory) => _union.ValueOrT10(factory);
 
+    /// <summary>Gets the value at index 10 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T10 ValueOrT10<TState>(TState state, Func<TState, T10> factory) => _union.ValueOrT10(state, factory);
+
     /// <summary>Gets the value at index 11 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(T11 fallback) => _union.ValueOrT11(fallback);
@@ -5715,6 +6395,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 11 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(Func<T11> factory) => _union.ValueOrT11(factory);
+
+    /// <summary>Gets the value at index 11 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T11 ValueOrT11<TState>(TState state, Func<TState, T11> factory) => _union.ValueOrT11(state, factory);
 
     /// <summary>Gets the value at index 12 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5724,6 +6408,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T12 ValueOrT12(Func<T12> factory) => _union.ValueOrT12(factory);
 
+    /// <summary>Gets the value at index 12 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T12 ValueOrT12<TState>(TState state, Func<TState, T12> factory) => _union.ValueOrT12(state, factory);
+
     /// <summary>Gets the value at index 13 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T13 ValueOrT13(T13 fallback) => _union.ValueOrT13(fallback);
@@ -5731,6 +6419,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 13 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T13 ValueOrT13(Func<T13> factory) => _union.ValueOrT13(factory);
+
+    /// <summary>Gets the value at index 13 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T13 ValueOrT13<TState>(TState state, Func<TState, T13> factory) => _union.ValueOrT13(state, factory);
 
     /// <summary>Gets the value at index 14 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5740,6 +6432,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T14 ValueOrT14(Func<T14> factory) => _union.ValueOrT14(factory);
 
+    /// <summary>Gets the value at index 14 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T14 ValueOrT14<TState>(TState state, Func<TState, T14> factory) => _union.ValueOrT14(state, factory);
+
     /// <summary>Gets the value at index 15 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T15 ValueOrT15(T15 fallback) => _union.ValueOrT15(fallback);
@@ -5748,6 +6444,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T15 ValueOrT15(Func<T15> factory) => _union.ValueOrT15(factory);
 
+    /// <summary>Gets the value at index 15 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T15 ValueOrT15<TState>(TState state, Func<TState, T15> factory) => _union.ValueOrT15(state, factory);
+
     /// <summary>Gets the value at index 16 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T16 ValueOrT16(T16 fallback) => _union.ValueOrT16(fallback);
@@ -5755,6 +6455,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 16 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T16 ValueOrT16(Func<T16> factory) => _union.ValueOrT16(factory);
+
+    /// <summary>Gets the value at index 16 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T16 ValueOrT16<TState>(TState state, Func<TState, T16> factory) => _union.ValueOrT16(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6169,10 +6873,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5, Action<TState, T6> whenT6, Action<TState, T7> whenT7, Action<TState, T8> whenT8, Action<TState, T9> whenT9, Action<TState, T10> whenT10, Action<TState, T11> whenT11, Action<TState, T12> whenT12, Action<TState, T13> whenT13, Action<TState, T14> whenT14, Action<TState, T15> whenT15, Action<TState, T16> whenT16, Action<TState, T17> whenT17) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13, Func<T14, Task<TResult>> whenT14, Func<T15, Task<TResult>> whenT15, Func<T16, Task<TResult>> whenT16, Func<T17, Task<TResult>> whenT17) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13, Func<T14, Task<TResult>> whenT14, Func<T15, Task<TResult>> whenT15, Func<T16, Task<TResult>> whenT16, Func<T17, Task<TResult>> whenT17) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7, Func<TState, T8, Task<TResult>> whenT8, Func<TState, T9, Task<TResult>> whenT9, Func<TState, T10, Task<TResult>> whenT10, Func<TState, T11, Task<TResult>> whenT11, Func<TState, T12, Task<TResult>> whenT12, Func<TState, T13, Task<TResult>> whenT13, Func<TState, T14, Task<TResult>> whenT14, Func<TState, T15, Task<TResult>> whenT15, Func<TState, T16, Task<TResult>> whenT16, Func<TState, T17, Task<TResult>> whenT17) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13, Func<T14, Task> whenT14, Func<T15, Task> whenT15, Func<T16, Task> whenT16, Func<T17, Task> whenT17) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13, Func<T14, Task> whenT14, Func<T15, Task> whenT15, Func<T16, Task> whenT16, Func<T17, Task> whenT17) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7, Func<TState, T8, Task> whenT8, Func<TState, T9, Task> whenT9, Func<TState, T10, Task> whenT10, Func<TState, T11, Task> whenT11, Func<TState, T12, Task> whenT12, Func<TState, T13, Task> whenT13, Func<TState, T14, Task> whenT14, Func<TState, T15, Task> whenT15, Func<TState, T16, Task> whenT16, Func<TState, T17, Task> whenT17) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -6236,6 +6946,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -6243,6 +6957,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6252,6 +6970,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -6259,6 +6981,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6268,6 +6994,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -6275,6 +7005,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 5 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
+
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
 
     /// <summary>Gets the value at index 6 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6284,6 +7018,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(Func<T6> factory) => _union.ValueOrT6(factory);
 
+    /// <summary>Gets the value at index 6 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T6 ValueOrT6<TState>(TState state, Func<TState, T6> factory) => _union.ValueOrT6(state, factory);
+
     /// <summary>Gets the value at index 7 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(T7 fallback) => _union.ValueOrT7(fallback);
@@ -6291,6 +7029,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 7 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(Func<T7> factory) => _union.ValueOrT7(factory);
+
+    /// <summary>Gets the value at index 7 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T7 ValueOrT7<TState>(TState state, Func<TState, T7> factory) => _union.ValueOrT7(state, factory);
 
     /// <summary>Gets the value at index 8 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6300,6 +7042,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T8 ValueOrT8(Func<T8> factory) => _union.ValueOrT8(factory);
 
+    /// <summary>Gets the value at index 8 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T8 ValueOrT8<TState>(TState state, Func<TState, T8> factory) => _union.ValueOrT8(state, factory);
+
     /// <summary>Gets the value at index 9 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(T9 fallback) => _union.ValueOrT9(fallback);
@@ -6307,6 +7053,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 9 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(Func<T9> factory) => _union.ValueOrT9(factory);
+
+    /// <summary>Gets the value at index 9 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T9 ValueOrT9<TState>(TState state, Func<TState, T9> factory) => _union.ValueOrT9(state, factory);
 
     /// <summary>Gets the value at index 10 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6316,6 +7066,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T10 ValueOrT10(Func<T10> factory) => _union.ValueOrT10(factory);
 
+    /// <summary>Gets the value at index 10 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T10 ValueOrT10<TState>(TState state, Func<TState, T10> factory) => _union.ValueOrT10(state, factory);
+
     /// <summary>Gets the value at index 11 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(T11 fallback) => _union.ValueOrT11(fallback);
@@ -6323,6 +7077,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 11 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(Func<T11> factory) => _union.ValueOrT11(factory);
+
+    /// <summary>Gets the value at index 11 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T11 ValueOrT11<TState>(TState state, Func<TState, T11> factory) => _union.ValueOrT11(state, factory);
 
     /// <summary>Gets the value at index 12 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6332,6 +7090,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T12 ValueOrT12(Func<T12> factory) => _union.ValueOrT12(factory);
 
+    /// <summary>Gets the value at index 12 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T12 ValueOrT12<TState>(TState state, Func<TState, T12> factory) => _union.ValueOrT12(state, factory);
+
     /// <summary>Gets the value at index 13 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T13 ValueOrT13(T13 fallback) => _union.ValueOrT13(fallback);
@@ -6339,6 +7101,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 13 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T13 ValueOrT13(Func<T13> factory) => _union.ValueOrT13(factory);
+
+    /// <summary>Gets the value at index 13 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T13 ValueOrT13<TState>(TState state, Func<TState, T13> factory) => _union.ValueOrT13(state, factory);
 
     /// <summary>Gets the value at index 14 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6348,6 +7114,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T14 ValueOrT14(Func<T14> factory) => _union.ValueOrT14(factory);
 
+    /// <summary>Gets the value at index 14 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T14 ValueOrT14<TState>(TState state, Func<TState, T14> factory) => _union.ValueOrT14(state, factory);
+
     /// <summary>Gets the value at index 15 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T15 ValueOrT15(T15 fallback) => _union.ValueOrT15(fallback);
@@ -6355,6 +7125,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 15 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T15 ValueOrT15(Func<T15> factory) => _union.ValueOrT15(factory);
+
+    /// <summary>Gets the value at index 15 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T15 ValueOrT15<TState>(TState state, Func<TState, T15> factory) => _union.ValueOrT15(state, factory);
 
     /// <summary>Gets the value at index 16 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6364,6 +7138,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T16 ValueOrT16(Func<T16> factory) => _union.ValueOrT16(factory);
 
+    /// <summary>Gets the value at index 16 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T16 ValueOrT16<TState>(TState state, Func<TState, T16> factory) => _union.ValueOrT16(state, factory);
+
     /// <summary>Gets the value at index 17 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T17 ValueOrT17(T17 fallback) => _union.ValueOrT17(fallback);
@@ -6371,6 +7149,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 17 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T17 ValueOrT17(Func<T17> factory) => _union.ValueOrT17(factory);
+
+    /// <summary>Gets the value at index 17 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T17 ValueOrT17<TState>(TState state, Func<TState, T17> factory) => _union.ValueOrT17(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6804,10 +7586,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5, Action<TState, T6> whenT6, Action<TState, T7> whenT7, Action<TState, T8> whenT8, Action<TState, T9> whenT9, Action<TState, T10> whenT10, Action<TState, T11> whenT11, Action<TState, T12> whenT12, Action<TState, T13> whenT13, Action<TState, T14> whenT14, Action<TState, T15> whenT15, Action<TState, T16> whenT16, Action<TState, T17> whenT17, Action<TState, T18> whenT18) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17, whenT18);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13, Func<T14, Task<TResult>> whenT14, Func<T15, Task<TResult>> whenT15, Func<T16, Task<TResult>> whenT16, Func<T17, Task<TResult>> whenT17, Func<T18, Task<TResult>> whenT18) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17, whenT18);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13, Func<T14, Task<TResult>> whenT14, Func<T15, Task<TResult>> whenT15, Func<T16, Task<TResult>> whenT16, Func<T17, Task<TResult>> whenT17, Func<T18, Task<TResult>> whenT18) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17, whenT18);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7, Func<TState, T8, Task<TResult>> whenT8, Func<TState, T9, Task<TResult>> whenT9, Func<TState, T10, Task<TResult>> whenT10, Func<TState, T11, Task<TResult>> whenT11, Func<TState, T12, Task<TResult>> whenT12, Func<TState, T13, Task<TResult>> whenT13, Func<TState, T14, Task<TResult>> whenT14, Func<TState, T15, Task<TResult>> whenT15, Func<TState, T16, Task<TResult>> whenT16, Func<TState, T17, Task<TResult>> whenT17, Func<TState, T18, Task<TResult>> whenT18) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17, whenT18);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13, Func<T14, Task> whenT14, Func<T15, Task> whenT15, Func<T16, Task> whenT16, Func<T17, Task> whenT17, Func<T18, Task> whenT18) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17, whenT18);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13, Func<T14, Task> whenT14, Func<T15, Task> whenT15, Func<T16, Task> whenT16, Func<T17, Task> whenT17, Func<T18, Task> whenT18) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17, whenT18);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7, Func<TState, T8, Task> whenT8, Func<TState, T9, Task> whenT9, Func<TState, T10, Task> whenT10, Func<TState, T11, Task> whenT11, Func<TState, T12, Task> whenT12, Func<TState, T13, Task> whenT13, Func<TState, T14, Task> whenT14, Func<TState, T15, Task> whenT15, Func<TState, T16, Task> whenT16, Func<TState, T17, Task> whenT17, Func<TState, T18, Task> whenT18) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17, whenT18);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -6874,6 +7662,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -6881,6 +7673,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6890,6 +7686,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -6897,6 +7697,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6906,6 +7710,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -6913,6 +7721,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 5 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
+
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
 
     /// <summary>Gets the value at index 6 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6922,6 +7734,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(Func<T6> factory) => _union.ValueOrT6(factory);
 
+    /// <summary>Gets the value at index 6 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T6 ValueOrT6<TState>(TState state, Func<TState, T6> factory) => _union.ValueOrT6(state, factory);
+
     /// <summary>Gets the value at index 7 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(T7 fallback) => _union.ValueOrT7(fallback);
@@ -6929,6 +7745,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 7 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(Func<T7> factory) => _union.ValueOrT7(factory);
+
+    /// <summary>Gets the value at index 7 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T7 ValueOrT7<TState>(TState state, Func<TState, T7> factory) => _union.ValueOrT7(state, factory);
 
     /// <summary>Gets the value at index 8 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6938,6 +7758,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T8 ValueOrT8(Func<T8> factory) => _union.ValueOrT8(factory);
 
+    /// <summary>Gets the value at index 8 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T8 ValueOrT8<TState>(TState state, Func<TState, T8> factory) => _union.ValueOrT8(state, factory);
+
     /// <summary>Gets the value at index 9 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(T9 fallback) => _union.ValueOrT9(fallback);
@@ -6945,6 +7769,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 9 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(Func<T9> factory) => _union.ValueOrT9(factory);
+
+    /// <summary>Gets the value at index 9 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T9 ValueOrT9<TState>(TState state, Func<TState, T9> factory) => _union.ValueOrT9(state, factory);
 
     /// <summary>Gets the value at index 10 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6954,6 +7782,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T10 ValueOrT10(Func<T10> factory) => _union.ValueOrT10(factory);
 
+    /// <summary>Gets the value at index 10 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T10 ValueOrT10<TState>(TState state, Func<TState, T10> factory) => _union.ValueOrT10(state, factory);
+
     /// <summary>Gets the value at index 11 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(T11 fallback) => _union.ValueOrT11(fallback);
@@ -6961,6 +7793,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 11 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(Func<T11> factory) => _union.ValueOrT11(factory);
+
+    /// <summary>Gets the value at index 11 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T11 ValueOrT11<TState>(TState state, Func<TState, T11> factory) => _union.ValueOrT11(state, factory);
 
     /// <summary>Gets the value at index 12 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6970,6 +7806,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T12 ValueOrT12(Func<T12> factory) => _union.ValueOrT12(factory);
 
+    /// <summary>Gets the value at index 12 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T12 ValueOrT12<TState>(TState state, Func<TState, T12> factory) => _union.ValueOrT12(state, factory);
+
     /// <summary>Gets the value at index 13 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T13 ValueOrT13(T13 fallback) => _union.ValueOrT13(fallback);
@@ -6977,6 +7817,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 13 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T13 ValueOrT13(Func<T13> factory) => _union.ValueOrT13(factory);
+
+    /// <summary>Gets the value at index 13 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T13 ValueOrT13<TState>(TState state, Func<TState, T13> factory) => _union.ValueOrT13(state, factory);
 
     /// <summary>Gets the value at index 14 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6986,6 +7830,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T14 ValueOrT14(Func<T14> factory) => _union.ValueOrT14(factory);
 
+    /// <summary>Gets the value at index 14 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T14 ValueOrT14<TState>(TState state, Func<TState, T14> factory) => _union.ValueOrT14(state, factory);
+
     /// <summary>Gets the value at index 15 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T15 ValueOrT15(T15 fallback) => _union.ValueOrT15(fallback);
@@ -6993,6 +7841,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 15 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T15 ValueOrT15(Func<T15> factory) => _union.ValueOrT15(factory);
+
+    /// <summary>Gets the value at index 15 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T15 ValueOrT15<TState>(TState state, Func<TState, T15> factory) => _union.ValueOrT15(state, factory);
 
     /// <summary>Gets the value at index 16 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -7002,6 +7854,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T16 ValueOrT16(Func<T16> factory) => _union.ValueOrT16(factory);
 
+    /// <summary>Gets the value at index 16 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T16 ValueOrT16<TState>(TState state, Func<TState, T16> factory) => _union.ValueOrT16(state, factory);
+
     /// <summary>Gets the value at index 17 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T17 ValueOrT17(T17 fallback) => _union.ValueOrT17(fallback);
@@ -7010,6 +7866,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T17 ValueOrT17(Func<T17> factory) => _union.ValueOrT17(factory);
 
+    /// <summary>Gets the value at index 17 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T17 ValueOrT17<TState>(TState state, Func<TState, T17> factory) => _union.ValueOrT17(state, factory);
+
     /// <summary>Gets the value at index 18 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T18 ValueOrT18(T18 fallback) => _union.ValueOrT18(fallback);
@@ -7017,6 +7877,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 18 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T18 ValueOrT18(Func<T18> factory) => _union.ValueOrT18(factory);
+
+    /// <summary>Gets the value at index 18 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T18 ValueOrT18<TState>(TState state, Func<TState, T18> factory) => _union.ValueOrT18(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -7469,10 +8333,16 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     public void Switch<TState>(TState state, Action<TState, T0> whenT0, Action<TState, T1> whenT1, Action<TState, T2> whenT2, Action<TState, T3> whenT3, Action<TState, T4> whenT4, Action<TState, T5> whenT5, Action<TState, T6> whenT6, Action<TState, T7> whenT7, Action<TState, T8> whenT8, Action<TState, T9> whenT9, Action<TState, T10> whenT10, Action<TState, T11> whenT11, Action<TState, T12> whenT12, Action<TState, T13> whenT13, Action<TState, T14> whenT14, Action<TState, T15> whenT15, Action<TState, T16> whenT16, Action<TState, T17> whenT17, Action<TState, T18> whenT18, Action<TState, T19> whenT19) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17, whenT18, whenT19);
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13, Func<T14, Task<TResult>> whenT14, Func<T15, Task<TResult>> whenT15, Func<T16, Task<TResult>> whenT16, Func<T17, Task<TResult>> whenT17, Func<T18, Task<TResult>> whenT18, Func<T19, Task<TResult>> whenT19) => _union.MatchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17, whenT18, whenT19);
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13, Func<T14, Task<TResult>> whenT14, Func<T15, Task<TResult>> whenT15, Func<T16, Task<TResult>> whenT16, Func<T17, Task<TResult>> whenT17, Func<T18, Task<TResult>> whenT18, Func<T19, Task<TResult>> whenT19) => _union.Match(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17, whenT18, whenT19);
+
+    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7, Func<TState, T8, Task<TResult>> whenT8, Func<TState, T9, Task<TResult>> whenT9, Func<TState, T10, Task<TResult>> whenT10, Func<TState, T11, Task<TResult>> whenT11, Func<TState, T12, Task<TResult>> whenT12, Func<TState, T13, Task<TResult>> whenT13, Func<TState, T14, Task<TResult>> whenT14, Func<TState, T15, Task<TResult>> whenT15, Func<TState, T16, Task<TResult>> whenT16, Func<TState, T17, Task<TResult>> whenT17, Func<TState, T18, Task<TResult>> whenT18, Func<TState, T19, Task<TResult>> whenT19) => _union.Match(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17, whenT18, whenT19);
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13, Func<T14, Task> whenT14, Func<T15, Task> whenT15, Func<T16, Task> whenT16, Func<T17, Task> whenT17, Func<T18, Task> whenT18, Func<T19, Task> whenT19) => _union.SwitchAsync(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17, whenT18, whenT19);
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13, Func<T14, Task> whenT14, Func<T15, Task> whenT15, Func<T16, Task> whenT16, Func<T17, Task> whenT17, Func<T18, Task> whenT18, Func<T19, Task> whenT19) => _union.Switch(whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17, whenT18, whenT19);
+
+    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7, Func<TState, T8, Task> whenT8, Func<TState, T9, Task> whenT9, Func<TState, T10, Task> whenT10, Func<TState, T11, Task> whenT11, Func<TState, T12, Task> whenT12, Func<TState, T13, Task> whenT13, Func<TState, T14, Task> whenT14, Func<TState, T15, Task> whenT15, Func<TState, T16, Task> whenT16, Func<TState, T17, Task> whenT17, Func<TState, T18, Task> whenT18, Func<TState, T19, Task> whenT19) => _union.Switch(state, whenT0, whenT1, whenT2, whenT3, whenT4, whenT5, whenT6, whenT7, whenT8, whenT9, whenT10, whenT11, whenT12, whenT13, whenT14, whenT15, whenT16, whenT17, whenT18, whenT19);
 
     /// <summary>Transforms the value at index 0 using the specified mapping function, returning a new <c>Unio&lt;TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19&gt;</c>.</summary>
     public Unio<TNew, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> MapT0<TNew>(Func<T0, TNew> map) => _union.MapT0(map);
@@ -7542,6 +8412,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T0 ValueOrT0(Func<T0> factory) => _union.ValueOrT0(factory);
 
+    /// <summary>Gets the value at index 0 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T0 ValueOrT0<TState>(TState state, Func<TState, T0> factory) => _union.ValueOrT0(state, factory);
+
     /// <summary>Gets the value at index 1 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(T1 fallback) => _union.ValueOrT1(fallback);
@@ -7549,6 +8423,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 1 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T1 ValueOrT1(Func<T1> factory) => _union.ValueOrT1(factory);
+
+    /// <summary>Gets the value at index 1 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T1 ValueOrT1<TState>(TState state, Func<TState, T1> factory) => _union.ValueOrT1(state, factory);
 
     /// <summary>Gets the value at index 2 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -7558,6 +8436,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T2 ValueOrT2(Func<T2> factory) => _union.ValueOrT2(factory);
 
+    /// <summary>Gets the value at index 2 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T2 ValueOrT2<TState>(TState state, Func<TState, T2> factory) => _union.ValueOrT2(state, factory);
+
     /// <summary>Gets the value at index 3 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(T3 fallback) => _union.ValueOrT3(fallback);
@@ -7565,6 +8447,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 3 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T3 ValueOrT3(Func<T3> factory) => _union.ValueOrT3(factory);
+
+    /// <summary>Gets the value at index 3 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T3 ValueOrT3<TState>(TState state, Func<TState, T3> factory) => _union.ValueOrT3(state, factory);
 
     /// <summary>Gets the value at index 4 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -7574,6 +8460,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T4 ValueOrT4(Func<T4> factory) => _union.ValueOrT4(factory);
 
+    /// <summary>Gets the value at index 4 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T4 ValueOrT4<TState>(TState state, Func<TState, T4> factory) => _union.ValueOrT4(state, factory);
+
     /// <summary>Gets the value at index 5 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(T5 fallback) => _union.ValueOrT5(fallback);
@@ -7581,6 +8471,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 5 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T5 ValueOrT5(Func<T5> factory) => _union.ValueOrT5(factory);
+
+    /// <summary>Gets the value at index 5 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T5 ValueOrT5<TState>(TState state, Func<TState, T5> factory) => _union.ValueOrT5(state, factory);
 
     /// <summary>Gets the value at index 6 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -7590,6 +8484,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T6 ValueOrT6(Func<T6> factory) => _union.ValueOrT6(factory);
 
+    /// <summary>Gets the value at index 6 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T6 ValueOrT6<TState>(TState state, Func<TState, T6> factory) => _union.ValueOrT6(state, factory);
+
     /// <summary>Gets the value at index 7 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(T7 fallback) => _union.ValueOrT7(fallback);
@@ -7597,6 +8495,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 7 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T7 ValueOrT7(Func<T7> factory) => _union.ValueOrT7(factory);
+
+    /// <summary>Gets the value at index 7 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T7 ValueOrT7<TState>(TState state, Func<TState, T7> factory) => _union.ValueOrT7(state, factory);
 
     /// <summary>Gets the value at index 8 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -7606,6 +8508,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T8 ValueOrT8(Func<T8> factory) => _union.ValueOrT8(factory);
 
+    /// <summary>Gets the value at index 8 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T8 ValueOrT8<TState>(TState state, Func<TState, T8> factory) => _union.ValueOrT8(state, factory);
+
     /// <summary>Gets the value at index 9 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(T9 fallback) => _union.ValueOrT9(fallback);
@@ -7613,6 +8519,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 9 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T9 ValueOrT9(Func<T9> factory) => _union.ValueOrT9(factory);
+
+    /// <summary>Gets the value at index 9 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T9 ValueOrT9<TState>(TState state, Func<TState, T9> factory) => _union.ValueOrT9(state, factory);
 
     /// <summary>Gets the value at index 10 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -7622,6 +8532,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T10 ValueOrT10(Func<T10> factory) => _union.ValueOrT10(factory);
 
+    /// <summary>Gets the value at index 10 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T10 ValueOrT10<TState>(TState state, Func<TState, T10> factory) => _union.ValueOrT10(state, factory);
+
     /// <summary>Gets the value at index 11 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(T11 fallback) => _union.ValueOrT11(fallback);
@@ -7629,6 +8543,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 11 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T11 ValueOrT11(Func<T11> factory) => _union.ValueOrT11(factory);
+
+    /// <summary>Gets the value at index 11 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T11 ValueOrT11<TState>(TState state, Func<TState, T11> factory) => _union.ValueOrT11(state, factory);
 
     /// <summary>Gets the value at index 12 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -7638,6 +8556,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T12 ValueOrT12(Func<T12> factory) => _union.ValueOrT12(factory);
 
+    /// <summary>Gets the value at index 12 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T12 ValueOrT12<TState>(TState state, Func<TState, T12> factory) => _union.ValueOrT12(state, factory);
+
     /// <summary>Gets the value at index 13 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T13 ValueOrT13(T13 fallback) => _union.ValueOrT13(fallback);
@@ -7645,6 +8567,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 13 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T13 ValueOrT13(Func<T13> factory) => _union.ValueOrT13(factory);
+
+    /// <summary>Gets the value at index 13 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T13 ValueOrT13<TState>(TState state, Func<TState, T13> factory) => _union.ValueOrT13(state, factory);
 
     /// <summary>Gets the value at index 14 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -7654,6 +8580,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T14 ValueOrT14(Func<T14> factory) => _union.ValueOrT14(factory);
 
+    /// <summary>Gets the value at index 14 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T14 ValueOrT14<TState>(TState state, Func<TState, T14> factory) => _union.ValueOrT14(state, factory);
+
     /// <summary>Gets the value at index 15 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T15 ValueOrT15(T15 fallback) => _union.ValueOrT15(fallback);
@@ -7661,6 +8591,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 15 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T15 ValueOrT15(Func<T15> factory) => _union.ValueOrT15(factory);
+
+    /// <summary>Gets the value at index 15 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T15 ValueOrT15<TState>(TState state, Func<TState, T15> factory) => _union.ValueOrT15(state, factory);
 
     /// <summary>Gets the value at index 16 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -7670,6 +8604,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T16 ValueOrT16(Func<T16> factory) => _union.ValueOrT16(factory);
 
+    /// <summary>Gets the value at index 16 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T16 ValueOrT16<TState>(TState state, Func<TState, T16> factory) => _union.ValueOrT16(state, factory);
+
     /// <summary>Gets the value at index 17 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T17 ValueOrT17(T17 fallback) => _union.ValueOrT17(fallback);
@@ -7677,6 +8615,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 17 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T17 ValueOrT17(Func<T17> factory) => _union.ValueOrT17(factory);
+
+    /// <summary>Gets the value at index 17 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T17 ValueOrT17<TState>(TState state, Func<TState, T17> factory) => _union.ValueOrT17(state, factory);
 
     /// <summary>Gets the value at index 18 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -7686,6 +8628,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T18 ValueOrT18(Func<T18> factory) => _union.ValueOrT18(factory);
 
+    /// <summary>Gets the value at index 18 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T18 ValueOrT18<TState>(TState state, Func<TState, T18> factory) => _union.ValueOrT18(state, factory);
+
     /// <summary>Gets the value at index 19 or returns the specified fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T19 ValueOrT19(T19 fallback) => _union.ValueOrT19(fallback);
@@ -7693,6 +8639,10 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
     /// <summary>Gets the value at index 19 or invokes the factory to create a fallback.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public T19 ValueOrT19(Func<T19> factory) => _union.ValueOrT19(factory);
+
+    /// <summary>Gets the value at index 19 or invokes the factory with caller state to create a fallback, avoiding delegate captures in hot paths.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public T19 ValueOrT19<TState>(TState state, Func<TState, T19> factory) => _union.ValueOrT19(state, factory);
 
     /// <inheritdoc/>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]

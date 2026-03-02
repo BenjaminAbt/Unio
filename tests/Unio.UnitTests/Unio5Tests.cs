@@ -1,5 +1,7 @@
 // Copyright © BEN ABT (https://benjamin-abt.com) - all rights reserved
 
+using System.Globalization;
+
 namespace Unio.UnitTests;
 
 /// <summary>
@@ -35,7 +37,7 @@ public class Unio5Tests
         Unio<int, string, bool, double, long> union = 100L;
 
         string result = union.Match(
-            _ => "0", _ => "1", _ => "2", _ => "3", l => $"4:{l}");
+            _ => "0", _ => "1", _ => "2", _ => "3", l => string.Create(CultureInfo.InvariantCulture, $"4:{l}"));
 
         Assert.Equal("4:100", result);
     }

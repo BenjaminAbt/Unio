@@ -7,6 +7,7 @@
 // The generator already emits `global::Unio.*` for these references, so this test
 // acts as a permanent guard against any future regression.
 
+using System.Globalization;
 using Unio;
 
 // A namespace whose hierarchy contains an "Unio" segment intentionally simulates
@@ -54,7 +55,7 @@ public class UnioNamespaceCollisionTests
 
         string result = union.Match(
             s => $"str:{s}",
-            i => $"int:{i}");
+            i => string.Create(CultureInfo.InvariantCulture, $"int:{i}"));
 
         Assert.Equal("str:test", result);
     }

@@ -1,5 +1,6 @@
 // Copyright © BEN ABT (https://benjamin-abt.com) - all rights reserved
 
+using System.Globalization;
 using Unio.CodeGen;
 
 string outputDir = args.Length > 0
@@ -17,12 +18,12 @@ if (!Directory.Exists(outputDir))
 for (int arity = CodeGenerator.MinArity; arity <= CodeGenerator.MaxArity; arity++)
 {
     string code = CodeGenerator.GenerateUnio(arity);
-    string path = Path.Combine(outputDir, $"Unio{arity}.Generated.cs");
+    string path = Path.Combine(outputDir, string.Create(CultureInfo.InvariantCulture, $"Unio{arity}.Generated.cs"));
 
     await File.WriteAllTextAsync(path, code)
         .ConfigureAwait(false);
 
-    Console.WriteLine($"  Generated: Unio{arity}.Generated.cs");
+    Console.WriteLine(string.Create(CultureInfo.InvariantCulture, $"  Generated: Unio{arity}.Generated.cs"));
 }
 
 string unioBase = CodeGenerator.GenerateUnioBase();

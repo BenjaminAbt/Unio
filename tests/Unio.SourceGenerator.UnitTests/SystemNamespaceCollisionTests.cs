@@ -6,6 +6,7 @@
 // `System.Runtime` to `<parent>.System.Runtime` instead of the global `System.Runtime`.
 // Fix: all references in generated code now use `global::System.*`.
 
+using System.Globalization;
 using Unio;
 
 // A namespace whose hierarchy contains a "System" segment intentionally simulates
@@ -53,7 +54,7 @@ public class SystemNamespaceCollisionTests
 
         string result = union.Match(
             s => $"str:{s}",
-            i => $"int:{i}");
+            i => string.Create(CultureInfo.InvariantCulture, $"int:{i}"));
 
         Assert.Equal("str:test", result);
     }
