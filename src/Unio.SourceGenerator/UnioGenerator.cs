@@ -178,11 +178,11 @@ public sealed class UnioGenerator : IIncrementalGenerator
         }
 
         // Class declaration - adds IEquatable<T>; UnioBase<...> is already declared in the user's partial.
-        sb.AppendLine($"{accessibility} sealed partial class {className} : System.IEquatable<{className}>");
+        sb.AppendLine($"{accessibility} sealed partial class {className} : global::System.IEquatable<{className}>");
         sb.AppendLine("{");
 
         // Private constructor (called by implicit operators)
-        sb.AppendLine($"    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
+        sb.AppendLine($"    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
         sb.AppendLine($"    private {className}({unioType} union) : base(union) {{ }}");
         sb.AppendLine();
 
@@ -192,7 +192,7 @@ public sealed class UnioGenerator : IIncrementalGenerator
             string tn = typeNamesGlobal[i];
             string tnShort = typeNamesShort[i];
             sb.AppendLine($"    /// <summary>Initializes a new instance of <see cref=\"{className}\"/> holding a value of type <see cref=\"{tnShort}\"/>.</summary>");
-            sb.AppendLine($"    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
+            sb.AppendLine($"    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
             sb.AppendLine($"    public {className}({tn} value) : base(({unioType})value) {{ }}");
             sb.AppendLine();
         }
@@ -203,14 +203,14 @@ public sealed class UnioGenerator : IIncrementalGenerator
             string tn = typeNamesGlobal[i];
             string tnShort = typeNamesShort[i];
             sb.AppendLine($"    /// <summary>Implicitly converts a value of type <see cref=\"{tnShort}\"/> to <see cref=\"{className}\"/>.</summary>");
-            sb.AppendLine($"    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
+            sb.AppendLine($"    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
             sb.AppendLine($"    public static implicit operator {className}({tn} value) => new(({unioType})value);");
             sb.AppendLine();
         }
 
         // Typed equality - IEquatable<ClassName>
         sb.AppendLine($"    /// <inheritdoc/>");
-        sb.AppendLine($"    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
+        sb.AppendLine($"    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
         sb.AppendLine($"    public bool Equals({className}? other) => other is not null && _union.Equals(other._union);");
         sb.AppendLine();
 
