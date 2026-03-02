@@ -1,5 +1,6 @@
 // Copyright © BEN ABT (https://benjamin-abt.com) - all rights reserved
 
+using System.Globalization;
 using Unio.Types;
 
 namespace Unio.Types.UnitTests;
@@ -293,7 +294,7 @@ public class ValueTypeTests
         Unio<Created<int>, NotFound, ValidationError> result = new Created<int>(7);
 
         string message = result.Match(
-            c => $"Created: {c.Value}",
+            c => string.Create(CultureInfo.InvariantCulture, $"Created: {c.Value}"),
             _ => "Not found",
             e => $"Error: {e.Message}");
 

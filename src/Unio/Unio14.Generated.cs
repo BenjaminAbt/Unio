@@ -494,7 +494,7 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
     }
 
     /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>
-    public Task<TResult> MatchAsync<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13) =>
+    public Task<TResult> Match<TResult>(Func<T0, Task<TResult>> whenT0, Func<T1, Task<TResult>> whenT1, Func<T2, Task<TResult>> whenT2, Func<T3, Task<TResult>> whenT3, Func<T4, Task<TResult>> whenT4, Func<T5, Task<TResult>> whenT5, Func<T6, Task<TResult>> whenT6, Func<T7, Task<TResult>> whenT7, Func<T8, Task<TResult>> whenT8, Func<T9, Task<TResult>> whenT9, Func<T10, Task<TResult>> whenT10, Func<T11, Task<TResult>> whenT11, Func<T12, Task<TResult>> whenT12, Func<T13, Task<TResult>> whenT13) =>
         _index switch
         {
             0 => whenT0(_value0!),
@@ -515,7 +515,7 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
         };
 
     /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>
-    public Task<TResult> MatchAsync<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7, Func<TState, T8, Task<TResult>> whenT8, Func<TState, T9, Task<TResult>> whenT9, Func<TState, T10, Task<TResult>> whenT10, Func<TState, T11, Task<TResult>> whenT11, Func<TState, T12, Task<TResult>> whenT12, Func<TState, T13, Task<TResult>> whenT13) =>
+    public Task<TResult> Match<TState, TResult>(TState state, Func<TState, T0, Task<TResult>> whenT0, Func<TState, T1, Task<TResult>> whenT1, Func<TState, T2, Task<TResult>> whenT2, Func<TState, T3, Task<TResult>> whenT3, Func<TState, T4, Task<TResult>> whenT4, Func<TState, T5, Task<TResult>> whenT5, Func<TState, T6, Task<TResult>> whenT6, Func<TState, T7, Task<TResult>> whenT7, Func<TState, T8, Task<TResult>> whenT8, Func<TState, T9, Task<TResult>> whenT9, Func<TState, T10, Task<TResult>> whenT10, Func<TState, T11, Task<TResult>> whenT11, Func<TState, T12, Task<TResult>> whenT12, Func<TState, T13, Task<TResult>> whenT13) =>
         _index switch
         {
             0 => whenT0(state, _value0!),
@@ -536,7 +536,7 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
         };
 
     /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>
-    public Task SwitchAsync(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13) =>
+    public Task Switch(Func<T0, Task> whenT0, Func<T1, Task> whenT1, Func<T2, Task> whenT2, Func<T3, Task> whenT3, Func<T4, Task> whenT4, Func<T5, Task> whenT5, Func<T6, Task> whenT6, Func<T7, Task> whenT7, Func<T8, Task> whenT8, Func<T9, Task> whenT9, Func<T10, Task> whenT10, Func<T11, Task> whenT11, Func<T12, Task> whenT12, Func<T13, Task> whenT13) =>
         _index switch
         {
             0 => whenT0(_value0!),
@@ -557,7 +557,7 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
         };
 
     /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>
-    public Task SwitchAsync<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7, Func<TState, T8, Task> whenT8, Func<TState, T9, Task> whenT9, Func<TState, T10, Task> whenT10, Func<TState, T11, Task> whenT11, Func<TState, T12, Task> whenT12, Func<TState, T13, Task> whenT13) =>
+    public Task Switch<TState>(TState state, Func<TState, T0, Task> whenT0, Func<TState, T1, Task> whenT1, Func<TState, T2, Task> whenT2, Func<TState, T3, Task> whenT3, Func<TState, T4, Task> whenT4, Func<TState, T5, Task> whenT5, Func<TState, T6, Task> whenT6, Func<TState, T7, Task> whenT7, Func<TState, T8, Task> whenT8, Func<TState, T9, Task> whenT9, Func<TState, T10, Task> whenT10, Func<TState, T11, Task> whenT11, Func<TState, T12, Task> whenT12, Func<TState, T13, Task> whenT13) =>
         _index switch
         {
             0 => whenT0(state, _value0!),

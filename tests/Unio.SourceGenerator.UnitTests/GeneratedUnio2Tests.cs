@@ -1,5 +1,7 @@
 // Copyright © BEN ABT (https://benjamin-abt.com) - all rights reserved
 
+using System.Globalization;
+
 namespace Unio.SourceGenerator.UnitTests;
 
 /// <summary>
@@ -95,7 +97,7 @@ public class GeneratedUnio2Tests
 
         string result = union.Match(
             s => $"str:{s}",
-            i => $"int:{i}");
+            i => string.Create(CultureInfo.InvariantCulture, $"int:{i}"));
 
         Assert.Equal("str:hello", result);
     }
@@ -107,7 +109,7 @@ public class GeneratedUnio2Tests
 
         string result = union.Match(
             s => $"str:{s}",
-            i => $"int:{i}");
+            i => string.Create(CultureInfo.InvariantCulture, $"int:{i}"));
 
         Assert.Equal("int:42", result);
     }
@@ -120,7 +122,7 @@ public class GeneratedUnio2Tests
         string result = union.Match(
             "prefix",
             static (state, s) => $"{state}:str:{s}",
-            static (state, i) => $"{state}:int:{i}");
+            static (state, i) => string.Create(CultureInfo.InvariantCulture, $"{state}:int:{i}"));
 
         Assert.Equal("prefix:int:42", result);
     }

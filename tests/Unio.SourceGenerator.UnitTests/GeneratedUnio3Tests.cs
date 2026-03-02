@@ -1,5 +1,7 @@
 // Copyright © BEN ABT (https://benjamin-abt.com) - all rights reserved
 
+using System.Globalization;
+
 namespace Unio.SourceGenerator.UnitTests;
 
 /// <summary>
@@ -59,9 +61,9 @@ public class GeneratedUnio3Tests
         Result3 u1 = "hello";
         Result3 u2 = true;
 
-        Assert.Equal("int:42", u0.Match(i => $"int:{i}", s => $"str:{s}", b => $"bool:{b}"));
-        Assert.Equal("str:hello", u1.Match(i => $"int:{i}", s => $"str:{s}", b => $"bool:{b}"));
-        Assert.Equal("bool:True", u2.Match(i => $"int:{i}", s => $"str:{s}", b => $"bool:{b}"));
+        Assert.Equal("int:42", u0.Match(i => string.Create(CultureInfo.InvariantCulture, $"int:{i}"), s => $"str:{s}", b => $"bool:{b}"));
+        Assert.Equal("str:hello", u1.Match(i => string.Create(CultureInfo.InvariantCulture, $"int:{i}"), s => $"str:{s}", b => $"bool:{b}"));
+        Assert.Equal("bool:True", u2.Match(i => string.Create(CultureInfo.InvariantCulture, $"int:{i}"), s => $"str:{s}", b => $"bool:{b}"));
     }
 
     [Fact]
