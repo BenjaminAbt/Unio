@@ -50,12 +50,12 @@ template: |
 
   The following packages are included in this release:
 
-  | Package | NuGet |
-  |---|---|
-  | `Unio` | [![NuGet](https://img.shields.io/nuget/vpre/Unio.svg)](https://www.nuget.org/packages/Unio) |
-  | `Unio.SourceGenerator` | [![NuGet](https://img.shields.io/nuget/vpre/Unio.SourceGenerator.svg)](https://www.nuget.org/packages/Unio.SourceGenerator) |
-  | `Unio.Types` | [![NuGet](https://img.shields.io/nuget/vpre/Unio.Types.svg)](https://www.nuget.org/packages/Unio.Types) |
-  | `Unio.AspNetCore` | [![NuGet](https://img.shields.io/nuget/vpre/Unio.AspNetCore.svg)](https://www.nuget.org/packages/Unio.AspNetCore) |
+  | Package | Version | Description |
+  |---|---|---|
+  | `Unio` | $RESOLVED_VERSION | A library for working with union types in C#. |
+  | `Unio.SourceGenerator` | $RESOLVED_VERSION | Source generator for Unio library. |
+  | `Unio.Types` | $RESOLVED_VERSION | Additional types for Unio library. |
+  | `Unio.AspNetCore` | $RESOLVED_VERSION | ASP.NET Core integration for Unio library. |
 
 
   ### Installation
