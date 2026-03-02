@@ -217,4 +217,33 @@ public class GeneratedUnio2Tests
 
         Assert.False(a.Equals((object?)null));
     }
+
+    [Fact]
+    public void Constructor_T0_SetsIndexTo0()
+    {
+        StringOrInt union = new StringOrInt("hello");
+
+        Assert.Equal(0, union.Index);
+        Assert.True(union.IsT0);
+        Assert.Equal("hello", union.AsT0);
+    }
+
+    [Fact]
+    public void Constructor_T1_SetsIndexTo1()
+    {
+        StringOrInt union = new StringOrInt(42);
+
+        Assert.Equal(1, union.Index);
+        Assert.True(union.IsT1);
+        Assert.Equal(42, union.AsT1);
+    }
+
+    [Fact]
+    public void Constructor_ProducesSameResultAsImplicitConversion()
+    {
+        StringOrInt fromCtor = new StringOrInt("hello");
+        StringOrInt fromImplicit = "hello";
+
+        Assert.Equal(fromImplicit, fromCtor);
+    }
 }

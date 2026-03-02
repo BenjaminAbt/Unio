@@ -181,10 +181,21 @@ public sealed class UnioGenerator : IIncrementalGenerator
         sb.AppendLine($"{accessibility} sealed partial class {className} : System.IEquatable<{className}>");
         sb.AppendLine("{");
 
-        // Constructor (calls base with the underlying struct)
+        // Private constructor (called by implicit operators)
         sb.AppendLine($"    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
         sb.AppendLine($"    private {className}({unioType} union) : base(union) {{ }}");
         sb.AppendLine();
+
+        // Public typed constructors - one per type argument
+        for (int i = 0; i < arity; i++)
+        {
+            string tn = typeNamesGlobal[i];
+            string tnShort = typeNamesShort[i];
+            sb.AppendLine($"    /// <summary>Initializes a new instance of <see cref=\"{className}\"/> holding a value of type <see cref=\"{tnShort}\"/>.</summary>");
+            sb.AppendLine($"    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
+            sb.AppendLine($"    public {className}({tn} value) : base(({unioType})value) {{ }}");
+            sb.AppendLine();
+        }
 
         // Implicit conversion operators - one per type argument
         for (int i = 0; i < arity; i++)
