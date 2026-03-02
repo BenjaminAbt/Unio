@@ -100,4 +100,30 @@ public class GeneratedHighArityTests
         Assert.Equal(42, union.Value);
         Assert.Equal("42", union.ToString());
     }
+
+    [Fact]
+    public void Unio4_Constructor_AllPositions()
+    {
+        Result4 u0 = new Result4(42);
+        Result4 u1 = new Result4("hello");
+        Result4 u2 = new Result4(true);
+        Result4 u3 = new Result4(3.14);
+
+        Assert.Equal(0, u0.Index);
+        Assert.Equal(1, u1.Index);
+        Assert.Equal(2, u2.Index);
+        Assert.Equal(3, u3.Index);
+    }
+
+    [Fact]
+    public void Unio9_Constructor_FirstAndLast()
+    {
+        BigUnion u0 = new BigUnion(42);
+        BigUnion u8 = new BigUnion(9.99m);
+
+        Assert.Equal(0, u0.Index);
+        Assert.Equal(8, u8.Index);
+        Assert.Equal(42, u0.AsT0);
+        Assert.Equal(9.99m, u8.AsT8);
+    }
 }

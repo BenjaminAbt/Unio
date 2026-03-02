@@ -88,4 +88,19 @@ public class GeneratedUnio3Tests
         Assert.True(a == b);
         Assert.False(a == c);
     }
+
+    [Fact]
+    public void Constructor_AllPositions()
+    {
+        Result3 u0 = new Result3(42);
+        Result3 u1 = new Result3("hello");
+        Result3 u2 = new Result3(true);
+
+        Assert.Equal(0, u0.Index);
+        Assert.Equal(1, u1.Index);
+        Assert.Equal(2, u2.Index);
+        Assert.Equal(42, u0.AsT0);
+        Assert.Equal("hello", u1.AsT1);
+        Assert.True(u2.AsT2);
+    }
 }
