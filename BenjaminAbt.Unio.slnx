@@ -7,12 +7,14 @@
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Unio.AspNetCore/Unio.AspNetCore.csproj" />
+    <Project Path="src/Unio.Extensions/Unio.Extensions.csproj" />
     <Project Path="src/Unio.SourceGenerator/Unio.SourceGenerator.csproj" />
     <Project Path="src/Unio.Types/Unio.Types.csproj" />
     <Project Path="src/Unio/Unio.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Unio.AspNetCore.UnitTests/Unio.AspNetCore.UnitTests.csproj" />
+    <Project Path="tests/Unio.Extensions.UnitTests/Unio.Extensions.UnitTests.csproj" />
     <Project Path="tests/Unio.SourceGenerator.UnitTests/Unio.SourceGenerator.UnitTests.csproj" />
     <Project Path="tests/Unio.Types.UnitTests/Unio.Types.UnitTests.csproj" />
     <Project Path="tests/Unio.UnitTests/Unio.UnitTests.csproj" />
