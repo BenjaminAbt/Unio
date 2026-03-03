@@ -23,6 +23,7 @@ jobs:
         run: |
           gh release download "${{ github.event.release.tag_name }}" \
             --pattern "*.nupkg" \
+            --pattern "*.snupkg" \
             --dir ./artifacts \
             --repo "${{ github.repository }}"
 
@@ -39,6 +40,8 @@ jobs:
         run: |
           echo "Packages to be published:"
           ls -la ./artifacts/*.nupkg
+          echo "Symbol packages to be published:"
+          ls -la ./artifacts/*.snupkg
 
           # Verify package count
           PACKAGE_COUNT=$(ls ./artifacts/*.nupkg | wc -l)
@@ -47,7 +50,18 @@ jobs:
             exit 1
           fi
 
-          echo "Found $PACKAGE_COUNT package(s) to publish"
+          SYMBOL_COUNT=$(ls ./artifacts/*.snupkg | wc -l)
+          if [ "$SYMBOL_COUNT" -eq 0 ]; then
+            echo "Error: No symbol packages found!"
+            exit 1
+          fi
+
+          if [ "$PACKAGE_COUNT" -ne "$SYMBOL_COUNT" ]; then
+            echo "Error: Package count ($PACKAGE_COUNT) does not match symbol package count ($SYMBOL_COUNT)!"
+            exit 1
+          fi
+
+          echo "Found $PACKAGE_COUNT package(s) and $SYMBOL_COUNT symbol package(s) to publish"
 
       # Get a short-lived NuGet API key
       - name: NuGet login (OIDC → temp API key)
@@ -66,11 +80,21 @@ jobs:
               --skip-duplicate
           done
 
-          echo "All packages published successfully!"
+          for symbol in ./artifacts/*.snupkg; do
+            echo "Publishing symbol package $symbol to NuGet.org..."
+            dotnet nuget push "$symbol" \
+              --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" \
+              --source https://api.nuget.org/v3/index.json \
+              --skip-duplicate
+          done
+
+          echo "All packages and symbol packages published successfully!"
 
       - name: Upload published packages as artifacts
         uses: actions/upload-artifact@v4
         with:
           name: published-nuget-packages
-          path: ./artifacts/*.nupkg
+          path: |
+            ./artifacts/*.nupkg
+            ./artifacts/*.snupkg
           retention-days: 90

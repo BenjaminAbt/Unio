@@ -688,53 +688,37 @@ var display = result.Match(
 ## Performance
 
 ```shell
-BenchmarkDotNet v0.14.0, Windows 10 (10.0.19045.6937/22H2/2022Update)
-AMD Ryzen 9 9950X, 1 CPU, 32 logical and 16 physical cores
+BenchmarkDotNet v0.15.8, Windows 10 (10.0.19045.6937/22H2/2022Update)
+AMD Ryzen 9 9950X 4.30GHz, 1 CPU, 32 logical and 16 physical cores
 .NET SDK 10.0.103
-  [Host]   : .NET 10.0.3 (10.0.326.7603), X64 RyuJIT AVX-512F+CD+BW+DQ+VL+VBMI
-  ShortRun : .NET 10.0.3 (10.0.326.7603), X64 RyuJIT AVX-512F+CD+BW+DQ+VL+VBMI
+    [Host]   : .NET 10.0.3 (10.0.3, 10.0.326.7603), X64 RyuJIT x86-64-v4
+    ShortRun : .NET 10.0.3 (10.0.3, 10.0.326.7603), X64 RyuJIT x86-64-v4
 
 Job=ShortRun  IterationCount=3  LaunchCount=1
 WarmupCount=3
 
 | Method                              | Mean      | Error     | Ratio  | Allocated |
 |------------------------------------ |----------:|----------:|-------:|----------:|
-|                                     |           |           |        |           |
-| Unio_Match_2Arity                   | 0.7800 ns | 0.8268 ns |   1.00 |         - |
-| OneOf_Match_2Arity                  | 0.7415 ns | 0.2101 ns |   0.95 |         - |
-|                                     |           |           |        |           |
-| Unio_Match_5Arity                   | 1.0782 ns | 1.2554 ns |   1.00 |         - |
-| OneOf_Match_5Arity                  | 1.0814 ns | 0.1313 ns |   1.01 |         - |
-|                                     |           |           |        |           |
-| Unio_Match_WithState_2Arity         | 4.8533 ns | 1.1143 ns |   1.00 |      48 B |
-| OneOf_Match_CapturingLambda_2Arity  | 5.6056 ns | 0.2197 ns |   1.16 |      72 B |
-|                                     |           |           |        |           |
-| Unio_Match_WithState_5Arity         | 5.0281 ns | 0.6369 ns |   1.00 |      48 B |
-| OneOf_Match_CapturingLambda_5Arity  | 5.7137 ns | 0.2740 ns |   1.14 |      72 B |
-|                                     |           |           |        |           |
-| Unio_Switch_5Arity                  | 0.0000 ns | 0.0000 ns |      ? |         - |
-| OneOf_Switch_5Arity                 | 0.0196 ns | 0.0467 ns |      ? |         - |
-|                                     |           |           |        |           |
-| Unio_Switch_WithState_2Arity        | 0.6918 ns | 0.0947 ns |   1.00 |         - |
-| OneOf_Switch_CapturingLambda_2Arity | 1.9457 ns | 0.5249 ns |   2.81 |      32 B |
-|                                     |           |           |        |           |
-| Unio_Switch_WithState_5Arity        | 1.1188 ns | 0.1413 ns |   1.00 |         - |
-| OneOf_Switch_CapturingLambda_5Arity | 1.9274 ns | 0.0991 ns |   1.72 |      32 B |
-|                                     |           |           |        |           |
-| Unio_ToString                       | 0.4430 ns | 0.0746 ns |   1.00 |         - |
-| OneOf_ToString                      | 5.1127 ns | 0.3844 ns |  11.54 |      56 B |
-|                                     |           |           |        |           |
-| Unio_TryGetT0_5Arity                | 0.0014 ns | 0.0432 ns |      ? |         - |
-| OneOf_TryPickT0_5Arity              | 2.6490 ns | 0.1678 ns |      ? |         - |
-|                                     |           |           |        |           |
-| Unio_TryGetT4_5Arity_Miss           | 0.0149 ns | 0.0103 ns |   1.00 |         - |
-| OneOf_TryPickT4_5Arity_Miss         | 4.1028 ns | 0.6939 ns | 276.00 |         - |
-|                                     |           |           |        |           |
-| Unio_TryGetT0_Hit                   | 0.0000 ns | 0.0000 ns |      ? |         - |
-| OneOf_TryPickT0_Hit                 | 0.2008 ns | 0.1185 ns |      ? |         - |
-|                                     |           |           |        |           |
-| Unio_TryGetT1_Miss                  | 0.0185 ns | 0.0697 ns |   1.03 |         - |
-| OneOf_TryPickT1_Miss                | 0.1901 ns | 0.0629 ns |  10.52 |         - |
+| Unio_Match_2Arity                   | 0.7800 ns | 0.8268 ns |   1.00 |      0 B  |
+| OneOf_Match_2Arity                  | 0.7415 ns | 0.2101 ns |   0.95 |      0 B  |
+| Unio_Match_5Arity                   | 1.0782 ns | 1.2554 ns |   1.00 |      0 B  |
+| OneOf_Match_5Arity                  | 1.0814 ns | 0.1313 ns |   1.01 |      0 B  |
+| Unio_Match_WithState_2Arity         | 4.8533 ns | 1.1143 ns |   1.00 |     48 B  |
+| OneOf_Match_CapturingLambda_2Arity  | 5.6056 ns | 0.2197 ns |   1.16 |     72 B  |
+| Unio_Match_WithState_5Arity         | 5.0281 ns | 0.6369 ns |   1.00 |     48 B  |
+| OneOf_Match_CapturingLambda_5Arity  | 5.7137 ns | 0.2740 ns |   1.14 |     72 B  |
+| Unio_Switch_WithState_2Arity        | 0.6918 ns | 0.0947 ns |   1.00 |      0 B  |
+| OneOf_Switch_CapturingLambda_2Arity | 1.9457 ns | 0.5249 ns |   2.81 |     32 B  |
+| Unio_Switch_WithState_5Arity        | 1.1188 ns | 0.1413 ns |   1.00 |      0 B  |
+| OneOf_Switch_CapturingLambda_5Arity | 1.9274 ns | 0.0991 ns |   1.72 |     32 B  |
+| Unio_ToString                       | 0.4430 ns | 0.0746 ns |   1.00 |      0 B  |
+| OneOf_ToString                      | 5.1127 ns | 0.3844 ns |  11.54 |     56 B  |
+| Unio_TryGetT0_5Arity                | 0.0014 ns | 0.0432 ns |      ? |      0 B  |
+| OneOf_TryPickT0_5Arity              | 2.6490 ns | 0.1678 ns |      ? |      0 B  |
+| Unio_TryGetT4_5Arity_Miss           | 0.0149 ns | 0.0103 ns |   1.00 |      0 B  |
+| OneOf_TryPickT4_5Arity_Miss         | 4.1028 ns | 0.6939 ns | 276.00 |      0 B  |
+| Unio_TryGetT1_Miss                  | 0.0185 ns | 0.0697 ns |   1.03 |      0 B  |
+| OneOf_TryPickT1_Miss                | 0.1901 ns | 0.0629 ns |  10.52 |      0 B  |
 ```
 
 
@@ -764,7 +748,7 @@ dotnet run --configuration Release --project perf/Unio.Benchmarks/Unio.Benchmark
 ```
 
 Expected characteristics:
-- **Creation**: Simple heap allocation via private constructor
+- **Creation**: Value-type construction via private constructor + implicit operator (no additional heap allocation)
 - **IsT# / Index**: Single byte comparison, fully inlined
 - **AsT#**: Single byte comparison + field access, fully inlined
 - **TryGet**: Single byte comparison + field access + bool return, fully inlined
@@ -786,7 +770,7 @@ Unio was inspired by [OneOf](https://github.com/mcintyre321/OneOf), which pionee
 | **Value Storage** | `object` field (boxing for value types) | Typed generic fields |
 | **Source Generator** | Basic: constructor + implicit operators | Inherits from `UnioBase` - only constructor + implicit operators generated |
 | **Pre-built Types** | 13 types (5 in Assorted.cs + 4 named unions) | 39 types across 7 categories |
-| **`TryGet` Pattern** | ❌ Not available | ✅ `TryGetT0(out T0 value)` .. `TryGetTn(out Tn value)` |
+| **Try Pattern** | ✅ `TryPickT#(out value, out remainder)` | ✅ `TryGetT#(out value)` |
 | **Allocation-free Match / Switch** | ❌ Capturing lambdas only | ✅ `Match<TState, TResult>` / `Switch<TState>` with `static` lambdas |
 | **`IEquatable<T>`** | ❌ Not implemented | ✅ Full structural equality |
 | **`==` / `!=` Operators** | ❌ Not available | ✅ Value equality operators |
