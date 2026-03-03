@@ -270,10 +270,10 @@ internal static class CodeGenerator
 
         sb.AppendLine();
 
-        // Match (Task)
-        string matchAsyncParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<T{i}, Task<TResult>> whenT{i}")));
+        // Match (ValueTask)
+        string matchAsyncParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<T{i}, ValueTask<TResult>> whenT{i}")));
         sb.AppendLine("    /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>");
-        sb.AppendLine($"    public Task<TResult> Match<TResult>({matchAsyncParams}) =>");
+        sb.AppendLine($"    public ValueTask<TResult> Match<TResult>({matchAsyncParams}) =>");
         sb.AppendLine("        _index switch");
         sb.AppendLine("        {");
         for (int i = 0; i < arity; i++)
@@ -287,9 +287,9 @@ internal static class CodeGenerator
         sb.AppendLine();
 
         // Match<TState, TResult>
-        string matchAsyncWithStateParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<TState, T{i}, Task<TResult>> whenT{i}")));
+        string matchAsyncWithStateParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<TState, T{i}, ValueTask<TResult>> whenT{i}")));
         sb.AppendLine("    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>");
-        sb.AppendLine($"    public Task<TResult> Match<TState, TResult>(TState state, {matchAsyncWithStateParams}) =>");
+        sb.AppendLine($"    public ValueTask<TResult> Match<TState, TResult>(TState state, {matchAsyncWithStateParams}) =>");
         sb.AppendLine("        _index switch");
         sb.AppendLine("        {");
         for (int i = 0; i < arity; i++)
@@ -302,10 +302,10 @@ internal static class CodeGenerator
 
         sb.AppendLine();
 
-        // Switch (Task)
-        string switchAsyncParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<T{i}, Task> whenT{i}")));
+        // Switch (ValueTask)
+        string switchAsyncParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<T{i}, ValueTask> whenT{i}")));
         sb.AppendLine("    /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>");
-        sb.AppendLine($"    public Task Switch({switchAsyncParams}) =>");
+        sb.AppendLine($"    public ValueTask Switch({switchAsyncParams}) =>");
         sb.AppendLine("        _index switch");
         sb.AppendLine("        {");
         for (int i = 0; i < arity; i++)
@@ -319,9 +319,9 @@ internal static class CodeGenerator
         sb.AppendLine();
 
         // Switch<TState>
-        string switchAsyncWithStateParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<TState, T{i}, Task> whenT{i}")));
+        string switchAsyncWithStateParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<TState, T{i}, ValueTask> whenT{i}")));
         sb.AppendLine("    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>");
-        sb.AppendLine($"    public Task Switch<TState>(TState state, {switchAsyncWithStateParams}) =>");
+        sb.AppendLine($"    public ValueTask Switch<TState>(TState state, {switchAsyncWithStateParams}) =>");
         sb.AppendLine("        _index switch");
         sb.AppendLine("        {");
         for (int i = 0; i < arity; i++)
@@ -664,29 +664,29 @@ internal static class CodeGenerator
             sb.AppendLine();
 
             // Match
-            string matchAsyncParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<T{i}, Task<TResult>> whenT{i}")));
+            string matchAsyncParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<T{i}, ValueTask<TResult>> whenT{i}")));
             string matchAsyncArgs = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"whenT{i}")));
             sb.AppendLine("    /// <summary>Exhaustive async match: applies the matching async function based on the stored type and returns the result.</summary>");
-            sb.AppendLine($"    public Task<TResult> Match<TResult>({matchAsyncParams}) => _union.Match({matchAsyncArgs});");
+            sb.AppendLine($"    public ValueTask<TResult> Match<TResult>({matchAsyncParams}) => _union.Match({matchAsyncArgs});");
             sb.AppendLine();
 
             // Match<TState, TResult>
-            string matchAsyncWithStateParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<TState, T{i}, Task<TResult>> whenT{i}")));
+            string matchAsyncWithStateParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<TState, T{i}, ValueTask<TResult>> whenT{i}")));
             sb.AppendLine("    /// <summary>Exhaustive async match with caller state to avoid delegate captures in hot paths.</summary>");
-            sb.AppendLine($"    public Task<TResult> Match<TState, TResult>(TState state, {matchAsyncWithStateParams}) => _union.Match(state, {matchAsyncArgs});");
+            sb.AppendLine($"    public ValueTask<TResult> Match<TState, TResult>(TState state, {matchAsyncWithStateParams}) => _union.Match(state, {matchAsyncArgs});");
             sb.AppendLine();
 
             // Switch
-            string switchAsyncParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<T{i}, Task> whenT{i}")));
+            string switchAsyncParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<T{i}, ValueTask> whenT{i}")));
             string switchAsyncArgs = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"whenT{i}")));
             sb.AppendLine("    /// <summary>Exhaustive async switch: executes the matching async action based on the stored type.</summary>");
-            sb.AppendLine($"    public Task Switch({switchAsyncParams}) => _union.Switch({switchAsyncArgs});");
+            sb.AppendLine($"    public ValueTask Switch({switchAsyncParams}) => _union.Switch({switchAsyncArgs});");
             sb.AppendLine();
 
             // Switch<TState>
-            string switchAsyncWithStateParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<TState, T{i}, Task> whenT{i}")));
+            string switchAsyncWithStateParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<TState, T{i}, ValueTask> whenT{i}")));
             sb.AppendLine("    /// <summary>Exhaustive async switch with caller state to avoid delegate captures in hot paths.</summary>");
-            sb.AppendLine($"    public Task Switch<TState>(TState state, {switchAsyncWithStateParams}) => _union.Switch(state, {switchAsyncArgs});");
+            sb.AppendLine($"    public ValueTask Switch<TState>(TState state, {switchAsyncWithStateParams}) => _union.Switch(state, {switchAsyncArgs});");
             sb.AppendLine();
 
             // MapT# - returns struct types, not base class (by design)
