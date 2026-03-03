@@ -106,7 +106,7 @@
     <ExcludeByAttribute>GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
     <ExcludeByFile>**/*Program.cs;**/*Startup.cs;**/*GlobalUsings.cs</ExcludeByFile>
     <UseSourceLink>true</UseSourceLink>
-    <Threshold>90</Threshold>
+    <Threshold>95</Threshold>
     <ThresholdType>line</ThresholdType>
     <ThresholdStat>total</ThresholdStat>
   </PropertyGroup>
