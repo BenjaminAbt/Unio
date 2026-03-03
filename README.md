@@ -230,6 +230,7 @@ Each `Unio<...>` (both core and source-generated) provides:
 | `IsT0` .. `IsTn` | `bool` | Returns `true` if the union holds the type at that index |
 | `AsT0` .. `AsTn` | `T0` .. `Tn` | Returns the value; throws `InvalidOperationException` if wrong type |
 | `TryGetT0(out T0)` .. `TryGetTn(out Tn)` | `bool` | Returns `true` and sets `out` parameter if the type matches |
+| `TryPickT0(out T0, out ...)` .. `TryPickTn(out Tn, out ...)` | `bool` | Returns `true` and clears remainder if the type matches; otherwise returns `false` and provides the remainder value/union |
 | `Match<TResult>(Func<T0, TResult>, ...)` | `TResult` | Exhaustive functional match - one function per type |
 | `Match<TState, TResult>(TState, Func<TState, T0, TResult>, ...)` | `TResult` | Allocation-free match - passes `state` to `static` lambdas instead of capturing variables |
 | `Switch(Action<T0>, ...)` | `void` | Exhaustive side-effect switch - one action per type |
@@ -770,7 +771,7 @@ Unio was inspired by [OneOf](https://github.com/mcintyre321/OneOf), which pionee
 | **Value Storage** | `object` field (boxing for value types) | Typed generic fields |
 | **Source Generator** | Basic: constructor + implicit operators | Inherits from `UnioBase` - only constructor + implicit operators generated |
 | **Pre-built Types** | 13 types (5 in Assorted.cs + 4 named unions) | 39 types across 7 categories |
-| **Try Pattern** | ✅ `TryPickT#(out value, out remainder)` | ✅ `TryGetT#(out value)` |
+| **Try Pattern** | ✅ `TryPickT#(out value, out remainder)` | ✅ `TryGetT#(out value)` + `TryPickT#(out value, out remainder)` |
 | **Allocation-free Match / Switch** | ❌ Capturing lambdas only | ✅ `Match<TState, TResult>` / `Switch<TState>` with `static` lambdas |
 | **`IEquatable<T>`** | ❌ Not implemented | ✅ Full structural equality |
 | **`==` / `!=` Operators** | ❌ Not available | ✅ Value equality operators |

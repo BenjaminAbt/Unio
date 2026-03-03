@@ -55,6 +55,26 @@ public class GeneratedUnio3Tests
     }
 
     [Fact]
+    public void TryPickT0_WhenT1_ReturnsFalseAndRemainderT0()
+    {
+        Result3 union = "hello";
+
+        Assert.False(union.TryPickT0(out _, out Unio<string, bool> remainder));
+        Assert.True(remainder.IsT0);
+        Assert.Equal("hello", remainder.AsT0);
+    }
+
+    [Fact]
+    public void TryPickT0_WhenT0_ReturnsTrueAndDefaultRemainder()
+    {
+        Result3 union = 42;
+
+        Assert.True(union.TryPickT0(out int value, out Unio<string, bool> remainder));
+        Assert.Equal(42, value);
+        Assert.Equal(default, remainder);
+    }
+
+    [Fact]
     public void Match_CallsCorrectFunc()
     {
         Result3 u0 = 42;
