@@ -16,8 +16,8 @@ public class Unio2AsyncTests
         Unio<int, string> union = 42;
 
         string result = await union.Match(
-            i => ValueTask.FromResult(string.Create(CultureInfo.InvariantCulture, $"int:{i}")),
-            s => ValueTask.FromResult($"str:{s}"));
+            i => Task.FromResult(string.Create(CultureInfo.InvariantCulture, $"int:{i}")),
+            s => Task.FromResult($"str:{s}"));
 
         Assert.Equal("int:42", result);
     }
@@ -28,8 +28,8 @@ public class Unio2AsyncTests
         Unio<int, string> union = "hello";
 
         string result = await union.Match(
-            i => ValueTask.FromResult(string.Create(CultureInfo.InvariantCulture, $"int:{i}")),
-            s => ValueTask.FromResult($"str:{s}"));
+            i => Task.FromResult(string.Create(CultureInfo.InvariantCulture, $"int:{i}")),
+            s => Task.FromResult($"str:{s}"));
 
         Assert.Equal("str:hello", result);
     }
@@ -41,8 +41,8 @@ public class Unio2AsyncTests
         int? captured = null;
 
         await union.Switch(
-            i => { captured = i; return ValueTask.CompletedTask; },
-            _ => ValueTask.CompletedTask);
+            i => { captured = i; return Task.CompletedTask; },
+            _ => Task.CompletedTask);
 
         Assert.Equal(42, captured);
     }
@@ -54,8 +54,8 @@ public class Unio2AsyncTests
         string? captured = null;
 
         await union.Switch(
-            _ => ValueTask.CompletedTask,
-            s => { captured = s; return ValueTask.CompletedTask; });
+            _ => Task.CompletedTask,
+            s => { captured = s; return Task.CompletedTask; });
 
         Assert.Equal("hello", captured);
     }
@@ -67,8 +67,8 @@ public class Unio2AsyncTests
         string prefix = "Value";
 
         string result = await union.Match(prefix,
-            static (p, i) => ValueTask.FromResult(string.Create(CultureInfo.InvariantCulture, $"{p}:{i}")),
-            static (p, s) => ValueTask.FromResult($"{p}:{s}"));
+            static (p, i) => Task.FromResult(string.Create(CultureInfo.InvariantCulture, $"{p}:{i}")),
+            static (p, s) => Task.FromResult($"{p}:{s}"));
 
         Assert.Equal("Value:42", result);
     }
@@ -80,8 +80,8 @@ public class Unio2AsyncTests
         string prefix = "Value";
 
         string result = await union.Match(prefix,
-            static (p, i) => ValueTask.FromResult(string.Create(CultureInfo.InvariantCulture, $"{p}:{i}")),
-            static (p, s) => ValueTask.FromResult($"{p}:{s}"));
+            static (p, i) => Task.FromResult(string.Create(CultureInfo.InvariantCulture, $"{p}:{i}")),
+            static (p, s) => Task.FromResult($"{p}:{s}"));
 
         Assert.Equal("Value:hello", result);
     }
@@ -93,8 +93,8 @@ public class Unio2AsyncTests
         bool t1Invoked = false;
 
         await union.Match(0,
-            static (_, i) => ValueTask.FromResult(i),
-            (_, s) => { t1Invoked = true; return ValueTask.FromResult(s.Length); });
+            static (_, i) => Task.FromResult(i),
+            (_, s) => { t1Invoked = true; return Task.FromResult(s.Length); });
 
         Assert.False(t1Invoked);
     }
@@ -107,8 +107,8 @@ public class Unio2AsyncTests
         List<string> log = [];
 
         await union.Switch((prefix, log),
-            static (s, i) => { s.log.Add(string.Create(CultureInfo.InvariantCulture, $"{s.prefix}:{i}")); return ValueTask.CompletedTask; },
-            static (_, _) => ValueTask.CompletedTask);
+            static (s, i) => { s.log.Add(string.Create(CultureInfo.InvariantCulture, $"{s.prefix}:{i}")); return Task.CompletedTask; },
+            static (_, _) => Task.CompletedTask);
 
         Assert.Equal("v:42", Assert.Single(log));
     }
@@ -121,8 +121,8 @@ public class Unio2AsyncTests
         List<string> log = [];
 
         await union.Switch((prefix, log),
-            static (_, _) => ValueTask.CompletedTask,
-            static (s, str) => { s.log.Add($"{s.prefix}:{str}"); return ValueTask.CompletedTask; });
+            static (_, _) => Task.CompletedTask,
+            static (s, str) => { s.log.Add($"{s.prefix}:{str}"); return Task.CompletedTask; });
 
         Assert.Equal("v:hello", Assert.Single(log));
     }
@@ -134,8 +134,8 @@ public class Unio2AsyncTests
         bool t1Invoked = false;
 
         await union.Switch(0,
-            static (_, _) => ValueTask.CompletedTask,
-            (_, _) => { t1Invoked = true; return ValueTask.CompletedTask; });
+            static (_, _) => Task.CompletedTask,
+            (_, _) => { t1Invoked = true; return Task.CompletedTask; });
 
         Assert.False(t1Invoked);
     }

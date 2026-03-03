@@ -127,17 +127,17 @@ public static class UnioFunctionalExtensions
     }
 
     /// <summary>
-    /// Asynchronously binds the <c>T0</c> branch to a new union value using <see cref="ValueTask{TResult}"/>.
+    /// Asynchronously binds the <c>T0</c> branch to a new union value.
     /// </summary>
     /// <example>
     /// <code>
     /// Unio&lt;int, string&gt; value = 21;
-    /// Unio&lt;double, string&gt; mapped = await value.BindT0Async(static i => ValueTask.FromResult(i * 2.0));
+    /// Unio&lt;double, string&gt; mapped = await value.BindT0Async(static async i => i * 2.0);
     /// </code>
     /// </example>
-    public static async ValueTask<Unio<TOut, T1>> BindT0Async<T0, T1, TOut>(
+    public static async Task<Unio<TOut, T1>> BindT0Async<T0, T1, TOut>(
         this Unio<T0, T1> value,
-        Func<T0, ValueTask<TOut>> bind)
+        Func<T0, Task<TOut>> bind)
     {
         if (value.IsT0)
         {
@@ -149,11 +149,11 @@ public static class UnioFunctionalExtensions
     }
 
     /// <summary>
-    /// Asynchronously binds the <c>T1</c> branch to a new union value using <see cref="ValueTask{TResult}"/>.
+    /// Asynchronously binds the <c>T1</c> branch to a new union value.
     /// </summary>
-    public static async ValueTask<Unio<T0, TOut>> BindT1Async<T0, T1, TOut>(
+    public static async Task<Unio<T0, TOut>> BindT1Async<T0, T1, TOut>(
         this Unio<T0, T1> value,
-        Func<T1, ValueTask<TOut>> bind)
+        Func<T1, Task<TOut>> bind)
     {
         if (value.IsT1)
         {
@@ -165,20 +165,20 @@ public static class UnioFunctionalExtensions
     }
 
     /// <summary>
-    /// Asynchronously folds both branches into a shared result type using <see cref="ValueTask{TResult}"/>.
+    /// Asynchronously folds both branches into a shared result type.
     /// </summary>
-    public static ValueTask<TResult> FoldAsync<T0, T1, TResult>(
+    public static Task<TResult> FoldAsync<T0, T1, TResult>(
         this Unio<T0, T1> value,
-        Func<T0, ValueTask<TResult>> whenT0,
-        Func<T1, ValueTask<TResult>> whenT1) =>
+        Func<T0, Task<TResult>> whenT0,
+        Func<T1, Task<TResult>> whenT1) =>
         value.IsT0 ? whenT0(value.AsT0) : whenT1(value.AsT1);
 
     /// <summary>
     /// Asynchronously executes an action for the active <c>T0</c> branch and returns the original union unchanged.
     /// </summary>
-    public static async ValueTask<Unio<T0, T1>> TapT0Async<T0, T1>(
+    public static async Task<Unio<T0, T1>> TapT0Async<T0, T1>(
         this Unio<T0, T1> value,
-        Func<T0, ValueTask> tap)
+        Func<T0, Task> tap)
     {
         if (value.IsT0)
         {
@@ -192,9 +192,9 @@ public static class UnioFunctionalExtensions
     /// <summary>
     /// Asynchronously executes an action for the active <c>T1</c> branch and returns the original union unchanged.
     /// </summary>
-    public static async ValueTask<Unio<T0, T1>> TapT1Async<T0, T1>(
+    public static async Task<Unio<T0, T1>> TapT1Async<T0, T1>(
         this Unio<T0, T1> value,
-        Func<T1, ValueTask> tap)
+        Func<T1, Task> tap)
     {
         if (value.IsT1)
         {

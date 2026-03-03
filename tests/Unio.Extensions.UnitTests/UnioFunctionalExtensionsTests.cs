@@ -65,11 +65,11 @@ public class UnioFunctionalExtensionsTests
     }
 
     [Fact]
-    public async Task BindT0Async_WhenUnionHoldsT0_MapsUsingValueTask()
+    public async Task BindT0Async_WhenUnionHoldsT0_MapsAsync()
     {
         Unio<int, string> value = 21;
 
-        Unio<double, string> result = await value.BindT0Async(static i => ValueTask.FromResult(i * 2.0));
+        Unio<double, string> result = await value.BindT0Async(static async i => { await Task.Yield(); return i * 2.0; });
 
         Assert.True(result.IsT0);
         Assert.Equal(42.0, result.AsT0);
@@ -84,7 +84,7 @@ public class UnioFunctionalExtensionsTests
         Unio<int, string> result = await value.TapT1Async(s =>
         {
             len = s.Length;
-            return ValueTask.CompletedTask;
+            return Task.CompletedTask;
         });
 
         Assert.Equal(3, len);
@@ -188,13 +188,13 @@ public class UnioFunctionalExtensionsTests
     }
 
     [Fact]
-    public async Task FoldAsync_WhenUnionHoldsT0_UsesValueTaskBranch()
+    public async Task FoldAsync_WhenUnionHoldsT0_UsesAsyncBranch()
     {
         Unio<int, string> value = 7;
 
         string result = await value.FoldAsync(
-            static i => ValueTask.FromResult($"i:{i}"),
-            static s => ValueTask.FromResult($"s:{s}"));
+            static i => Task.FromResult($"i:{i}"),
+            static s => Task.FromResult($"s:{s}"));
 
         Assert.Equal("i:7", result);
     }
