@@ -689,15 +689,6 @@ var display = result.Match(
 ## Performance
 
 ```shell
-BenchmarkDotNet v0.15.8, Windows 10 (10.0.19045.6937/22H2/2022Update)
-AMD Ryzen 9 9950X 4.30GHz, 1 CPU, 32 logical and 16 physical cores
-.NET SDK 10.0.103
-    [Host]   : .NET 10.0.3 (10.0.3, 10.0.326.7603), X64 RyuJIT x86-64-v4
-    ShortRun : .NET 10.0.3 (10.0.3, 10.0.326.7603), X64 RyuJIT x86-64-v4
-
-Job=ShortRun  IterationCount=3  LaunchCount=1
-WarmupCount=3
-
 | Method                              | Mean      | Error     | Ratio  | Allocated |
 |------------------------------------ |----------:|----------:|-------:|----------:|
 | Unio_Match_2Arity                   | 0.7800 ns | 0.8268 ns |   1.00 |      0 B  |
@@ -721,7 +712,6 @@ WarmupCount=3
 | Unio_TryGetT1_Miss                  | 0.0185 ns | 0.0697 ns |   1.03 |      0 B  |
 | OneOf_TryPickT1_Miss                | 0.1901 ns | 0.0629 ns |  10.52 |      0 B  |
 ```
-
 
 ### Design Decisions
 
