@@ -111,7 +111,7 @@ public readonly struct Unio<T0, T1, T2, T3> : IEquatable<Unio<T0, T1, T2, T3>>,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T0 value)
+    public bool TryGetT0(out T0 value)
     {
         if (_index == 0) { value = _value0!; return true; }
         value = default!; return false;
@@ -119,7 +119,7 @@ public readonly struct Unio<T0, T1, T2, T3> : IEquatable<Unio<T0, T1, T2, T3>>,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T1 value)
+    public bool TryGetT1(out T1 value)
     {
         if (_index == 1) { value = _value1!; return true; }
         value = default!; return false;
@@ -127,7 +127,7 @@ public readonly struct Unio<T0, T1, T2, T3> : IEquatable<Unio<T0, T1, T2, T3>>,
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T2 value)
+    public bool TryGetT2(out T2 value)
     {
         if (_index == 2) { value = _value2!; return true; }
         value = default!; return false;
@@ -135,7 +135,7 @@ public readonly struct Unio<T0, T1, T2, T3> : IEquatable<Unio<T0, T1, T2, T3>>,
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T3 value)
+    public bool TryGetT3(out T3 value)
     {
         if (_index == 3) { value = _value3!; return true; }
         value = default!; return false;
@@ -143,7 +143,7 @@ public readonly struct Unio<T0, T1, T2, T3> : IEquatable<Unio<T0, T1, T2, T3>>,
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T0 value, out Unio<T1, T2, T3> remainder)
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3> remainder)
     {
         if (_index == 0) { value = _value0!; remainder = default!; return true; }
         value = default!;
@@ -159,7 +159,7 @@ public readonly struct Unio<T0, T1, T2, T3> : IEquatable<Unio<T0, T1, T2, T3>>,
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T1 value, out Unio<T0, T2, T3> remainder)
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3> remainder)
     {
         if (_index == 1) { value = _value1!; remainder = default!; return true; }
         value = default!;
@@ -175,7 +175,7 @@ public readonly struct Unio<T0, T1, T2, T3> : IEquatable<Unio<T0, T1, T2, T3>>,
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T2 value, out Unio<T0, T1, T3> remainder)
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3> remainder)
     {
         if (_index == 2) { value = _value2!; remainder = default!; return true; }
         value = default!;
@@ -191,7 +191,7 @@ public readonly struct Unio<T0, T1, T2, T3> : IEquatable<Unio<T0, T1, T2, T3>>,
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T3 value, out Unio<T0, T1, T2> remainder)
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2> remainder)
     {
         if (_index == 3) { value = _value3!; remainder = default!; return true; }
         value = default!;

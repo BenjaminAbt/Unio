@@ -139,7 +139,7 @@ internal static class CodeGenerator
         {
             sb.AppendLine($"    /// <summary>Attempts to get the value as <typeparamref name=\"T{i}\"/>.</summary>");
             sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
-            sb.AppendLine($"    public bool TryGetT{i}([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T{i} value)");
+            sb.AppendLine($"    public bool TryGetT{i}(out T{i} value)");
             sb.AppendLine("    {");
             sb.AppendLine($"        if (_index == {i}) {{ value = _value{i}!; return true; }}");
             sb.AppendLine("        value = default!; return false;");
@@ -155,7 +155,7 @@ internal static class CodeGenerator
                 int otherIndex = i == 0 ? 1 : 0;
                 sb.AppendLine($"    /// <summary>Attempts to pick the value as <typeparamref name=\"T{i}\"/> and returns the other value as remainder when it does not match.</summary>");
                 sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
-                sb.AppendLine($"    public bool TryPickT{i}([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T{i} value, [System.Diagnostics.CodeAnalysis.NotNullWhen(false)] out T{otherIndex} remainder)");
+                sb.AppendLine($"    public bool TryPickT{i}(out T{i} value, out T{otherIndex} remainder)");
                 sb.AppendLine("    {");
                 sb.AppendLine($"        if (_index == {i}) {{ value = _value{i}!; remainder = default!; return true; }}");
                 sb.AppendLine("        value = default!;");
@@ -174,7 +174,7 @@ internal static class CodeGenerator
 
             sb.AppendLine($"    /// <summary>Attempts to pick the value as <typeparamref name=\"T{i}\"/> and returns the remaining union when it does not match.</summary>");
             sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
-            sb.AppendLine($"    public bool TryPickT{i}([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T{i} value, out {remainderType} remainder)");
+            sb.AppendLine($"    public bool TryPickT{i}(out T{i} value, out {remainderType} remainder)");
             sb.AppendLine("    {");
             sb.AppendLine($"        if (_index == {i}) {{ value = _value{i}!; remainder = default!; return true; }}");
             sb.AppendLine("        value = default!;");
@@ -607,7 +607,7 @@ internal static class CodeGenerator
                 // TryGetT#
                 sb.AppendLine($"    /// <summary>Attempts to get the value as <typeparamref name=\"T{i}\"/>.</summary>");
                 sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
-                sb.AppendLine($"    public bool TryGetT{i}([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T{i} value) => _union.TryGetT{i}(out value);");
+                sb.AppendLine($"    public bool TryGetT{i}(out T{i} value) => _union.TryGetT{i}(out value);");
                 sb.AppendLine();
 
                 // TryPickT#
@@ -616,7 +616,7 @@ internal static class CodeGenerator
                     int otherIndex = i == 0 ? 1 : 0;
                     sb.AppendLine($"    /// <summary>Attempts to pick the value as <typeparamref name=\"T{i}\"/> and returns the other value as remainder when it does not match.</summary>");
                     sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
-                    sb.AppendLine($"    public bool TryPickT{i}([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T{i} value, [System.Diagnostics.CodeAnalysis.NotNullWhen(false)] out T{otherIndex} remainder) => _union.TryPickT{i}(out value, out remainder);");
+                    sb.AppendLine($"    public bool TryPickT{i}(out T{i} value, out T{otherIndex} remainder) => _union.TryPickT{i}(out value, out remainder);");
                     sb.AppendLine();
                     continue;
                 }
@@ -629,7 +629,7 @@ internal static class CodeGenerator
 
                 sb.AppendLine($"    /// <summary>Attempts to pick the value as <typeparamref name=\"T{i}\"/> and returns the remaining union when it does not match.</summary>");
                 sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
-                sb.AppendLine($"    public bool TryPickT{i}([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T{i} value, out {remainderType} remainder) => _union.TryPickT{i}(out value, out remainder);");
+                sb.AppendLine($"    public bool TryPickT{i}(out T{i} value, out {remainderType} remainder) => _union.TryPickT{i}(out value, out remainder);");
                 sb.AppendLine();
             }
 

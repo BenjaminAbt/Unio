@@ -75,7 +75,7 @@ public readonly struct Unio<T0, T1> : IEquatable<Unio<T0, T1>>,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T0 value)
+    public bool TryGetT0(out T0 value)
     {
         if (_index == 0) { value = _value0!; return true; }
         value = default!; return false;
@@ -83,7 +83,7 @@ public readonly struct Unio<T0, T1> : IEquatable<Unio<T0, T1>>,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T1 value)
+    public bool TryGetT1(out T1 value)
     {
         if (_index == 1) { value = _value1!; return true; }
         value = default!; return false;
@@ -91,7 +91,7 @@ public readonly struct Unio<T0, T1> : IEquatable<Unio<T0, T1>>,
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the other value as remainder when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T0 value, [System.Diagnostics.CodeAnalysis.NotNullWhen(false)] out T1 remainder)
+    public bool TryPickT0(out T0 value, out T1 remainder)
     {
         if (_index == 0) { value = _value0!; remainder = default!; return true; }
         value = default!;
@@ -101,7 +101,7 @@ public readonly struct Unio<T0, T1> : IEquatable<Unio<T0, T1>>,
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the other value as remainder when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T1 value, [System.Diagnostics.CodeAnalysis.NotNullWhen(false)] out T0 remainder)
+    public bool TryPickT1(out T1 value, out T0 remainder)
     {
         if (_index == 1) { value = _value1!; remainder = default!; return true; }
         value = default!;
