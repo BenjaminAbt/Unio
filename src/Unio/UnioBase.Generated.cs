@@ -52,11 +52,11 @@ public abstract class UnioBase<T0, T1> : IEquatable<UnioBase<T0, T1>>,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the other value as remainder when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, [System.Diagnostics.CodeAnalysis.MaybeNullWhen(true)] out T1 remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out T1 remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -74,11 +74,11 @@ public abstract class UnioBase<T0, T1> : IEquatable<UnioBase<T0, T1>>,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the other value as remainder when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, [System.Diagnostics.CodeAnalysis.MaybeNullWhen(true)] out T0 remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out T0 remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -211,11 +211,11 @@ public abstract class UnioBase<T0, T1, T2> : IEquatable<UnioBase<T0, T1, T2>>,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -233,11 +233,11 @@ public abstract class UnioBase<T0, T1, T2> : IEquatable<UnioBase<T0, T1, T2>>,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -255,11 +255,11 @@ public abstract class UnioBase<T0, T1, T2> : IEquatable<UnioBase<T0, T1, T2>>,
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -408,11 +408,11 @@ public abstract class UnioBase<T0, T1, T2, T3> : IEquatable<UnioBase<T0, T1, T2,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -430,11 +430,11 @@ public abstract class UnioBase<T0, T1, T2, T3> : IEquatable<UnioBase<T0, T1, T2,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -452,11 +452,11 @@ public abstract class UnioBase<T0, T1, T2, T3> : IEquatable<UnioBase<T0, T1, T2,
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -474,11 +474,11 @@ public abstract class UnioBase<T0, T1, T2, T3> : IEquatable<UnioBase<T0, T1, T2,
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -643,11 +643,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4> : IEquatable<UnioBase<T0, T1,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -665,11 +665,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4> : IEquatable<UnioBase<T0, T1,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -687,11 +687,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4> : IEquatable<UnioBase<T0, T1,
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -709,11 +709,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4> : IEquatable<UnioBase<T0, T1,
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -731,11 +731,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4> : IEquatable<UnioBase<T0, T1,
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -916,11 +916,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5> : IEquatable<UnioBase<T0,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -938,11 +938,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5> : IEquatable<UnioBase<T0,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -960,11 +960,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5> : IEquatable<UnioBase<T0,
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -982,11 +982,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5> : IEquatable<UnioBase<T0,
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -1004,11 +1004,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5> : IEquatable<UnioBase<T0,
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -1026,11 +1026,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5> : IEquatable<UnioBase<T0,
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -1227,11 +1227,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5, T6> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -1249,11 +1249,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5, T6> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -1271,11 +1271,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5, T6> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -1293,11 +1293,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5, T6> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -1315,11 +1315,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5, T6> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -1337,11 +1337,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4, T6> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T6"/>.</summary>
     public bool IsT6
@@ -1359,11 +1359,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6> : IEquatable<UnioBase
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value) => _union.TryGetT6(out value);
+    public bool TryGetT6(out T6 value) => _union.TryGetT6(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5> remainder) => _union.TryPickT6(out value, out remainder);
+    public bool TryPickT6(out T6 value, out Unio<T0, T1, T2, T3, T4, T5> remainder) => _union.TryPickT6(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -1576,11 +1576,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -1598,11 +1598,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -1620,11 +1620,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -1642,11 +1642,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -1664,11 +1664,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -1686,11 +1686,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T6"/>.</summary>
     public bool IsT6
@@ -1708,11 +1708,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value) => _union.TryGetT6(out value);
+    public bool TryGetT6(out T6 value) => _union.TryGetT6(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7> remainder) => _union.TryPickT6(out value, out remainder);
+    public bool TryPickT6(out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7> remainder) => _union.TryPickT6(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T7"/>.</summary>
     public bool IsT7
@@ -1730,11 +1730,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7> : IEquatable<Unio
 
     /// <summary>Attempts to get the value as <typeparamref name="T7"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value) => _union.TryGetT7(out value);
+    public bool TryGetT7(out T7 value) => _union.TryGetT7(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6> remainder) => _union.TryPickT7(out value, out remainder);
+    public bool TryPickT7(out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6> remainder) => _union.TryPickT7(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -1963,11 +1963,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -1985,11 +1985,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -2007,11 +2007,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -2029,11 +2029,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -2051,11 +2051,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -2073,11 +2073,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T6"/>.</summary>
     public bool IsT6
@@ -2095,11 +2095,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value) => _union.TryGetT6(out value);
+    public bool TryGetT6(out T6 value) => _union.TryGetT6(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8> remainder) => _union.TryPickT6(out value, out remainder);
+    public bool TryPickT6(out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8> remainder) => _union.TryPickT6(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T7"/>.</summary>
     public bool IsT7
@@ -2117,11 +2117,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
 
     /// <summary>Attempts to get the value as <typeparamref name="T7"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value) => _union.TryGetT7(out value);
+    public bool TryGetT7(out T7 value) => _union.TryGetT7(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8> remainder) => _union.TryPickT7(out value, out remainder);
+    public bool TryPickT7(out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8> remainder) => _union.TryPickT7(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T8"/>.</summary>
     public bool IsT8
@@ -2139,11 +2139,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8> : IEquatable<
 
     /// <summary>Attempts to get the value as <typeparamref name="T8"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value) => _union.TryGetT8(out value);
+    public bool TryGetT8(out T8 value) => _union.TryGetT8(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T8"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7> remainder) => _union.TryPickT8(out value, out remainder);
+    public bool TryPickT8(out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7> remainder) => _union.TryPickT8(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2388,11 +2388,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -2410,11 +2410,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -2432,11 +2432,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -2454,11 +2454,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -2476,11 +2476,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -2498,11 +2498,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T6"/>.</summary>
     public bool IsT6
@@ -2520,11 +2520,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value) => _union.TryGetT6(out value);
+    public bool TryGetT6(out T6 value) => _union.TryGetT6(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9> remainder) => _union.TryPickT6(out value, out remainder);
+    public bool TryPickT6(out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9> remainder) => _union.TryPickT6(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T7"/>.</summary>
     public bool IsT7
@@ -2542,11 +2542,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
 
     /// <summary>Attempts to get the value as <typeparamref name="T7"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value) => _union.TryGetT7(out value);
+    public bool TryGetT7(out T7 value) => _union.TryGetT7(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9> remainder) => _union.TryPickT7(out value, out remainder);
+    public bool TryPickT7(out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9> remainder) => _union.TryPickT7(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T8"/>.</summary>
     public bool IsT8
@@ -2564,11 +2564,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
 
     /// <summary>Attempts to get the value as <typeparamref name="T8"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value) => _union.TryGetT8(out value);
+    public bool TryGetT8(out T8 value) => _union.TryGetT8(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T8"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9> remainder) => _union.TryPickT8(out value, out remainder);
+    public bool TryPickT8(out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9> remainder) => _union.TryPickT8(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T9"/>.</summary>
     public bool IsT9
@@ -2586,11 +2586,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : IEquata
 
     /// <summary>Attempts to get the value as <typeparamref name="T9"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value) => _union.TryGetT9(out value);
+    public bool TryGetT9(out T9 value) => _union.TryGetT9(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T9"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8> remainder) => _union.TryPickT9(out value, out remainder);
+    public bool TryPickT9(out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8> remainder) => _union.TryPickT9(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2851,11 +2851,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -2873,11 +2873,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -2895,11 +2895,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -2917,11 +2917,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -2939,11 +2939,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -2961,11 +2961,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T6"/>.</summary>
     public bool IsT6
@@ -2983,11 +2983,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value) => _union.TryGetT6(out value);
+    public bool TryGetT6(out T6 value) => _union.TryGetT6(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10> remainder) => _union.TryPickT6(out value, out remainder);
+    public bool TryPickT6(out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10> remainder) => _union.TryPickT6(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T7"/>.</summary>
     public bool IsT7
@@ -3005,11 +3005,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
 
     /// <summary>Attempts to get the value as <typeparamref name="T7"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value) => _union.TryGetT7(out value);
+    public bool TryGetT7(out T7 value) => _union.TryGetT7(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10> remainder) => _union.TryPickT7(out value, out remainder);
+    public bool TryPickT7(out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10> remainder) => _union.TryPickT7(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T8"/>.</summary>
     public bool IsT8
@@ -3027,11 +3027,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
 
     /// <summary>Attempts to get the value as <typeparamref name="T8"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value) => _union.TryGetT8(out value);
+    public bool TryGetT8(out T8 value) => _union.TryGetT8(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T8"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10> remainder) => _union.TryPickT8(out value, out remainder);
+    public bool TryPickT8(out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10> remainder) => _union.TryPickT8(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T9"/>.</summary>
     public bool IsT9
@@ -3049,11 +3049,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
 
     /// <summary>Attempts to get the value as <typeparamref name="T9"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value) => _union.TryGetT9(out value);
+    public bool TryGetT9(out T9 value) => _union.TryGetT9(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T9"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10> remainder) => _union.TryPickT9(out value, out remainder);
+    public bool TryPickT9(out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10> remainder) => _union.TryPickT9(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T10"/>.</summary>
     public bool IsT10
@@ -3071,11 +3071,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : IE
 
     /// <summary>Attempts to get the value as <typeparamref name="T10"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value) => _union.TryGetT10(out value);
+    public bool TryGetT10(out T10 value) => _union.TryGetT10(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T10"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> remainder) => _union.TryPickT10(out value, out remainder);
+    public bool TryPickT10(out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> remainder) => _union.TryPickT10(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -3352,11 +3352,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -3374,11 +3374,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -3396,11 +3396,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -3418,11 +3418,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -3440,11 +3440,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -3462,11 +3462,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T6"/>.</summary>
     public bool IsT6
@@ -3484,11 +3484,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value) => _union.TryGetT6(out value);
+    public bool TryGetT6(out T6 value) => _union.TryGetT6(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11> remainder) => _union.TryPickT6(out value, out remainder);
+    public bool TryPickT6(out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11> remainder) => _union.TryPickT6(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T7"/>.</summary>
     public bool IsT7
@@ -3506,11 +3506,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
 
     /// <summary>Attempts to get the value as <typeparamref name="T7"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value) => _union.TryGetT7(out value);
+    public bool TryGetT7(out T7 value) => _union.TryGetT7(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11> remainder) => _union.TryPickT7(out value, out remainder);
+    public bool TryPickT7(out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11> remainder) => _union.TryPickT7(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T8"/>.</summary>
     public bool IsT8
@@ -3528,11 +3528,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
 
     /// <summary>Attempts to get the value as <typeparamref name="T8"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value) => _union.TryGetT8(out value);
+    public bool TryGetT8(out T8 value) => _union.TryGetT8(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T8"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11> remainder) => _union.TryPickT8(out value, out remainder);
+    public bool TryPickT8(out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11> remainder) => _union.TryPickT8(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T9"/>.</summary>
     public bool IsT9
@@ -3550,11 +3550,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
 
     /// <summary>Attempts to get the value as <typeparamref name="T9"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value) => _union.TryGetT9(out value);
+    public bool TryGetT9(out T9 value) => _union.TryGetT9(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T9"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11> remainder) => _union.TryPickT9(out value, out remainder);
+    public bool TryPickT9(out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11> remainder) => _union.TryPickT9(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T10"/>.</summary>
     public bool IsT10
@@ -3572,11 +3572,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
 
     /// <summary>Attempts to get the value as <typeparamref name="T10"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value) => _union.TryGetT10(out value);
+    public bool TryGetT10(out T10 value) => _union.TryGetT10(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T10"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11> remainder) => _union.TryPickT10(out value, out remainder);
+    public bool TryPickT10(out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11> remainder) => _union.TryPickT10(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T11"/>.</summary>
     public bool IsT11
@@ -3594,11 +3594,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
 
     /// <summary>Attempts to get the value as <typeparamref name="T11"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value) => _union.TryGetT11(out value);
+    public bool TryGetT11(out T11 value) => _union.TryGetT11(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T11"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> remainder) => _union.TryPickT11(out value, out remainder);
+    public bool TryPickT11(out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> remainder) => _union.TryPickT11(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -3891,11 +3891,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -3913,11 +3913,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -3935,11 +3935,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -3957,11 +3957,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -3979,11 +3979,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -4001,11 +4001,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T6"/>.</summary>
     public bool IsT6
@@ -4023,11 +4023,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value) => _union.TryGetT6(out value);
+    public bool TryGetT6(out T6 value) => _union.TryGetT6(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT6(out value, out remainder);
+    public bool TryPickT6(out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT6(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T7"/>.</summary>
     public bool IsT7
@@ -4045,11 +4045,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T7"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value) => _union.TryGetT7(out value);
+    public bool TryGetT7(out T7 value) => _union.TryGetT7(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12> remainder) => _union.TryPickT7(out value, out remainder);
+    public bool TryPickT7(out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12> remainder) => _union.TryPickT7(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T8"/>.</summary>
     public bool IsT8
@@ -4067,11 +4067,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T8"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value) => _union.TryGetT8(out value);
+    public bool TryGetT8(out T8 value) => _union.TryGetT8(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T8"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12> remainder) => _union.TryPickT8(out value, out remainder);
+    public bool TryPickT8(out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12> remainder) => _union.TryPickT8(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T9"/>.</summary>
     public bool IsT9
@@ -4089,11 +4089,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T9"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value) => _union.TryGetT9(out value);
+    public bool TryGetT9(out T9 value) => _union.TryGetT9(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T9"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12> remainder) => _union.TryPickT9(out value, out remainder);
+    public bool TryPickT9(out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12> remainder) => _union.TryPickT9(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T10"/>.</summary>
     public bool IsT10
@@ -4111,11 +4111,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T10"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value) => _union.TryGetT10(out value);
+    public bool TryGetT10(out T10 value) => _union.TryGetT10(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T10"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12> remainder) => _union.TryPickT10(out value, out remainder);
+    public bool TryPickT10(out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12> remainder) => _union.TryPickT10(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T11"/>.</summary>
     public bool IsT11
@@ -4133,11 +4133,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T11"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value) => _union.TryGetT11(out value);
+    public bool TryGetT11(out T11 value) => _union.TryGetT11(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T11"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12> remainder) => _union.TryPickT11(out value, out remainder);
+    public bool TryPickT11(out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12> remainder) => _union.TryPickT11(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T12"/>.</summary>
     public bool IsT12
@@ -4155,11 +4155,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T12"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value) => _union.TryGetT12(out value);
+    public bool TryGetT12(out T12 value) => _union.TryGetT12(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T12"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> remainder) => _union.TryPickT12(out value, out remainder);
+    public bool TryPickT12(out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> remainder) => _union.TryPickT12(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -4468,11 +4468,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -4490,11 +4490,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -4512,11 +4512,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -4534,11 +4534,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -4556,11 +4556,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -4578,11 +4578,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T6"/>.</summary>
     public bool IsT6
@@ -4600,11 +4600,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value) => _union.TryGetT6(out value);
+    public bool TryGetT6(out T6 value) => _union.TryGetT6(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT6(out value, out remainder);
+    public bool TryPickT6(out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT6(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T7"/>.</summary>
     public bool IsT7
@@ -4622,11 +4622,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T7"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value) => _union.TryGetT7(out value);
+    public bool TryGetT7(out T7 value) => _union.TryGetT7(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT7(out value, out remainder);
+    public bool TryPickT7(out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT7(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T8"/>.</summary>
     public bool IsT8
@@ -4644,11 +4644,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T8"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value) => _union.TryGetT8(out value);
+    public bool TryGetT8(out T8 value) => _union.TryGetT8(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T8"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13> remainder) => _union.TryPickT8(out value, out remainder);
+    public bool TryPickT8(out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13> remainder) => _union.TryPickT8(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T9"/>.</summary>
     public bool IsT9
@@ -4666,11 +4666,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T9"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value) => _union.TryGetT9(out value);
+    public bool TryGetT9(out T9 value) => _union.TryGetT9(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T9"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13> remainder) => _union.TryPickT9(out value, out remainder);
+    public bool TryPickT9(out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13> remainder) => _union.TryPickT9(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T10"/>.</summary>
     public bool IsT10
@@ -4688,11 +4688,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T10"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value) => _union.TryGetT10(out value);
+    public bool TryGetT10(out T10 value) => _union.TryGetT10(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T10"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13> remainder) => _union.TryPickT10(out value, out remainder);
+    public bool TryPickT10(out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13> remainder) => _union.TryPickT10(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T11"/>.</summary>
     public bool IsT11
@@ -4710,11 +4710,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T11"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value) => _union.TryGetT11(out value);
+    public bool TryGetT11(out T11 value) => _union.TryGetT11(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T11"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13> remainder) => _union.TryPickT11(out value, out remainder);
+    public bool TryPickT11(out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13> remainder) => _union.TryPickT11(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T12"/>.</summary>
     public bool IsT12
@@ -4732,11 +4732,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T12"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value) => _union.TryGetT12(out value);
+    public bool TryGetT12(out T12 value) => _union.TryGetT12(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T12"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13> remainder) => _union.TryPickT12(out value, out remainder);
+    public bool TryPickT12(out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13> remainder) => _union.TryPickT12(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T13"/>.</summary>
     public bool IsT13
@@ -4754,11 +4754,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T13"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value) => _union.TryGetT13(out value);
+    public bool TryGetT13(out T13 value) => _union.TryGetT13(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T13"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT13(out value, out remainder);
+    public bool TryPickT13(out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> remainder) => _union.TryPickT13(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5083,11 +5083,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -5105,11 +5105,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -5127,11 +5127,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -5149,11 +5149,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -5171,11 +5171,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -5193,11 +5193,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T6"/>.</summary>
     public bool IsT6
@@ -5215,11 +5215,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value) => _union.TryGetT6(out value);
+    public bool TryGetT6(out T6 value) => _union.TryGetT6(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT6(out value, out remainder);
+    public bool TryPickT6(out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT6(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T7"/>.</summary>
     public bool IsT7
@@ -5237,11 +5237,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T7"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value) => _union.TryGetT7(out value);
+    public bool TryGetT7(out T7 value) => _union.TryGetT7(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT7(out value, out remainder);
+    public bool TryPickT7(out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT7(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T8"/>.</summary>
     public bool IsT8
@@ -5259,11 +5259,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T8"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value) => _union.TryGetT8(out value);
+    public bool TryGetT8(out T8 value) => _union.TryGetT8(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T8"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT8(out value, out remainder);
+    public bool TryPickT8(out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT8(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T9"/>.</summary>
     public bool IsT9
@@ -5281,11 +5281,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T9"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value) => _union.TryGetT9(out value);
+    public bool TryGetT9(out T9 value) => _union.TryGetT9(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T9"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14> remainder) => _union.TryPickT9(out value, out remainder);
+    public bool TryPickT9(out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14> remainder) => _union.TryPickT9(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T10"/>.</summary>
     public bool IsT10
@@ -5303,11 +5303,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T10"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value) => _union.TryGetT10(out value);
+    public bool TryGetT10(out T10 value) => _union.TryGetT10(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T10"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14> remainder) => _union.TryPickT10(out value, out remainder);
+    public bool TryPickT10(out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14> remainder) => _union.TryPickT10(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T11"/>.</summary>
     public bool IsT11
@@ -5325,11 +5325,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T11"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value) => _union.TryGetT11(out value);
+    public bool TryGetT11(out T11 value) => _union.TryGetT11(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T11"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14> remainder) => _union.TryPickT11(out value, out remainder);
+    public bool TryPickT11(out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14> remainder) => _union.TryPickT11(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T12"/>.</summary>
     public bool IsT12
@@ -5347,11 +5347,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T12"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value) => _union.TryGetT12(out value);
+    public bool TryGetT12(out T12 value) => _union.TryGetT12(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T12"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14> remainder) => _union.TryPickT12(out value, out remainder);
+    public bool TryPickT12(out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14> remainder) => _union.TryPickT12(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T13"/>.</summary>
     public bool IsT13
@@ -5369,11 +5369,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T13"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value) => _union.TryGetT13(out value);
+    public bool TryGetT13(out T13 value) => _union.TryGetT13(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T13"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14> remainder) => _union.TryPickT13(out value, out remainder);
+    public bool TryPickT13(out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14> remainder) => _union.TryPickT13(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T14"/>.</summary>
     public bool IsT14
@@ -5391,11 +5391,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T14"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value) => _union.TryGetT14(out value);
+    public bool TryGetT14(out T14 value) => _union.TryGetT14(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T14"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT14(out value, out remainder);
+    public bool TryPickT14(out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> remainder) => _union.TryPickT14(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -5736,11 +5736,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -5758,11 +5758,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -5780,11 +5780,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -5802,11 +5802,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -5824,11 +5824,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -5846,11 +5846,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T6"/>.</summary>
     public bool IsT6
@@ -5868,11 +5868,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value) => _union.TryGetT6(out value);
+    public bool TryGetT6(out T6 value) => _union.TryGetT6(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT6(out value, out remainder);
+    public bool TryPickT6(out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT6(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T7"/>.</summary>
     public bool IsT7
@@ -5890,11 +5890,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T7"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value) => _union.TryGetT7(out value);
+    public bool TryGetT7(out T7 value) => _union.TryGetT7(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT7(out value, out remainder);
+    public bool TryPickT7(out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT7(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T8"/>.</summary>
     public bool IsT8
@@ -5912,11 +5912,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T8"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value) => _union.TryGetT8(out value);
+    public bool TryGetT8(out T8 value) => _union.TryGetT8(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T8"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT8(out value, out remainder);
+    public bool TryPickT8(out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT8(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T9"/>.</summary>
     public bool IsT9
@@ -5934,11 +5934,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T9"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value) => _union.TryGetT9(out value);
+    public bool TryGetT9(out T9 value) => _union.TryGetT9(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T9"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT9(out value, out remainder);
+    public bool TryPickT9(out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT9(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T10"/>.</summary>
     public bool IsT10
@@ -5956,11 +5956,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T10"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value) => _union.TryGetT10(out value);
+    public bool TryGetT10(out T10 value) => _union.TryGetT10(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T10"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14, T15> remainder) => _union.TryPickT10(out value, out remainder);
+    public bool TryPickT10(out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14, T15> remainder) => _union.TryPickT10(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T11"/>.</summary>
     public bool IsT11
@@ -5978,11 +5978,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T11"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value) => _union.TryGetT11(out value);
+    public bool TryGetT11(out T11 value) => _union.TryGetT11(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T11"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14, T15> remainder) => _union.TryPickT11(out value, out remainder);
+    public bool TryPickT11(out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14, T15> remainder) => _union.TryPickT11(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T12"/>.</summary>
     public bool IsT12
@@ -6000,11 +6000,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T12"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value) => _union.TryGetT12(out value);
+    public bool TryGetT12(out T12 value) => _union.TryGetT12(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T12"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14, T15> remainder) => _union.TryPickT12(out value, out remainder);
+    public bool TryPickT12(out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14, T15> remainder) => _union.TryPickT12(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T13"/>.</summary>
     public bool IsT13
@@ -6022,11 +6022,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T13"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value) => _union.TryGetT13(out value);
+    public bool TryGetT13(out T13 value) => _union.TryGetT13(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T13"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14, T15> remainder) => _union.TryPickT13(out value, out remainder);
+    public bool TryPickT13(out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14, T15> remainder) => _union.TryPickT13(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T14"/>.</summary>
     public bool IsT14
@@ -6044,11 +6044,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T14"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value) => _union.TryGetT14(out value);
+    public bool TryGetT14(out T14 value) => _union.TryGetT14(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T14"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T15> remainder) => _union.TryPickT14(out value, out remainder);
+    public bool TryPickT14(out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T15> remainder) => _union.TryPickT14(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T15"/>.</summary>
     public bool IsT15
@@ -6066,11 +6066,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T15"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT15([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T15 value) => _union.TryGetT15(out value);
+    public bool TryGetT15(out T15 value) => _union.TryGetT15(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T15"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT15([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T15 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT15(out value, out remainder);
+    public bool TryPickT15(out T15 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder) => _union.TryPickT15(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -6427,11 +6427,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -6449,11 +6449,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -6471,11 +6471,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -6493,11 +6493,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -6515,11 +6515,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -6537,11 +6537,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T6"/>.</summary>
     public bool IsT6
@@ -6559,11 +6559,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value) => _union.TryGetT6(out value);
+    public bool TryGetT6(out T6 value) => _union.TryGetT6(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT6(out value, out remainder);
+    public bool TryPickT6(out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT6(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T7"/>.</summary>
     public bool IsT7
@@ -6581,11 +6581,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T7"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value) => _union.TryGetT7(out value);
+    public bool TryGetT7(out T7 value) => _union.TryGetT7(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT7(out value, out remainder);
+    public bool TryPickT7(out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT7(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T8"/>.</summary>
     public bool IsT8
@@ -6603,11 +6603,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T8"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value) => _union.TryGetT8(out value);
+    public bool TryGetT8(out T8 value) => _union.TryGetT8(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T8"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT8(out value, out remainder);
+    public bool TryPickT8(out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT8(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T9"/>.</summary>
     public bool IsT9
@@ -6625,11 +6625,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T9"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value) => _union.TryGetT9(out value);
+    public bool TryGetT9(out T9 value) => _union.TryGetT9(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T9"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT9(out value, out remainder);
+    public bool TryPickT9(out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT9(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T10"/>.</summary>
     public bool IsT10
@@ -6647,11 +6647,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T10"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value) => _union.TryGetT10(out value);
+    public bool TryGetT10(out T10 value) => _union.TryGetT10(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T10"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT10(out value, out remainder);
+    public bool TryPickT10(out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT10(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T11"/>.</summary>
     public bool IsT11
@@ -6669,11 +6669,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T11"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value) => _union.TryGetT11(out value);
+    public bool TryGetT11(out T11 value) => _union.TryGetT11(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T11"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14, T15, T16> remainder) => _union.TryPickT11(out value, out remainder);
+    public bool TryPickT11(out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14, T15, T16> remainder) => _union.TryPickT11(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T12"/>.</summary>
     public bool IsT12
@@ -6691,11 +6691,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T12"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value) => _union.TryGetT12(out value);
+    public bool TryGetT12(out T12 value) => _union.TryGetT12(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T12"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14, T15, T16> remainder) => _union.TryPickT12(out value, out remainder);
+    public bool TryPickT12(out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14, T15, T16> remainder) => _union.TryPickT12(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T13"/>.</summary>
     public bool IsT13
@@ -6713,11 +6713,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T13"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value) => _union.TryGetT13(out value);
+    public bool TryGetT13(out T13 value) => _union.TryGetT13(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T13"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14, T15, T16> remainder) => _union.TryPickT13(out value, out remainder);
+    public bool TryPickT13(out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14, T15, T16> remainder) => _union.TryPickT13(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T14"/>.</summary>
     public bool IsT14
@@ -6735,11 +6735,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T14"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value) => _union.TryGetT14(out value);
+    public bool TryGetT14(out T14 value) => _union.TryGetT14(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T14"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T15, T16> remainder) => _union.TryPickT14(out value, out remainder);
+    public bool TryPickT14(out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T15, T16> remainder) => _union.TryPickT14(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T15"/>.</summary>
     public bool IsT15
@@ -6757,11 +6757,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T15"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT15([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T15 value) => _union.TryGetT15(out value);
+    public bool TryGetT15(out T15 value) => _union.TryGetT15(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T15"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT15([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T15 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T16> remainder) => _union.TryPickT15(out value, out remainder);
+    public bool TryPickT15(out T15 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T16> remainder) => _union.TryPickT15(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T16"/>.</summary>
     public bool IsT16
@@ -6779,11 +6779,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T16"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT16([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T16 value) => _union.TryGetT16(out value);
+    public bool TryGetT16(out T16 value) => _union.TryGetT16(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T16"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT16([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T16 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT16(out value, out remainder);
+    public bool TryPickT16(out T16 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder) => _union.TryPickT16(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -7156,11 +7156,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -7178,11 +7178,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -7200,11 +7200,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -7222,11 +7222,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -7244,11 +7244,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -7266,11 +7266,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T6"/>.</summary>
     public bool IsT6
@@ -7288,11 +7288,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value) => _union.TryGetT6(out value);
+    public bool TryGetT6(out T6 value) => _union.TryGetT6(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT6(out value, out remainder);
+    public bool TryPickT6(out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT6(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T7"/>.</summary>
     public bool IsT7
@@ -7310,11 +7310,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T7"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value) => _union.TryGetT7(out value);
+    public bool TryGetT7(out T7 value) => _union.TryGetT7(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT7(out value, out remainder);
+    public bool TryPickT7(out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT7(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T8"/>.</summary>
     public bool IsT8
@@ -7332,11 +7332,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T8"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value) => _union.TryGetT8(out value);
+    public bool TryGetT8(out T8 value) => _union.TryGetT8(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T8"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT8(out value, out remainder);
+    public bool TryPickT8(out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT8(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T9"/>.</summary>
     public bool IsT9
@@ -7354,11 +7354,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T9"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value) => _union.TryGetT9(out value);
+    public bool TryGetT9(out T9 value) => _union.TryGetT9(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T9"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT9(out value, out remainder);
+    public bool TryPickT9(out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT9(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T10"/>.</summary>
     public bool IsT10
@@ -7376,11 +7376,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T10"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value) => _union.TryGetT10(out value);
+    public bool TryGetT10(out T10 value) => _union.TryGetT10(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T10"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT10(out value, out remainder);
+    public bool TryPickT10(out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT10(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T11"/>.</summary>
     public bool IsT11
@@ -7398,11 +7398,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T11"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value) => _union.TryGetT11(out value);
+    public bool TryGetT11(out T11 value) => _union.TryGetT11(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T11"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT11(out value, out remainder);
+    public bool TryPickT11(out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT11(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T12"/>.</summary>
     public bool IsT12
@@ -7420,11 +7420,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T12"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value) => _union.TryGetT12(out value);
+    public bool TryGetT12(out T12 value) => _union.TryGetT12(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T12"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14, T15, T16, T17> remainder) => _union.TryPickT12(out value, out remainder);
+    public bool TryPickT12(out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14, T15, T16, T17> remainder) => _union.TryPickT12(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T13"/>.</summary>
     public bool IsT13
@@ -7442,11 +7442,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T13"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value) => _union.TryGetT13(out value);
+    public bool TryGetT13(out T13 value) => _union.TryGetT13(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T13"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14, T15, T16, T17> remainder) => _union.TryPickT13(out value, out remainder);
+    public bool TryPickT13(out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14, T15, T16, T17> remainder) => _union.TryPickT13(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T14"/>.</summary>
     public bool IsT14
@@ -7464,11 +7464,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T14"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value) => _union.TryGetT14(out value);
+    public bool TryGetT14(out T14 value) => _union.TryGetT14(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T14"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T15, T16, T17> remainder) => _union.TryPickT14(out value, out remainder);
+    public bool TryPickT14(out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T15, T16, T17> remainder) => _union.TryPickT14(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T15"/>.</summary>
     public bool IsT15
@@ -7486,11 +7486,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T15"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT15([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T15 value) => _union.TryGetT15(out value);
+    public bool TryGetT15(out T15 value) => _union.TryGetT15(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T15"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT15([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T15 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T16, T17> remainder) => _union.TryPickT15(out value, out remainder);
+    public bool TryPickT15(out T15 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T16, T17> remainder) => _union.TryPickT15(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T16"/>.</summary>
     public bool IsT16
@@ -7508,11 +7508,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T16"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT16([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T16 value) => _union.TryGetT16(out value);
+    public bool TryGetT16(out T16 value) => _union.TryGetT16(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T16"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT16([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T16 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T17> remainder) => _union.TryPickT16(out value, out remainder);
+    public bool TryPickT16(out T16 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T17> remainder) => _union.TryPickT16(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T17"/>.</summary>
     public bool IsT17
@@ -7530,11 +7530,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T17"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT17([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T17 value) => _union.TryGetT17(out value);
+    public bool TryGetT17(out T17 value) => _union.TryGetT17(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T17"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT17([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T17 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT17(out value, out remainder);
+    public bool TryPickT17(out T17 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder) => _union.TryPickT17(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -7923,11 +7923,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -7945,11 +7945,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -7967,11 +7967,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -7989,11 +7989,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -8011,11 +8011,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -8033,11 +8033,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T6"/>.</summary>
     public bool IsT6
@@ -8055,11 +8055,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value) => _union.TryGetT6(out value);
+    public bool TryGetT6(out T6 value) => _union.TryGetT6(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT6(out value, out remainder);
+    public bool TryPickT6(out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT6(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T7"/>.</summary>
     public bool IsT7
@@ -8077,11 +8077,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T7"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value) => _union.TryGetT7(out value);
+    public bool TryGetT7(out T7 value) => _union.TryGetT7(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT7(out value, out remainder);
+    public bool TryPickT7(out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT7(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T8"/>.</summary>
     public bool IsT8
@@ -8099,11 +8099,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T8"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value) => _union.TryGetT8(out value);
+    public bool TryGetT8(out T8 value) => _union.TryGetT8(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T8"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT8(out value, out remainder);
+    public bool TryPickT8(out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT8(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T9"/>.</summary>
     public bool IsT9
@@ -8121,11 +8121,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T9"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value) => _union.TryGetT9(out value);
+    public bool TryGetT9(out T9 value) => _union.TryGetT9(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T9"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT9(out value, out remainder);
+    public bool TryPickT9(out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT9(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T10"/>.</summary>
     public bool IsT10
@@ -8143,11 +8143,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T10"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value) => _union.TryGetT10(out value);
+    public bool TryGetT10(out T10 value) => _union.TryGetT10(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T10"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT10(out value, out remainder);
+    public bool TryPickT10(out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT10(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T11"/>.</summary>
     public bool IsT11
@@ -8165,11 +8165,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T11"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value) => _union.TryGetT11(out value);
+    public bool TryGetT11(out T11 value) => _union.TryGetT11(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T11"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT11(out value, out remainder);
+    public bool TryPickT11(out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT11(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T12"/>.</summary>
     public bool IsT12
@@ -8187,11 +8187,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T12"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value) => _union.TryGetT12(out value);
+    public bool TryGetT12(out T12 value) => _union.TryGetT12(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T12"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT12(out value, out remainder);
+    public bool TryPickT12(out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT12(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T13"/>.</summary>
     public bool IsT13
@@ -8209,11 +8209,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T13"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value) => _union.TryGetT13(out value);
+    public bool TryGetT13(out T13 value) => _union.TryGetT13(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T13"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14, T15, T16, T17, T18> remainder) => _union.TryPickT13(out value, out remainder);
+    public bool TryPickT13(out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14, T15, T16, T17, T18> remainder) => _union.TryPickT13(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T14"/>.</summary>
     public bool IsT14
@@ -8231,11 +8231,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T14"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value) => _union.TryGetT14(out value);
+    public bool TryGetT14(out T14 value) => _union.TryGetT14(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T14"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T15, T16, T17, T18> remainder) => _union.TryPickT14(out value, out remainder);
+    public bool TryPickT14(out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T15, T16, T17, T18> remainder) => _union.TryPickT14(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T15"/>.</summary>
     public bool IsT15
@@ -8253,11 +8253,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T15"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT15([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T15 value) => _union.TryGetT15(out value);
+    public bool TryGetT15(out T15 value) => _union.TryGetT15(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T15"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT15([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T15 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T16, T17, T18> remainder) => _union.TryPickT15(out value, out remainder);
+    public bool TryPickT15(out T15 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T16, T17, T18> remainder) => _union.TryPickT15(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T16"/>.</summary>
     public bool IsT16
@@ -8275,11 +8275,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T16"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT16([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T16 value) => _union.TryGetT16(out value);
+    public bool TryGetT16(out T16 value) => _union.TryGetT16(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T16"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT16([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T16 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T17, T18> remainder) => _union.TryPickT16(out value, out remainder);
+    public bool TryPickT16(out T16 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T17, T18> remainder) => _union.TryPickT16(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T17"/>.</summary>
     public bool IsT17
@@ -8297,11 +8297,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T17"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT17([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T17 value) => _union.TryGetT17(out value);
+    public bool TryGetT17(out T17 value) => _union.TryGetT17(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T17"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT17([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T17 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T18> remainder) => _union.TryPickT17(out value, out remainder);
+    public bool TryPickT17(out T17 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T18> remainder) => _union.TryPickT17(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T18"/>.</summary>
     public bool IsT18
@@ -8319,11 +8319,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T18"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT18([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T18 value) => _union.TryGetT18(out value);
+    public bool TryGetT18(out T18 value) => _union.TryGetT18(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T18"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT18([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T18 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT18(out value, out remainder);
+    public bool TryPickT18(out T18 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> remainder) => _union.TryPickT18(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -8728,11 +8728,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value) => _union.TryGetT0(out value);
+    public bool TryGetT0(out T0 value) => _union.TryGetT0(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT0(out value, out remainder);
+    public bool TryPickT0(out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT0(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T1"/>.</summary>
     public bool IsT1
@@ -8750,11 +8750,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value) => _union.TryGetT1(out value);
+    public bool TryGetT1(out T1 value) => _union.TryGetT1(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT1(out value, out remainder);
+    public bool TryPickT1(out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT1(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T2"/>.</summary>
     public bool IsT2
@@ -8772,11 +8772,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value) => _union.TryGetT2(out value);
+    public bool TryGetT2(out T2 value) => _union.TryGetT2(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT2(out value, out remainder);
+    public bool TryPickT2(out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT2(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T3"/>.</summary>
     public bool IsT3
@@ -8794,11 +8794,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value) => _union.TryGetT3(out value);
+    public bool TryGetT3(out T3 value) => _union.TryGetT3(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT3(out value, out remainder);
+    public bool TryPickT3(out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT3(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T4"/>.</summary>
     public bool IsT4
@@ -8816,11 +8816,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value) => _union.TryGetT4(out value);
+    public bool TryGetT4(out T4 value) => _union.TryGetT4(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT4(out value, out remainder);
+    public bool TryPickT4(out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT4(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T5"/>.</summary>
     public bool IsT5
@@ -8838,11 +8838,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value) => _union.TryGetT5(out value);
+    public bool TryGetT5(out T5 value) => _union.TryGetT5(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT5(out value, out remainder);
+    public bool TryPickT5(out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT5(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T6"/>.</summary>
     public bool IsT6
@@ -8860,11 +8860,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value) => _union.TryGetT6(out value);
+    public bool TryGetT6(out T6 value) => _union.TryGetT6(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT6(out value, out remainder);
+    public bool TryPickT6(out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT6(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T7"/>.</summary>
     public bool IsT7
@@ -8882,11 +8882,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T7"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value) => _union.TryGetT7(out value);
+    public bool TryGetT7(out T7 value) => _union.TryGetT7(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT7(out value, out remainder);
+    public bool TryPickT7(out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT7(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T8"/>.</summary>
     public bool IsT8
@@ -8904,11 +8904,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T8"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value) => _union.TryGetT8(out value);
+    public bool TryGetT8(out T8 value) => _union.TryGetT8(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T8"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT8(out value, out remainder);
+    public bool TryPickT8(out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT8(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T9"/>.</summary>
     public bool IsT9
@@ -8926,11 +8926,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T9"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value) => _union.TryGetT9(out value);
+    public bool TryGetT9(out T9 value) => _union.TryGetT9(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T9"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT9(out value, out remainder);
+    public bool TryPickT9(out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT9(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T10"/>.</summary>
     public bool IsT10
@@ -8948,11 +8948,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T10"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value) => _union.TryGetT10(out value);
+    public bool TryGetT10(out T10 value) => _union.TryGetT10(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T10"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT10(out value, out remainder);
+    public bool TryPickT10(out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT10(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T11"/>.</summary>
     public bool IsT11
@@ -8970,11 +8970,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T11"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value) => _union.TryGetT11(out value);
+    public bool TryGetT11(out T11 value) => _union.TryGetT11(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T11"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT11(out value, out remainder);
+    public bool TryPickT11(out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT11(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T12"/>.</summary>
     public bool IsT12
@@ -8992,11 +8992,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T12"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value) => _union.TryGetT12(out value);
+    public bool TryGetT12(out T12 value) => _union.TryGetT12(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T12"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT12(out value, out remainder);
+    public bool TryPickT12(out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT12(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T13"/>.</summary>
     public bool IsT13
@@ -9014,11 +9014,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T13"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value) => _union.TryGetT13(out value);
+    public bool TryGetT13(out T13 value) => _union.TryGetT13(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T13"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT13(out value, out remainder);
+    public bool TryPickT13(out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14, T15, T16, T17, T18, T19> remainder) => _union.TryPickT13(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T14"/>.</summary>
     public bool IsT14
@@ -9036,11 +9036,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T14"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value) => _union.TryGetT14(out value);
+    public bool TryGetT14(out T14 value) => _union.TryGetT14(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T14"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T15, T16, T17, T18, T19> remainder) => _union.TryPickT14(out value, out remainder);
+    public bool TryPickT14(out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T15, T16, T17, T18, T19> remainder) => _union.TryPickT14(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T15"/>.</summary>
     public bool IsT15
@@ -9058,11 +9058,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T15"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT15([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T15 value) => _union.TryGetT15(out value);
+    public bool TryGetT15(out T15 value) => _union.TryGetT15(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T15"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT15([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T15 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T16, T17, T18, T19> remainder) => _union.TryPickT15(out value, out remainder);
+    public bool TryPickT15(out T15 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T16, T17, T18, T19> remainder) => _union.TryPickT15(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T16"/>.</summary>
     public bool IsT16
@@ -9080,11 +9080,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T16"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT16([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T16 value) => _union.TryGetT16(out value);
+    public bool TryGetT16(out T16 value) => _union.TryGetT16(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T16"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT16([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T16 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T17, T18, T19> remainder) => _union.TryPickT16(out value, out remainder);
+    public bool TryPickT16(out T16 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T17, T18, T19> remainder) => _union.TryPickT16(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T17"/>.</summary>
     public bool IsT17
@@ -9102,11 +9102,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T17"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT17([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T17 value) => _union.TryGetT17(out value);
+    public bool TryGetT17(out T17 value) => _union.TryGetT17(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T17"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT17([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T17 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T18, T19> remainder) => _union.TryPickT17(out value, out remainder);
+    public bool TryPickT17(out T17 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T18, T19> remainder) => _union.TryPickT17(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T18"/>.</summary>
     public bool IsT18
@@ -9124,11 +9124,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T18"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT18([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T18 value) => _union.TryGetT18(out value);
+    public bool TryGetT18(out T18 value) => _union.TryGetT18(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T18"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT18([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T18 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T19> remainder) => _union.TryPickT18(out value, out remainder);
+    public bool TryPickT18(out T18 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T19> remainder) => _union.TryPickT18(out value, out remainder);
 
     /// <summary>Returns true if the union currently holds a value of type <typeparamref name="T19"/>.</summary>
     public bool IsT19
@@ -9146,11 +9146,11 @@ public abstract class UnioBase<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11,
 
     /// <summary>Attempts to get the value as <typeparamref name="T19"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT19([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T19 value) => _union.TryGetT19(out value);
+    public bool TryGetT19(out T19 value) => _union.TryGetT19(out value);
 
     /// <summary>Attempts to pick the value as <typeparamref name="T19"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT19([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T19 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT19(out value, out remainder);
+    public bool TryPickT19(out T19 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> remainder) => _union.TryPickT19(out value, out remainder);
 
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
