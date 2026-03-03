@@ -309,130 +309,130 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to get the value as <typeparamref name="T0"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value)
+    public bool TryGetT0([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T0 value)
     {
         if (_index == 0) { value = _value0!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to get the value as <typeparamref name="T1"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value)
+    public bool TryGetT1([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T1 value)
     {
         if (_index == 1) { value = _value1!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to get the value as <typeparamref name="T2"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value)
+    public bool TryGetT2([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T2 value)
     {
         if (_index == 2) { value = _value2!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to get the value as <typeparamref name="T3"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value)
+    public bool TryGetT3([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T3 value)
     {
         if (_index == 3) { value = _value3!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to get the value as <typeparamref name="T4"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value)
+    public bool TryGetT4([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T4 value)
     {
         if (_index == 4) { value = _value4!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to get the value as <typeparamref name="T5"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value)
+    public bool TryGetT5([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T5 value)
     {
         if (_index == 5) { value = _value5!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to get the value as <typeparamref name="T6"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value)
+    public bool TryGetT6([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T6 value)
     {
         if (_index == 6) { value = _value6!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to get the value as <typeparamref name="T7"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value)
+    public bool TryGetT7([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T7 value)
     {
         if (_index == 7) { value = _value7!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to get the value as <typeparamref name="T8"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value)
+    public bool TryGetT8([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T8 value)
     {
         if (_index == 8) { value = _value8!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to get the value as <typeparamref name="T9"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value)
+    public bool TryGetT9([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T9 value)
     {
         if (_index == 9) { value = _value9!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to get the value as <typeparamref name="T10"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value)
+    public bool TryGetT10([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T10 value)
     {
         if (_index == 10) { value = _value10!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to get the value as <typeparamref name="T11"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value)
+    public bool TryGetT11([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T11 value)
     {
         if (_index == 11) { value = _value11!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to get the value as <typeparamref name="T12"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value)
+    public bool TryGetT12([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T12 value)
     {
         if (_index == 12) { value = _value12!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to get the value as <typeparamref name="T13"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value)
+    public bool TryGetT13([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T13 value)
     {
         if (_index == 13) { value = _value13!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to get the value as <typeparamref name="T14"/>.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryGetT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value)
+    public bool TryGetT14([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T14 value)
     {
         if (_index == 14) { value = _value14!; return true; }
-        value = default; return false;
+        value = default!; return false;
     }
 
     /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder)
+    public bool TryPickT0([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder)
     {
-        if (_index == 0) { value = _value0!; remainder = default; return true; }
-        value = default;
+        if (_index == 0) { value = _value0!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             1 => _value1!,
@@ -456,10 +456,10 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder)
+    public bool TryPickT1([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder)
     {
-        if (_index == 1) { value = _value1!; remainder = default; return true; }
-        value = default;
+        if (_index == 1) { value = _value1!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             0 => _value0!,
@@ -483,10 +483,10 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder)
+    public bool TryPickT2([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder)
     {
-        if (_index == 2) { value = _value2!; remainder = default; return true; }
-        value = default;
+        if (_index == 2) { value = _value2!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             0 => _value0!,
@@ -510,10 +510,10 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder)
+    public bool TryPickT3([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder)
     {
-        if (_index == 3) { value = _value3!; remainder = default; return true; }
-        value = default;
+        if (_index == 3) { value = _value3!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             0 => _value0!,
@@ -537,10 +537,10 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder)
+    public bool TryPickT4([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder)
     {
-        if (_index == 4) { value = _value4!; remainder = default; return true; }
-        value = default;
+        if (_index == 4) { value = _value4!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             0 => _value0!,
@@ -564,10 +564,10 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder)
+    public bool TryPickT5([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14> remainder)
     {
-        if (_index == 5) { value = _value5!; remainder = default; return true; }
-        value = default;
+        if (_index == 5) { value = _value5!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             0 => _value0!,
@@ -591,10 +591,10 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14> remainder)
+    public bool TryPickT6([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14> remainder)
     {
-        if (_index == 6) { value = _value6!; remainder = default; return true; }
-        value = default;
+        if (_index == 6) { value = _value6!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             0 => _value0!,
@@ -618,10 +618,10 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14> remainder)
+    public bool TryPickT7([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14> remainder)
     {
-        if (_index == 7) { value = _value7!; remainder = default; return true; }
-        value = default;
+        if (_index == 7) { value = _value7!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             0 => _value0!,
@@ -645,10 +645,10 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to pick the value as <typeparamref name="T8"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14> remainder)
+    public bool TryPickT8([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14> remainder)
     {
-        if (_index == 8) { value = _value8!; remainder = default; return true; }
-        value = default;
+        if (_index == 8) { value = _value8!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             0 => _value0!,
@@ -672,10 +672,10 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to pick the value as <typeparamref name="T9"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14> remainder)
+    public bool TryPickT9([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14> remainder)
     {
-        if (_index == 9) { value = _value9!; remainder = default; return true; }
-        value = default;
+        if (_index == 9) { value = _value9!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             0 => _value0!,
@@ -699,10 +699,10 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to pick the value as <typeparamref name="T10"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14> remainder)
+    public bool TryPickT10([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14> remainder)
     {
-        if (_index == 10) { value = _value10!; remainder = default; return true; }
-        value = default;
+        if (_index == 10) { value = _value10!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             0 => _value0!,
@@ -726,10 +726,10 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to pick the value as <typeparamref name="T11"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14> remainder)
+    public bool TryPickT11([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14> remainder)
     {
-        if (_index == 11) { value = _value11!; remainder = default; return true; }
-        value = default;
+        if (_index == 11) { value = _value11!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             0 => _value0!,
@@ -753,10 +753,10 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to pick the value as <typeparamref name="T12"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14> remainder)
+    public bool TryPickT12([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14> remainder)
     {
-        if (_index == 12) { value = _value12!; remainder = default; return true; }
-        value = default;
+        if (_index == 12) { value = _value12!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             0 => _value0!,
@@ -780,10 +780,10 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to pick the value as <typeparamref name="T13"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14> remainder)
+    public bool TryPickT13([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14> remainder)
     {
-        if (_index == 13) { value = _value13!; remainder = default; return true; }
-        value = default;
+        if (_index == 13) { value = _value13!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             0 => _value0!,
@@ -807,10 +807,10 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
 
     /// <summary>Attempts to pick the value as <typeparamref name="T14"/> and returns the remaining union when it does not match.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public bool TryPickT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> remainder)
+    public bool TryPickT14([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> remainder)
     {
-        if (_index == 14) { value = _value14!; remainder = default; return true; }
-        value = default;
+        if (_index == 14) { value = _value14!; remainder = default!; return true; }
+        value = default!;
         remainder = _index switch
         {
             0 => _value0!,
