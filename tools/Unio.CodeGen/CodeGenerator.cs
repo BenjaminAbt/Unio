@@ -147,6 +147,57 @@ internal static class CodeGenerator
             sb.AppendLine();
         }
 
+        // TryPickT# methods
+        for (int i = 0; i < arity; i++)
+        {
+            if (arity == 2)
+            {
+                int otherIndex = i == 0 ? 1 : 0;
+                sb.AppendLine($"    /// <summary>Attempts to pick the value as <typeparamref name=\"T{i}\"/> and returns the other value as remainder when it does not match.</summary>");
+                sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
+                sb.AppendLine($"    public bool TryPickT{i}([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T{i} value, [System.Diagnostics.CodeAnalysis.MaybeNullWhen(true)] out T{otherIndex} remainder)");
+                sb.AppendLine("    {");
+                sb.AppendLine($"        if (_index == {i}) {{ value = _value{i}!; remainder = default; return true; }}");
+                sb.AppendLine("        value = default;");
+                sb.AppendLine($"        remainder = _index == {otherIndex} ? _value{otherIndex}! : throw new InvalidOperationException(\"Invalid union state.\");");
+                sb.AppendLine("        return false;");
+                sb.AppendLine("    }");
+                sb.AppendLine();
+                continue;
+            }
+
+            string[] remainderTypes = Enumerable.Range(0, arity)
+                .Where(j => j != i)
+                .Select(j => string.Create(CultureInfo.InvariantCulture, $"T{j}"))
+                .ToArray();
+            string remainderType = $"Unio<{string.Join(", ", remainderTypes)}>";
+
+            sb.AppendLine($"    /// <summary>Attempts to pick the value as <typeparamref name=\"T{i}\"/> and returns the remaining union when it does not match.</summary>");
+            sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
+            sb.AppendLine($"    public bool TryPickT{i}([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T{i} value, out {remainderType} remainder)");
+            sb.AppendLine("    {");
+            sb.AppendLine($"        if (_index == {i}) {{ value = _value{i}!; remainder = default; return true; }}");
+            sb.AppendLine("        value = default;");
+            sb.AppendLine("        remainder = _index switch");
+            sb.AppendLine("        {");
+
+            for (int j = 0; j < arity; j++)
+            {
+                if (j == i)
+                {
+                    continue;
+                }
+
+                sb.AppendLine($"            {j} => _value{j}!,");
+            }
+
+            sb.AppendLine("            _ => throw new InvalidOperationException(\"Invalid union state.\")");
+            sb.AppendLine("        };");
+            sb.AppendLine("        return false;");
+            sb.AppendLine("    }");
+            sb.AppendLine();
+        }
+
         // Match<TResult>
         string matchParams = string.Join(", ", Enumerable.Range(0, arity).Select(i => string.Create(CultureInfo.InvariantCulture, $"Func<T{i}, TResult> whenT{i}")));
         sb.AppendLine("    /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>");
@@ -557,6 +608,28 @@ internal static class CodeGenerator
                 sb.AppendLine($"    /// <summary>Attempts to get the value as <typeparamref name=\"T{i}\"/>.</summary>");
                 sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
                 sb.AppendLine($"    public bool TryGetT{i}([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T{i} value) => _union.TryGetT{i}(out value);");
+                sb.AppendLine();
+
+                // TryPickT#
+                if (arity == 2)
+                {
+                    int otherIndex = i == 0 ? 1 : 0;
+                    sb.AppendLine($"    /// <summary>Attempts to pick the value as <typeparamref name=\"T{i}\"/> and returns the other value as remainder when it does not match.</summary>");
+                    sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
+                    sb.AppendLine($"    public bool TryPickT{i}([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T{i} value, [System.Diagnostics.CodeAnalysis.MaybeNullWhen(true)] out T{otherIndex} remainder) => _union.TryPickT{i}(out value, out remainder);");
+                    sb.AppendLine();
+                    continue;
+                }
+
+                string[] remainderTypes = Enumerable.Range(0, arity)
+                    .Where(j => j != i)
+                    .Select(j => string.Create(CultureInfo.InvariantCulture, $"T{j}"))
+                    .ToArray();
+                string remainderType = $"Unio<{string.Join(", ", remainderTypes)}>";
+
+                sb.AppendLine($"    /// <summary>Attempts to pick the value as <typeparamref name=\"T{i}\"/> and returns the remaining union when it does not match.</summary>");
+                sb.AppendLine("    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
+                sb.AppendLine($"    public bool TryPickT{i}([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T{i} value, out {remainderType} remainder) => _union.TryPickT{i}(out value, out remainder);");
                 sb.AppendLine();
             }
 

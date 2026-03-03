@@ -48,7 +48,7 @@ template: |
 
   ## 📦 NuGet Packages
 
-  The following packages are included in this release:
+  The following packages are included in this release (each with matching `.snupkg` symbols):
 
   | Package | Version | Description |
   |---|---|---|

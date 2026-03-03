@@ -56,7 +56,7 @@ public sealed class UnioGenerator : IIncrementalGenerator
 
         foreach (AttributeData attr in symbol.GetAttributes())
         {
-            if (attr.AttributeClass?.ToDisplayString() == GenerateUnioAttributeFullName)
+            if (string.Equals(attr.AttributeClass?.ToDisplayString(), GenerateUnioAttributeFullName, StringComparison.Ordinal))
             {
                 return classSyntax;
             }
@@ -79,7 +79,7 @@ public sealed class UnioGenerator : IIncrementalGenerator
         foreach (ClassDeclarationSyntax classSyntax in types.Distinct())
         {
             SemanticModel semanticModel = compilation.GetSemanticModel(classSyntax.SyntaxTree);
-            INamedTypeSymbol? structSymbol = semanticModel.GetDeclaredSymbol(classSyntax);
+            INamedTypeSymbol? structSymbol = semanticModel.GetDeclaredSymbol(classSyntax, context.CancellationToken);
             if (structSymbol is null)
             {
                 continue;
@@ -108,7 +108,7 @@ public sealed class UnioGenerator : IIncrementalGenerator
             }
 
             // Check for duplicate type arguments
-            HashSet<string> seenTypes = new();
+            HashSet<string> seenTypes = new(StringComparer.Ordinal);
             foreach (ITypeSymbol typeArg in typeArgs)
             {
                 string typeName = typeArg.ToDisplayString();

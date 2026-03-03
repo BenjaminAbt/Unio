@@ -81,6 +81,25 @@ public class GeneratedUnio2Tests
     }
 
     [Fact]
+    public void TryPickT0_WhenT0_ReturnsTrueAndDefaultRemainder()
+    {
+        StringOrInt union = "hello";
+
+        Assert.True(union.TryPickT0(out string? value, out int remainder));
+        Assert.Equal("hello", value);
+        Assert.Equal(0, remainder);
+    }
+
+    [Fact]
+    public void TryPickT0_WhenT1_ReturnsFalseAndRemainder()
+    {
+        StringOrInt union = 42;
+
+        Assert.False(union.TryPickT0(out _, out int remainder));
+        Assert.Equal(42, remainder);
+    }
+
+    [Fact]
     public void Value_ReturnsCurrentValue()
     {
         StringOrInt unionStr = "hello";

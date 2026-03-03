@@ -479,6 +479,499 @@ public readonly struct Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T1
         value = default; return false;
     }
 
+    /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, out Unio<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder)
+    {
+        if (_index == 0) { value = _value0!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            1 => _value1!,
+            2 => _value2!,
+            3 => _value3!,
+            4 => _value4!,
+            5 => _value5!,
+            6 => _value6!,
+            7 => _value7!,
+            8 => _value8!,
+            9 => _value9!,
+            10 => _value10!,
+            11 => _value11!,
+            12 => _value12!,
+            13 => _value13!,
+            14 => _value14!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, out Unio<T0, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder)
+    {
+        if (_index == 1) { value = _value1!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            2 => _value2!,
+            3 => _value3!,
+            4 => _value4!,
+            5 => _value5!,
+            6 => _value6!,
+            7 => _value7!,
+            8 => _value8!,
+            9 => _value9!,
+            10 => _value10!,
+            11 => _value11!,
+            12 => _value12!,
+            13 => _value13!,
+            14 => _value14!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T2"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT2([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T2 value, out Unio<T0, T1, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder)
+    {
+        if (_index == 2) { value = _value2!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            3 => _value3!,
+            4 => _value4!,
+            5 => _value5!,
+            6 => _value6!,
+            7 => _value7!,
+            8 => _value8!,
+            9 => _value9!,
+            10 => _value10!,
+            11 => _value11!,
+            12 => _value12!,
+            13 => _value13!,
+            14 => _value14!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T3"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT3([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T3 value, out Unio<T0, T1, T2, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder)
+    {
+        if (_index == 3) { value = _value3!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            2 => _value2!,
+            4 => _value4!,
+            5 => _value5!,
+            6 => _value6!,
+            7 => _value7!,
+            8 => _value8!,
+            9 => _value9!,
+            10 => _value10!,
+            11 => _value11!,
+            12 => _value12!,
+            13 => _value13!,
+            14 => _value14!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T4"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT4([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T4 value, out Unio<T0, T1, T2, T3, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder)
+    {
+        if (_index == 4) { value = _value4!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            2 => _value2!,
+            3 => _value3!,
+            5 => _value5!,
+            6 => _value6!,
+            7 => _value7!,
+            8 => _value8!,
+            9 => _value9!,
+            10 => _value10!,
+            11 => _value11!,
+            12 => _value12!,
+            13 => _value13!,
+            14 => _value14!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T5"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT5([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T5 value, out Unio<T0, T1, T2, T3, T4, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder)
+    {
+        if (_index == 5) { value = _value5!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            2 => _value2!,
+            3 => _value3!,
+            4 => _value4!,
+            6 => _value6!,
+            7 => _value7!,
+            8 => _value8!,
+            9 => _value9!,
+            10 => _value10!,
+            11 => _value11!,
+            12 => _value12!,
+            13 => _value13!,
+            14 => _value14!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T6"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT6([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T6 value, out Unio<T0, T1, T2, T3, T4, T5, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder)
+    {
+        if (_index == 6) { value = _value6!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            2 => _value2!,
+            3 => _value3!,
+            4 => _value4!,
+            5 => _value5!,
+            7 => _value7!,
+            8 => _value8!,
+            9 => _value9!,
+            10 => _value10!,
+            11 => _value11!,
+            12 => _value12!,
+            13 => _value13!,
+            14 => _value14!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T7"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT7([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T7 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T8, T9, T10, T11, T12, T13, T14, T15, T16> remainder)
+    {
+        if (_index == 7) { value = _value7!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            2 => _value2!,
+            3 => _value3!,
+            4 => _value4!,
+            5 => _value5!,
+            6 => _value6!,
+            8 => _value8!,
+            9 => _value9!,
+            10 => _value10!,
+            11 => _value11!,
+            12 => _value12!,
+            13 => _value13!,
+            14 => _value14!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T8"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT8([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T8 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T9, T10, T11, T12, T13, T14, T15, T16> remainder)
+    {
+        if (_index == 8) { value = _value8!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            2 => _value2!,
+            3 => _value3!,
+            4 => _value4!,
+            5 => _value5!,
+            6 => _value6!,
+            7 => _value7!,
+            9 => _value9!,
+            10 => _value10!,
+            11 => _value11!,
+            12 => _value12!,
+            13 => _value13!,
+            14 => _value14!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T9"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT9([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T9 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T10, T11, T12, T13, T14, T15, T16> remainder)
+    {
+        if (_index == 9) { value = _value9!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            2 => _value2!,
+            3 => _value3!,
+            4 => _value4!,
+            5 => _value5!,
+            6 => _value6!,
+            7 => _value7!,
+            8 => _value8!,
+            10 => _value10!,
+            11 => _value11!,
+            12 => _value12!,
+            13 => _value13!,
+            14 => _value14!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T10"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT10([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T10 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T11, T12, T13, T14, T15, T16> remainder)
+    {
+        if (_index == 10) { value = _value10!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            2 => _value2!,
+            3 => _value3!,
+            4 => _value4!,
+            5 => _value5!,
+            6 => _value6!,
+            7 => _value7!,
+            8 => _value8!,
+            9 => _value9!,
+            11 => _value11!,
+            12 => _value12!,
+            13 => _value13!,
+            14 => _value14!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T11"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT11([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T11 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T12, T13, T14, T15, T16> remainder)
+    {
+        if (_index == 11) { value = _value11!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            2 => _value2!,
+            3 => _value3!,
+            4 => _value4!,
+            5 => _value5!,
+            6 => _value6!,
+            7 => _value7!,
+            8 => _value8!,
+            9 => _value9!,
+            10 => _value10!,
+            12 => _value12!,
+            13 => _value13!,
+            14 => _value14!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T12"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT12([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T12 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T13, T14, T15, T16> remainder)
+    {
+        if (_index == 12) { value = _value12!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            2 => _value2!,
+            3 => _value3!,
+            4 => _value4!,
+            5 => _value5!,
+            6 => _value6!,
+            7 => _value7!,
+            8 => _value8!,
+            9 => _value9!,
+            10 => _value10!,
+            11 => _value11!,
+            13 => _value13!,
+            14 => _value14!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T13"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT13([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T13 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T14, T15, T16> remainder)
+    {
+        if (_index == 13) { value = _value13!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            2 => _value2!,
+            3 => _value3!,
+            4 => _value4!,
+            5 => _value5!,
+            6 => _value6!,
+            7 => _value7!,
+            8 => _value8!,
+            9 => _value9!,
+            10 => _value10!,
+            11 => _value11!,
+            12 => _value12!,
+            14 => _value14!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T14"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT14([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T14 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T15, T16> remainder)
+    {
+        if (_index == 14) { value = _value14!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            2 => _value2!,
+            3 => _value3!,
+            4 => _value4!,
+            5 => _value5!,
+            6 => _value6!,
+            7 => _value7!,
+            8 => _value8!,
+            9 => _value9!,
+            10 => _value10!,
+            11 => _value11!,
+            12 => _value12!,
+            13 => _value13!,
+            15 => _value15!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T15"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT15([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T15 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T16> remainder)
+    {
+        if (_index == 15) { value = _value15!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            2 => _value2!,
+            3 => _value3!,
+            4 => _value4!,
+            5 => _value5!,
+            6 => _value6!,
+            7 => _value7!,
+            8 => _value8!,
+            9 => _value9!,
+            10 => _value10!,
+            11 => _value11!,
+            12 => _value12!,
+            13 => _value13!,
+            14 => _value14!,
+            16 => _value16!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T16"/> and returns the remaining union when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT16([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T16 value, out Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> remainder)
+    {
+        if (_index == 16) { value = _value16!; remainder = default; return true; }
+        value = default;
+        remainder = _index switch
+        {
+            0 => _value0!,
+            1 => _value1!,
+            2 => _value2!,
+            3 => _value3!,
+            4 => _value4!,
+            5 => _value5!,
+            6 => _value6!,
+            7 => _value7!,
+            8 => _value8!,
+            9 => _value9!,
+            10 => _value10!,
+            11 => _value11!,
+            12 => _value12!,
+            13 => _value13!,
+            14 => _value14!,
+            15 => _value15!,
+            _ => throw new InvalidOperationException("Invalid union state.")
+        };
+        return false;
+    }
+
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public TResult Match<TResult>(Func<T0, TResult> whenT0, Func<T1, TResult> whenT1, Func<T2, TResult> whenT2, Func<T3, TResult> whenT3, Func<T4, TResult> whenT4, Func<T5, TResult> whenT5, Func<T6, TResult> whenT6, Func<T7, TResult> whenT7, Func<T8, TResult> whenT8, Func<T9, TResult> whenT9, Func<T10, TResult> whenT10, Func<T11, TResult> whenT11, Func<T12, TResult> whenT12, Func<T13, TResult> whenT13, Func<T14, TResult> whenT14, Func<T15, TResult> whenT15, Func<T16, TResult> whenT16) =>

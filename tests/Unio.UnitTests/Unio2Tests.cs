@@ -97,6 +97,34 @@ public class Unio2Tests
     }
 
     [Fact]
+    public void TryPickT0_WhenT0_ReturnsTrueAndDefaultRemainder()
+    {
+        Unio<int, string> union = 42;
+
+        Assert.True(union.TryPickT0(out int value, out string? remainder));
+        Assert.Equal(42, value);
+        Assert.Null(remainder);
+    }
+
+    [Fact]
+    public void TryPickT0_WhenT1_ReturnsFalseAndRemainder()
+    {
+        Unio<int, string> union = "hello";
+
+        Assert.False(union.TryPickT0(out _, out string? remainder));
+        Assert.Equal("hello", remainder);
+    }
+
+    [Fact]
+    public void TryPickT1_WhenT0_ReturnsFalseAndRemainder()
+    {
+        Unio<int, string> union = 42;
+
+        Assert.False(union.TryPickT1(out _, out int remainder));
+        Assert.Equal(42, remainder);
+    }
+
+    [Fact]
     public void Value_ReturnsCurrentValue()
     {
         Unio<int, string> unionInt = 42;

@@ -80,11 +80,12 @@ jobs:
           sleep 2
 
           # Upload new artifacts to the draft release
-          echo "📦 Uploading new NuGet packages..."
-          for file in ./artifacts/*.nupkg; do
+          echo "📦 Uploading NuGet packages and symbol packages..."
+          for file in ./artifacts/*.nupkg ./artifacts/*.snupkg; do
+            [ -e "$file" ] || continue
             gh release upload "$TAG" "$file" --clobber
           done
-          echo "✅ Uploaded NuGet packages to draft release"
+          echo "✅ Uploaded NuGet packages and symbol packages to draft release"
 
       - name: Summary
         if: steps.check-tag.outputs.exists == 'false'

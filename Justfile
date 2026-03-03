@@ -49,7 +49,7 @@ test-filter QUERY:
 
 # ===== Packaging / Release =====
 pack *ARGS:
-    dotnet pack --configuration "{{CONFIG}}" --nologo --verbosity minimal -o "./artifacts/packages" {{ARGS}}
+    dotnet pack --configuration "{{CONFIG}}" --nologo --verbosity minimal --include-symbols -p:SymbolPackageFormat=snupkg -o "./artifacts/packages" {{ARGS}}
 
 # ===== Benchmarks =====
 bench *ARGS:
