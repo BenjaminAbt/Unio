@@ -12,6 +12,9 @@ jobs:
   publish-nuget:
     name: Publish to NuGet.org
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Download release assets
@@ -46,14 +49,19 @@ jobs:
 
           echo "Found $PACKAGE_COUNT package(s) to publish"
 
+      # Get a short-lived NuGet API key
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Publish to NuGet.org
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
           for package in ./artifacts/*.nupkg; do
             echo "Publishing $package to NuGet.org..."
             dotnet nuget push "$package" \
-              --api-key "$NUGET_API_KEY" \
+              --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" \
               --source https://api.nuget.org/v3/index.json \
               --skip-duplicate
           done
