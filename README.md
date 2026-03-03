@@ -12,6 +12,7 @@ High-performance discriminated unions for C# with exhaustive matching, `TryGet` 
 [![Unio.SourceGenerator](https://img.shields.io/nuget/v/Unio.SourceGenerator.svg?label=Unio.SourceGenerator)](https://www.nuget.org/packages/Unio.SourceGenerator)
 [![Unio.Types](https://img.shields.io/nuget/v/Unio.Types.svg?label=Unio.Types)](https://www.nuget.org/packages/Unio.Types)
 [![Unio.AspNetCore](https://img.shields.io/nuget/v/Unio.AspNetCore.svg?label=Unio.AspNetCore)](https://www.nuget.org/packages/Unio.AspNetCore)
+[![Unio.Extensions](https://img.shields.io/nuget/v/Unio.Extensions.svg?label=Unio.Extensions)](https://www.nuget.org/packages/Unio.Extensions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
@@ -83,6 +84,7 @@ Discriminated unions are a powerful pattern for modeling mutually exclusive stat
 | `Unio.SourceGenerator` | Roslyn incremental source generator for named unions | [![NuGet](https://img.shields.io/nuget/vpre/Unio.SourceGenerator.svg)](https://www.nuget.org/packages/Unio.SourceGenerator) |
 | `Unio.Types` | 39 pre-built sentinel and value-carrying types | [![NuGet](https://img.shields.io/nuget/vpre/Unio.Types.svg)](https://www.nuget.org/packages/Unio.Types) |
 | `Unio.AspNetCore` | ASP.NET Core Minimal API integration (`ToHttpResult()` extension) | [![NuGet](https://img.shields.io/nuget/vpre/Unio.AspNetCore.svg)](https://www.nuget.org/packages/Unio.AspNetCore) |
+| `Unio.Extensions` | Fluent functional extensions for `Unio<T0,T1>` including `ValueTask` async helpers | [![NuGet](https://img.shields.io/nuget/vpre/Unio.Extensions.svg)](https://www.nuget.org/packages/Unio.Extensions) |
 
 ---
 
@@ -100,6 +102,9 @@ dotnet add package Unio.Types
 
 # ASP.NET Core Minimal API integration (optional)
 dotnet add package Unio.AspNetCore
+
+# Functional extensions (optional)
+dotnet add package Unio.Extensions
 ```
 
 ---
@@ -193,6 +198,25 @@ Unio<Success<Order>, ValidationError, Conflict> CreateOrder(OrderRequest req)
     if (HasConflict(req)) return new Conflict();
     return new Success<Order>(ProcessOrder(req));
 }
+```
+
+### Functional Extensions (`Unio.Extensions`)
+
+Install `Unio.Extensions` for fluent map/bind/tap/recover APIs and `ValueTask`-based async composition.
+
+```csharp
+using Unio;
+using Unio.Extensions;
+
+Unio<int, string> value = "invalid";
+
+int normalized = value
+    .TapT1(static error => Console.WriteLine(error))
+    .EnsureT1(static e => e.Length < 20, static _ => -1)
+    .RecoverT1(static _ => -1);
+
+Unio<double, string> asyncMapped = await ((Unio<int, string>)21)
+    .BindT0Async(static i => ValueTask.FromResult(i * 2.0));
 ```
 
 ---

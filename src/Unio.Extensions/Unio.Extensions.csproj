@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Unio\Unio.csproj" />
+    <ProjectReference Include="..\Unio.Types\Unio.Types.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,11 +1,34 @@
 // Copyright © BEN ABT (https://benjamin-abt.com) - all rights reserved
 
 using System.Globalization;
+using Unio.Types;
 
 namespace Unio.Extensions.UnitTests;
 
 public class UnioFunctionalExtensionsTests
 {
+    [Fact]
+    public void MapT0_WhenUnionHoldsT0_MapsValue()
+    {
+        Unio<int, string> value = 5;
+
+        Unio<string, string> result = value.MapT0(static i => $"#{i}");
+
+        Assert.True(result.IsT0);
+        Assert.Equal("#5", result.AsT0);
+    }
+
+    [Fact]
+    public void BiMap_WhenUnionHoldsT1_MapsSecondBranch()
+    {
+        Unio<int, string> value = "hello";
+
+        Unio<double, int> result = value.BiMap(static i => i * 2.0, static s => s.Length);
+
+        Assert.True(result.IsT1);
+        Assert.Equal(5, result.AsT1);
+    }
+
     [Fact]
     public void BindT0_WhenUnionHoldsT0_BindsToNewUnion()
     {
@@ -39,6 +62,33 @@ public class UnioFunctionalExtensionsTests
 
         Assert.True(result.IsT1);
         Assert.Equal(17, result.AsT1);
+    }
+
+    [Fact]
+    public async Task BindT0Async_WhenUnionHoldsT0_MapsUsingValueTask()
+    {
+        Unio<int, string> value = 21;
+
+        Unio<double, string> result = await value.BindT0Async(static i => ValueTask.FromResult(i * 2.0));
+
+        Assert.True(result.IsT0);
+        Assert.Equal(42.0, result.AsT0);
+    }
+
+    [Fact]
+    public async Task TapT1Async_WhenUnionHoldsT1_ExecutesAction()
+    {
+        Unio<int, string> value = "abc";
+        int len = 0;
+
+        Unio<int, string> result = await value.TapT1Async(s =>
+        {
+            len = s.Length;
+            return ValueTask.CompletedTask;
+        });
+
+        Assert.Equal(3, len);
+        Assert.Equal(value, result);
     }
 
     [Fact]
@@ -95,6 +145,37 @@ public class UnioFunctionalExtensionsTests
     }
 
     [Fact]
+    public void RecoverT0_WhenUnionHoldsT0_ReturnsRecoveredT1()
+    {
+        Unio<int, string> value = 9;
+
+        string result = value.RecoverT0(static i => $"N:{i}");
+
+        Assert.Equal("N:9", result);
+    }
+
+    [Fact]
+    public void EnsureT0_WhenPredicateFails_ConvertsToT1()
+    {
+        Unio<int, string> value = 3;
+
+        Unio<int, string> result = value.EnsureT0(static i => i > 5, static i => $"too-small:{i}");
+
+        Assert.True(result.IsT1);
+        Assert.Equal("too-small:3", result.AsT1);
+    }
+
+    [Fact]
+    public void PickT0Or_WhenUnionHoldsT1_UsesFallback()
+    {
+        Unio<int, string> value = "x";
+
+        int result = value.PickT0Or(static s => s.Length);
+
+        Assert.Equal(1, result);
+    }
+
+    [Fact]
     public void Fold_WhenUnionHoldsT1_ReturnsProjectedResult()
     {
         Unio<int, string> value = "abc";
@@ -104,5 +185,42 @@ public class UnioFunctionalExtensionsTests
             static s => $"s:{s}");
 
         Assert.Equal("s:abc", result);
+    }
+
+    [Fact]
+    public async Task FoldAsync_WhenUnionHoldsT0_UsesValueTaskBranch()
+    {
+        Unio<int, string> value = 7;
+
+        string result = await value.FoldAsync(
+            static i => ValueTask.FromResult($"i:{i}"),
+            static s => ValueTask.FromResult($"s:{s}"));
+
+        Assert.Equal("i:7", result);
+    }
+
+    [Fact]
+    public void SelectMany_WhenBothAreT0_ProjectsValue()
+    {
+        Unio<int, string> value = 5;
+
+        Unio<int, string> result =
+            from left in value
+            from right in (Unio<int, string>)(left * 2)
+            select left + right;
+
+        Assert.True(result.IsT0);
+        Assert.Equal(15, result.AsT0);
+    }
+
+    [Fact]
+    public void ToResult_And_FromResult_Roundtrip()
+    {
+        Unio<int, string> value = 42;
+
+        Unio<Result<int>, Error<string>> wrapped = value.ToResult();
+        Unio<int, string> roundtrip = wrapped.FromResult();
+
+        Assert.Equal(value, roundtrip);
     }
 }
