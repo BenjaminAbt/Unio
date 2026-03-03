@@ -89,6 +89,26 @@ public readonly struct Unio<T0, T1> : IEquatable<Unio<T0, T1>>,
         value = default; return false;
     }
 
+    /// <summary>Attempts to pick the value as <typeparamref name="T0"/> and returns the other value as remainder when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT0([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T0 value, [System.Diagnostics.CodeAnalysis.MaybeNullWhen(true)] out T1 remainder)
+    {
+        if (_index == 0) { value = _value0!; remainder = default; return true; }
+        value = default;
+        remainder = _index == 1 ? _value1! : throw new InvalidOperationException("Invalid union state.");
+        return false;
+    }
+
+    /// <summary>Attempts to pick the value as <typeparamref name="T1"/> and returns the other value as remainder when it does not match.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool TryPickT1([System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T1 value, [System.Diagnostics.CodeAnalysis.MaybeNullWhen(true)] out T0 remainder)
+    {
+        if (_index == 1) { value = _value1!; remainder = default; return true; }
+        value = default;
+        remainder = _index == 0 ? _value0! : throw new InvalidOperationException("Invalid union state.");
+        return false;
+    }
+
     /// <summary>Exhaustive match: applies the matching function based on the stored type and returns the result.</summary>
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public TResult Match<TResult>(Func<T0, TResult> whenT0, Func<T1, TResult> whenT1) =>
