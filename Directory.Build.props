@@ -50,6 +50,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Performance">
+    <!-- Enable Dynamic Profile-Guided Optimization for runtime performance -->
     <TieredPGO>true</TieredPGO>
     <DynamicPGO>true</DynamicPGO>
   </PropertyGroup>
