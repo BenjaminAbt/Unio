@@ -4,7 +4,6 @@
     <PackageId>Unio.AspNetCore</PackageId>
     <IsPackable>true</IsPackable>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +17,6 @@
 
   <ItemGroup>
     <None Include="readme.md" Pack="true" PackagePath="" />
-    <None Include="LICENSE.txt" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>

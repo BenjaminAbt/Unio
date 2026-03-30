@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Assembly">
-    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0;net10.0;net11.0</TargetFrameworks>
     <RootNamespace>$(MSBuildProjectName)</RootNamespace>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
   </PropertyGroup>
@@ -50,6 +50,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Performance">
+    <!-- Enable Dynamic Profile-Guided Optimization for runtime performance -->
     <TieredPGO>true</TieredPGO>
     <DynamicPGO>true</DynamicPGO>
   </PropertyGroup>
@@ -69,6 +70,7 @@
       Simple, performant and scalable.
     </Description>
     <PackageProjectUrl>https://github.com/BenjaminAbt/Unio</PackageProjectUrl>
+    <License>MIT</License>
     <RepositoryUrl>https://github.com/BenjaminAbt/Unio</RepositoryUrl>
     <PackageTags>Union, Unio, Discriminated Unions, DDD, Functional Programming</PackageTags>
     <!-- Central package icon for NuGet packages (file is included into the package via ItemGroup below) -->

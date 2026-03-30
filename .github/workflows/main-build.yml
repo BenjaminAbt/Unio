@@ -14,7 +14,8 @@ jobs:
     name: Build, Test and Pack
     uses: ./.github/workflows/build-and-test.yml
     with:
-      create-pack: true
+      upload-packages: true
+      upload-test-results: false
 
   create-draft-release:
     name: Create Draft Release
@@ -22,7 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: read
 
     steps:
       - name: Checkout code
@@ -80,7 +80,7 @@ jobs:
           sleep 2
 
           # Upload new artifacts to the draft release
-          echo "📦 Uploading NuGet packages and symbol packages..."
+          echo "📦 Uploading new NuGet packages and symbol packages..."
           for file in ./artifacts/*.nupkg ./artifacts/*.snupkg; do
             [ -e "$file" ] || continue
             gh release upload "$TAG" "$file" --clobber

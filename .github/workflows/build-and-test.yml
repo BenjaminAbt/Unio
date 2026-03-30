@@ -10,14 +10,12 @@ on:
         default: 'Release'
       upload-test-results:
         description: 'Whether to upload test results as artifacts'
-        required: false
+        required: true
         type: boolean
-        default: false
-      create-pack:
-        description: 'Whether to pack NuGet packages'
-        required: false
+      upload-packages:
+        description: 'Whether to upload NuGet packages'
+        required: true
         type: boolean
-        default: false
     outputs:
       version:
         description: 'The calculated version from NBGV'
@@ -71,11 +69,10 @@ jobs:
           path: '**/TestResults/**/*.trx'
 
       - name: Pack NuGet packages
-        if: inputs.create-pack
         run: dotnet pack --configuration ${{ inputs.configuration }} --no-build --include-symbols -p:SymbolPackageFormat=snupkg --output ./artifacts /p:PackageVersion=${{ steps.nbgv.outputs.SemVer2 }}
 
       - name: Upload NuGet packages
-        if: inputs.create-pack
+        if: inputs.upload-packages
         uses: actions/upload-artifact@v4
         with:
           name: nuget-packages
