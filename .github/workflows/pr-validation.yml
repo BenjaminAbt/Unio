@@ -14,4 +14,5 @@ jobs:
     name: Build and Test (all frameworks)
     uses: ./.github/workflows/build-and-test.yml
     with:
+      upload-packages: false
       upload-test-results: true
