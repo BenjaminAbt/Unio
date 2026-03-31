@@ -70,7 +70,7 @@
       Simple, performant and scalable.
     </Description>
     <PackageProjectUrl>https://github.com/BenjaminAbt/Unio</PackageProjectUrl>
-    <License>MIT</License>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/BenjaminAbt/Unio</RepositoryUrl>
     <PackageTags>Union, Unio, Discriminated Unions, DDD, Functional Programming</PackageTags>
     <!-- Central package icon for NuGet packages (file is included into the package via ItemGroup below) -->
