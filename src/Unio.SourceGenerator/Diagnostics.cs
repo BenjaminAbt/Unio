@@ -43,7 +43,7 @@ internal static class Diagnostics
         title: "Duplicate type arguments in union",
         messageFormat: "Type '{0}' has duplicate type argument '{1}' in UnioBase<...> which makes the union ambiguous",
         category: "Unio.SourceGenerator",
-        defaultSeverity: DiagnosticSeverity.Warning,
+        defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
 
     /// <summary>
@@ -56,5 +56,21 @@ internal static class Diagnostics
         messageFormat: "Class '{0}' should be declared as 'sealed' for correct union semantics",
         category: "Unio.SourceGenerator",
         defaultSeverity: DiagnosticSeverity.Info,
+        isEnabledByDefault: true);
+
+    public static readonly DiagnosticDescriptor UnsupportedDeclaration = new(
+        id: "UNIO005",
+        title: "Unsupported union declaration",
+        messageFormat: "Type '{0}' must be a non-generic, non-nested class that is not abstract, static or file-local",
+        category: "Unio.SourceGenerator",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
+
+    public static readonly DiagnosticDescriptor MustBePartial = new(
+        id: "UNIO006",
+        title: "Union class must be partial",
+        messageFormat: "Type '{0}' must be declared as 'partial'",
+        category: "Unio.SourceGenerator",
+        defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
 }

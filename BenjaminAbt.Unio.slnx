@@ -1,10 +1,18 @@
 <Solution>
+
+  <Folder Name="/samples/">
+    <Project Path="samples/Unio.NativeAot/Unio.NativeAot.csproj" />
+    <Project Path="samples/Unio.AspNetCore.NativeAot/Unio.AspNetCore.NativeAot.csproj" />
+  </Folder>
+
   <Folder Name="/perf/">
     <Project Path="perf/Unio.Benchmarks/Unio.Benchmarks.csproj" />
   </Folder>
+
   <Folder Name="/Solution Items/">
     <File Path="README.md" />
   </Folder>
+
   <Folder Name="/src/">
     <Project Path="src/Unio.AspNetCore/Unio.AspNetCore.csproj" />
     <Project Path="src/Unio.Extensions/Unio.Extensions.csproj" />
@@ -12,14 +20,18 @@
     <Project Path="src/Unio.Types/Unio.Types.csproj" />
     <Project Path="src/Unio/Unio.csproj" />
   </Folder>
+
   <Folder Name="/tests/">
+    <Project Path="tests/Unio.AotCompatibility/Unio.AotCompatibility.csproj" />
     <Project Path="tests/Unio.AspNetCore.UnitTests/Unio.AspNetCore.UnitTests.csproj" />
     <Project Path="tests/Unio.Extensions.UnitTests/Unio.Extensions.UnitTests.csproj" />
     <Project Path="tests/Unio.SourceGenerator.UnitTests/Unio.SourceGenerator.UnitTests.csproj" />
     <Project Path="tests/Unio.Types.UnitTests/Unio.Types.UnitTests.csproj" />
     <Project Path="tests/Unio.UnitTests/Unio.UnitTests.csproj" />
   </Folder>
+
   <Folder Name="/tools/">
     <Project Path="tools/Unio.CodeGen/Unio.CodeGen.csproj" />
   </Folder>
+
 </Solution>

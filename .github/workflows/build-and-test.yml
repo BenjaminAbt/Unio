@@ -30,26 +30,24 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
 
       - name: Setup .NET (stable)
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6.0.0
         with:
           dotnet-version: |
-            8.0.x
             9.0.x
             10.0.x
 
-      - name: Setup .NET (preview)
-        uses: actions/setup-dotnet@v5
+      - name: Setup .NET 11 RC1
+        uses: actions/setup-dotnet@v6.0.0
         with:
-          dotnet-version: 11.0.x
-          dotnet-quality: preview
+          global-json-file: global.json
 
       - name: Calculate Version with NBGV
-        uses: dotnet/nbgv@master
+        uses: dotnet/nbgv@v0.5.2
         id: nbgv
         with:
           setAllVars: true
@@ -63,7 +61,7 @@ jobs:
 
       - name: Upload test results
         if: always() && inputs.upload-test-results
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: test-results
           path: '**/TestResults/**/*.trx'
@@ -73,10 +71,55 @@ jobs:
 
       - name: Upload NuGet packages
         if: inputs.upload-packages
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: nuget-packages
           path: |
             ./artifacts/*.nupkg
             ./artifacts/*.snupkg
           retention-days: 30
+
+  native-aot:
+    name: Native AOT (${{ matrix.os }}, ${{ matrix.framework }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        framework: [net9.0, net10.0, net11.0]
+        include:
+          - os: ubuntu-latest
+            rid: linux-x64
+            extension: ''
+          - os: windows-latest
+            rid: win-x64
+            extension: '.exe'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7.0.1
+      - name: Setup .NET (stable)
+        uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: |
+            9.0.x
+            10.0.x
+      - name: Setup .NET 11 RC1
+        uses: actions/setup-dotnet@v6.0.0
+        with:
+          global-json-file: global.json
+      - name: Install native build prerequisites
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y clang zlib1g-dev
+      - name: Publish core and extensions with Native AOT
+        run: dotnet publish samples/Unio.NativeAot -c Release -f ${{ matrix.framework }} -r ${{ matrix.rid }} -o artifacts/aot/core
+      - name: Analyze all runtime library APIs with Native AOT
+        run: dotnet publish tests/Unio.AotCompatibility -c Release -f ${{ matrix.framework }} -r ${{ matrix.rid }} -o artifacts/aot/analysis
+      - name: Execute native analysis app
+        run: ./artifacts/aot/analysis/Unio.AotCompatibility${{ matrix.extension }}
+      - name: Execute native core smoke tests
+        run: ./artifacts/aot/core/Unio.NativeAot${{ matrix.extension }}
+      - name: Publish HTTP example with Native AOT
+        run: dotnet publish samples/Unio.AspNetCore.NativeAot -c Release -f ${{ matrix.framework }} -r ${{ matrix.rid }} -o artifacts/aot/http
+      - name: Execute native HTTP smoke tests
+        run: ./artifacts/aot/http/Unio.AspNetCore.NativeAot${{ matrix.extension }} --smoke

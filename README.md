@@ -22,6 +22,7 @@ High-performance discriminated unions for C# with exhaustive matching, `TryGet` 
 - [Why Unio?](#why-unio)
 - [Packages](#packages)
 - [Installation](#installation)
+- [Native AOT](#native-aot)
 - [Quick Start](#quick-start)
   - [Generic Union Types](#generic-union-types)
   - [Named Union Types (Source Generator)](#named-union-types-source-generator)
@@ -67,12 +68,13 @@ Discriminated unions are a powerful pattern for modeling mutually exclusive stat
 
 - **Typed generic fields** - no casts to `object`, no boxing
 - **Exhaustive matching** - `Match<TResult>` and `Switch` force handling of all cases
-- **Allocation-free matching** - `Match<TState, TResult>`, `Switch<TState>`, `MatchAsync<TState, TResult>` and `SwitchAsync<TState>` pass context via a state parameter instead of a capturing closure, eliminating lambda allocation on hot paths
+- **Allocation-free matching** - `Match<TState, TResult>` and `Switch<TState>` pass context via a state parameter instead of a capturing closure; use the Task-returning overloads for asynchronous work
 - **Safe access** - `TryGetT0..TryGetTn` pattern prevents runtime exceptions
 - **Full value equality** - `IEquatable<T>`, `==`, `!=`, `GetHashCode`
 - **Source generator** - define named unions like `StringOrInt` with zero boilerplate
 - **Pre-built types** - 39 sentinel and value types for common patterns (NotFound, Success, Error, etc.)
-- **Maximum performance** - `readonly struct` core type eliminates heap allocation; `[AggressiveInlining]` on all hot paths, TieredPGO/DynamicPGO enabled
+- **Performance** - typed `readonly struct` storage avoids boxing during construction and matching; hot paths use `[AggressiveInlining]` hints
+- **Native AOT** - runtime packages enable AOT and trim analyzers; native publish and execution are checked in CI
 
 ---
 
@@ -84,7 +86,7 @@ Discriminated unions are a powerful pattern for modeling mutually exclusive stat
 | `Unio.SourceGenerator` | Roslyn incremental source generator for named unions | [![NuGet](https://img.shields.io/nuget/vpre/Unio.SourceGenerator.svg)](https://www.nuget.org/packages/Unio.SourceGenerator) |
 | `Unio.Types` | 39 pre-built sentinel and value-carrying types | [![NuGet](https://img.shields.io/nuget/vpre/Unio.Types.svg)](https://www.nuget.org/packages/Unio.Types) |
 | `Unio.AspNetCore` | ASP.NET Core Minimal API integration (`ToHttpResult()` extension) | [![NuGet](https://img.shields.io/nuget/vpre/Unio.AspNetCore.svg)](https://www.nuget.org/packages/Unio.AspNetCore) |
-| `Unio.Extensions` | Fluent functional extensions for `Unio<T0,T1>` including `ValueTask` async helpers | [![NuGet](https://img.shields.io/nuget/vpre/Unio.Extensions.svg)](https://www.nuget.org/packages/Unio.Extensions) |
+| `Unio.Extensions` | Fluent functional extensions for `Unio<T0,T1>` including `Task` async helpers | [![NuGet](https://img.shields.io/nuget/vpre/Unio.Extensions.svg)](https://www.nuget.org/packages/Unio.Extensions) |
 
 ---
 
@@ -106,6 +108,49 @@ dotnet add package Unio.AspNetCore
 # Functional extensions (optional)
 dotnet add package Unio.Extensions
 ```
+
+---
+
+## Native AOT
+
+Runtime packages target **.NET 9, .NET 10 and .NET 11 RC1**. .NET 8 support has been removed.
+
+| Package | Native AOT / trimming | Reference metadata verification |
+|---|---|---|
+| `Unio` | Supported, including all arities 2–20 and `UnioBase<...>` | Enabled for .NET 10+ |
+| `Unio.Types` | Supported | Enabled for .NET 10+ |
+| `Unio.Extensions` | Supported | Enabled for .NET 10+ |
+| `Unio.SourceGenerator` | Generated code is supported; the generator runs only at build time | Not a runtime assembly |
+| `Unio.AspNetCore` | Supported with source-generated JSON metadata for response bodies | Disabled for the ASP.NET Core framework reference |
+
+The runtime libraries declare `<IsAotCompatible>true</IsAotCompatible>`, which enables the AOT, trimming and single-file analyzers. `VerifyReferenceAotCompatibility` is an additional dependency metadata check (IL3058), not a replacement for compiling and executing native code. It is enabled for .NET 10+ because earlier framework references lack the required assembly metadata. ASP.NET Core includes framework assemblies without this metadata, so the HTTP extension keeps this optional check disabled while retaining code analysis and native execution tests. See Microsoft's [AOT library guidance](https://learn.microsoft.com/dotnet/core/deploying/native-aot/#aot-compatibility-analyzers).
+
+For a consuming application:
+
+```xml
+<PropertyGroup>
+  <OutputType>Exe</OutputType>
+  <TargetFramework>net10.0</TargetFramework>
+  <PublishAot>true</PublishAot>
+</PropertyGroup>
+```
+
+Publish and execute the [core example](samples/Unio.NativeAot):
+
+```bash
+dotnet publish samples/Unio.NativeAot -c Release -f net10.0 -r linux-x64 -o artifacts/aot/core
+./artifacts/aot/core/Unio.NativeAot
+dotnet publish samples/Unio.AspNetCore.NativeAot -c Release -f net10.0 -r linux-x64 -o artifacts/aot/http
+./artifacts/aot/http/Unio.AspNetCore.NativeAot --smoke
+```
+
+On Windows use `-r win-x64` and the resulting `.exe` files. Native publishing requires the platform's [native build prerequisites](https://learn.microsoft.com/dotnet/core/deploying/native-aot/#prerequisites). The HTTP example also runs as a Minimal API when started without `--smoke`.
+
+The core example exercises generic and source-generated unions of every supported arity, matching, async operations, equality, formatting and the Types/Extensions packages. Both examples treat AOT/linker warnings as errors. A separate [compatibility app](tests/Unio.AotCompatibility) roots all runtime libraries to analyze unused APIs too. Keeping full rooting separate avoids retaining exponentially many generic remainder types from high-arity `TryPick` operations. CI publishes and runs all three apps for each target framework on Linux and Windows.
+
+For ASP.NET Core, use `result.ToHttpResult(ApiJsonContext.Default)` with a `JsonSerializerContext` containing every possible response body type. Alternatively, register that context using `ConfigureHttpJsonOptions` and call `ToHttpResult()`. Marker responses need no JSON metadata. See the [HTTP package documentation](src/Unio.AspNetCore/readme.md) for a complete example.
+
+User-provided delegates and payload types must also be AOT-compatible. The core requires no runtime reflection, dynamic code or custom linker descriptors. Named union classes and the `Value` property (which boxes value types) can allocate; Native AOT does not change those semantics.
 
 ---
 
@@ -202,7 +247,7 @@ Unio<Success<Order>, ValidationError, Conflict> CreateOrder(OrderRequest req)
 
 ### Functional Extensions (`Unio.Extensions`)
 
-Install `Unio.Extensions` for fluent map/bind/tap/recover APIs and `ValueTask`-based async composition.
+Install `Unio.Extensions` for fluent map/bind/tap/recover APIs and `Task`-based async composition.
 
 ```csharp
 using Unio;
@@ -216,7 +261,7 @@ int normalized = value
     .RecoverT1(static _ => -1);
 
 Unio<double, string> asyncMapped = await ((Unio<int, string>)21)
-    .BindT0Async(static i => ValueTask.FromResult(i * 2.0));
+    .BindT0Async(static i => Task.FromResult(i * 2.0));
 ```
 
 ---
@@ -545,7 +590,7 @@ public sealed partial class Result : IEquatable<Result>
 }
 ```
 
-All other members (`Index`, `IsT0`–`IsT2`, `AsT0`–`AsT2`, `TryGetT0`–`TryGetT2`, `Match<TResult>`, `Match<TState,TResult>`, `Switch`, `Switch<TState>`, `Match<TResult>`, `Match<TState,TResult>`, `MapT0`–`MapT2`, `ValueOrT0`–`ValueOrT2`, `ToString`, `IFormattable`, `ISpanFormattable`, `IUtf8SpanFormattable`) are **inherited from `UnioBase`**.
+All other members (`Index`, `IsT0`–`IsT2`, `AsT0`–`AsT2`, `TryGetT0`–`TryGetT2`, `Match<TResult>`, `Match<TState,TResult>`, `Switch`, `Switch<TState>`, `MapT0`–`MapT2`, `ValueOrT0`–`ValueOrT2`, `ToString`, `IFormattable`, `ISpanFormattable`, `IUtf8SpanFormattable`) are **inherited from `UnioBase`**.
 
 ### Diagnostics
 
@@ -555,8 +600,11 @@ The source generator reports errors at compile time:
 |---|---|---|
 | `UNIO001` | Error | Class marked with `[GenerateUnio]` does not inherit from `UnioBase<...>` |
 | `UNIO002` | Error | `UnioBase<...>` has unsupported arity (must be 2–20) |
-| `UNIO003` | Warning | Duplicate type arguments in `UnioBase<...>` |
-| `UNIO004` | Info | Union class should be declared as `sealed` |
+| `UNIO003` | Error | Duplicate type arguments in `UnioBase<...>` |
+| `UNIO005` | Error | Nested, generic, abstract, static or file-local union declaration |
+| `UNIO006` | Error | Union class is not partial |
+
+Use top-level, non-generic partial classes. The generator adds `sealed` automatically. `UNIO004` is reserved and is not emitted.
 
 Example:
 
@@ -746,10 +794,10 @@ Unio is built for maximum runtime performance:
 | `readonly struct` for core type | No heap allocation - stack-allocated for small value types |
 | `UnioBase<...>` abstract class | Named (source-generated) union types get class semantics and reference identity |
 | Typed generic fields (`T0? _value0`) | No `object` boxing - value types stored directly |
-| `[MethodImpl(AggressiveInlining)]` | JIT inlines all property accessors, `TryGet`, `Match`, `Switch` and operators |
+| `[MethodImpl(AggressiveInlining)]` | Inlining hints for the JIT and Native AOT compilers on hot paths |
 | `byte _index` discriminator | Minimal overhead: 1 byte to track the active type |
 | `switch` expressions | JIT compiles to efficient jump tables |
-| TieredPGO / DynamicPGO enabled | Profile-guided optimization for hot paths |
+| Host-controlled optimization | JIT tiering/PGO is configured by the consuming application; Native AOT has no JIT |
 | Source-generated named types | Inherit from `UnioBase` - only constructor + implicit operators generated |
 | Marker types (empty structs) | 1 byte size, zero-cost equality, `AggressiveInlining` |
 | `Match<TState, TResult>` / `Switch<TState>` | State passed as parameter to `static` lambdas - capturing closures never allocated |
@@ -759,7 +807,7 @@ Unio is built for maximum runtime performance:
 Run benchmarks yourself:
 
 ```bash
-dotnet run --configuration Release --project perf/Unio.Benchmarks/Unio.Benchmarks.csproj
+dotnet run --configuration Release --project perf/Unio.Benchmarks/Unio.Benchmarks.csproj --framework net10.0
 ```
 
 Expected characteristics:
@@ -778,22 +826,36 @@ Expected characteristics:
 Unio was inspired by [OneOf](https://github.com/mcintyre321/OneOf), which pioneered discriminated unions in C#. However, a more modern, high-performance implementation was needed - with a `readonly struct` core type, `UnioBase<...>` for named class-based unions, typed generic fields and full value equality semantics.
 
 
-| Feature | OneOf | Unio |
-|---|---|---|
-| **Core type** | `struct` (OneOf) / `class` (OneOfBase) | `readonly struct` |
-| **Named union base class** | `OneOfBase<...>` abstract class | `UnioBase<...>` abstract class |
-| **Value Storage** | `object` field (boxing for value types) | Typed generic fields |
-| **Source Generator** | Basic: constructor + implicit operators | Inherits from `UnioBase` - only constructor + implicit operators generated |
-| **Pre-built Types** | 13 types (5 in Assorted.cs + 4 named unions) | 39 types across 7 categories |
-| **Try Pattern** | ✅ `TryPickT#(out value, out remainder)` | ✅ `TryGetT#(out value)` + `TryPickT#(out value, out remainder)` |
-| **Allocation-free Match / Switch** | ❌ Capturing lambdas only | ✅ `Match<TState, TResult>` / `Switch<TState>` with `static` lambdas |
-| **`IEquatable<T>`** | ❌ Not implemented | ✅ Full structural equality |
-| **`==` / `!=` Operators** | ❌ Not available | ✅ Value equality operators |
-| **`AggressiveInlining`** | ❌ Not marked | ✅ On all property accessors and methods |
-| **Max Arity** | Up to 9 (OneOf.Extended) | 2–20 built-in |
-| **Value-Carrying Types** | `Success<T>`, `Error<T>`, `Result<T>` | All of OneOf's + `NotFound<T>`, `Created<T>`, `Updated<T>`, `ValidationError`, `ValidationError<T>` |
-| **Marker Type Implementation** | Mixed: classes (nested) + structs | All `readonly struct` with `IEquatable<T>` |
-| **Target Frameworks** | netstandard2.0 | net8.0, net9.0, net10.0 |
+The benchmark projects pin the compared package versions in [Directory.Packages.props](Directory.Packages.props). The measurements above describe the benchmark configuration; they are not Native AOT performance measurements.
+
+## Code Generation Tool
+
+The checked-in generic union implementations are generated from `tools/Unio.CodeGen/CodeGenerator.cs`. Change the template and regenerate all arities together:
+
+```bash
+dotnet run --project tools/Unio.CodeGen --framework net10.0 -- src/Unio
+```
+
+## Building & Testing
+
+Use the .NET 11 RC1 SDK (11.0.100-rc.1.26425.128) selected by `global.json` and install the .NET 9/10 runtimes to run all unit tests. The build-time source generator targets `netstandard2.0`; runtime packages target .NET 9/10/11.
+
+```bash
+dotnet test -c Release
+dotnet pack -c Release --no-build -o artifacts/packages
+dotnet publish tests/Unio.AotCompatibility -c Release -f net10.0 -r linux-x64 -o artifacts/aot/analysis
+./artifacts/aot/analysis/Unio.AotCompatibility
+```
+
+Also publish and execute both examples using the commands in [Native AOT](#native-aot).
+
+## Project Structure
+
+- `src/`: runtime packages and the build-time source generator.
+- `tests/`: unit/regression tests and the fully rooted Native AOT compatibility app.
+- `samples/`: runnable Native AOT console and ASP.NET Core examples.
+- `tools/Unio.CodeGen/`: templates for checked-in union implementations.
+- `perf/Unio.Benchmarks/`: BenchmarkDotNet comparisons.
 
 ---
 

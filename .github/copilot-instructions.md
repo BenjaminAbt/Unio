@@ -11,7 +11,7 @@
 Generic union value types supporting 2 to 20 type parameters:
 
 - `Unio<T0, T1>` through `Unio<T0, T1, ..., T19>`
-- All are `readonly struct` - stack-allocated, zero GC pressure
+- All are `readonly struct` - typed value storage avoids boxing during construction and matching
 - Backing fields: `byte _index`, `T0? _value0`, `T1? _value1`, etc.
 - Implement `IEquatable<Unio<...>>`, `IFormattable`, `ISpanFormattable`, `IUtf8SpanFormattable`
 
@@ -162,8 +162,7 @@ bool equal = a == b;         // true
 bool notEqual = a != b;      // false
 bool eq = a.Equals(b);       // true (IEquatable<T>)
 
-// Comparison operators (for comparable types)
-// <, >, <=, >= are supported
+// Ordering comparisons (<, >, <=, >=) are not defined.
 ```
 
 ## Source Generator - Named Unions
@@ -174,10 +173,10 @@ The `Unio.SourceGenerator` creates named union types from a `partial class` decl
 using Unio;
 
 [GenerateUnio]
-public partial class StringOrInt : IUnio<string, int>;
+public partial class StringOrInt : UnioBase<string, int>;
 
 [GenerateUnio]
-public partial class ApiResult : IUnio<Success<User>, NotFound, ValidationError>;
+public partial class ApiResult : UnioBase<Success<User>, NotFound, ValidationError>;
 ```
 
 The generator produces a `sealed partial class` that **inherits** `UnioBase<...>` - getting all operations for free. It only generates:
@@ -188,27 +187,19 @@ The generator produces a `sealed partial class` that **inherits** `UnioBase<...>
 - `==` and `!=` operators
 - `[MethodImpl(AggressiveInlining)]` on all generated methods
 
-All other members (`Index`, `IsT0..IsTn`, `AsT0..AsTn`, `TryGetT0..TryGetTn`, `Match<TResult>`, `Match<TState,TResult>`, `Switch`, `Switch<TState>`, `MatchAsync<TResult>`, `MatchAsync<TState,TResult>`, `SwitchAsync`, `SwitchAsync<TState>`, `ValueOrT0..ValueOrTn`, `ToString`, `IFormattable`, `ISpanFormattable`, `IUtf8SpanFormattable`) are **inherited from `UnioBase<...>`**.
+All other members (`Index`, `IsT0..IsTn`, `AsT0..AsTn`, `TryGetT0..TryGetTn`, `Match<TResult>`, `Match<TState,TResult>`, `Switch`, `Switch<TState>`, `ValueOrT0..ValueOrTn`, `ToString`, `IFormattable`, `ISpanFormattable`, `IUtf8SpanFormattable`) are **inherited from `UnioBase<...>`**. Async operations use the Task-returning `Match` and `Switch` overloads.
 
 ### Source Generator Diagnostics
 
 | ID | Severity | Description |
 |----|----------|-------------|
-| `UNIO001` | Error | Type has `[GenerateUnio]` but does not implement `IUnio<...>` |
+| `UNIO001` | Error | Type has `[GenerateUnio]` but does not inherit `UnioBase<...>` |
 | `UNIO002` | Error | Invalid arity (must be 2–20 type parameters) |
-| `UNIO003` | Warning | Duplicate type arguments detected |
-| `UNIO004` | Info | Class should be `sealed` |
+| `UNIO003` | Error | Duplicate type arguments detected |
+| `UNIO005` | Error | Nested, generic, abstract, static or file-local declaration |
+| `UNIO006` | Error | Class must be partial |
 
-### Marker Interfaces
-
-Used only by the source generator to detect union declarations:
-
-```csharp
-public interface IUnio<T0, T1>;                     // 2 types
-public interface IUnio<T0, T1, T2>;                  // 3 types
-// ... up to ...
-public interface IUnio<T0, T1, T2, ..., T19>;        // 20 types
-```
+The generator seals the class automatically. Use top-level, non-generic partial classes.
 
 ## Pre-built Types (Unio.Types)
 
@@ -292,15 +283,14 @@ Test coverage areas per arity:
 - `AsT#` success and failure (InvalidOperationException)
 - `TryGetT#` true/false paths
 - `Match`/`Switch` correct branch execution
-- `MatchAsync`/`SwitchAsync` async variants
-- `MatchAsync<TState,TResult>`/`SwitchAsync<TState>` state-passing async variants
+- Task-returning `Match`/`Switch` overloads, including state-passing async overloads
 - `Equals`, `GetHashCode`, `==`, `!=`
 - `ToString`, `IFormattable`, `ISpanFormattable`
 
 ## Build & Development
 
 ### Prerequisites
-- .NET SDK 8.0, 9.0 or 10.0
+- .NET 11 RC1 SDK (11.0.100-rc.1.26425.128) selected by `global.json`, with .NET 9 and .NET 10 runtimes for multi-target tests
 - Just command runner (optional, for convenience commands)
 
 ### Common Commands
@@ -329,13 +319,22 @@ just ci              # Full CI: clean → restore → format-check → build →
 ```
 
 ### Target Frameworks
-- .NET 8.0
 - .NET 9.0
 - .NET 10.0
+- .NET 11.0 RC1
+
+### Native AOT
+
+- Keep `IsAotCompatible=true` on runtime libraries; do not propagate it to test frameworks, benchmarks or the Roslyn generator.
+- Enable `VerifyReferenceAotCompatibility` for the core, Types and Extensions on .NET 10+.
+- The ASP.NET Core framework reference lacks complete AOT metadata; this extension disables only reference metadata verification.
+- HTTP response bodies require source-generated JSON metadata. Use `ToHttpResult(JsonSerializerContext)` or configure HTTP JSON options.
+- Validate changes with native publishing and execution of the examples in `samples/`, treating AOT/linker warnings as errors.
+- .NET Standard 2.0 is only the build-time generator's target; runtime packages do not support older target frameworks.
 
 ## Important Design Decisions
 
-1. **`readonly struct` for core types** - Stack-allocated value semantics; `Unio<T0,...>` types are instantiated via private constructors and implicit operators, with zero heap allocation
+1. **`readonly struct` for core types** - Value semantics with typed fields; `Value` boxes value types, while typed construction and matching avoid boxing
 2. **`UnioBase<...>` abstract classes** - Named unions (source-generated) inherit from these to get class semantics and reference identity while reusing all union logic
 3. **Sealed Named Unions** - Source-generated classes are `sealed` to prevent unintended subclassing and ensure correct union semantics
 3. **Implicit Operators** - Ergonomic union creation (`Unio<int, string> x = 42;`) is a core design goal

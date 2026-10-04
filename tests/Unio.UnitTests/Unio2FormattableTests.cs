@@ -11,6 +11,33 @@ namespace Unio.UnitTests;
 public class Unio2FormattableTests
 {
     [Fact]
+    public void TryFormat_Fallback_PreservesFormatAndProvider()
+    {
+        Unio<FormatOnlyValue, string> union = new FormatOnlyValue();
+        CultureInfo culture = CultureInfo.GetCultureInfo("de-DE");
+        Span<char> chars = stackalloc char[32];
+        Span<byte> bytes = stackalloc byte[32];
+
+        Assert.True(union.TryFormat(chars, out int charsWritten, "F2", culture));
+        Assert.Equal("12,50", chars[..charsWritten].ToString());
+        Assert.True(union.TryFormat(bytes, out int bytesWritten, "F2", culture));
+        Assert.Equal("12,50", System.Text.Encoding.UTF8.GetString(bytes[..bytesWritten]));
+
+        Assert.False(union.TryFormat(chars[..2], out charsWritten, "F2", culture));
+        Assert.Equal(0, charsWritten);
+        Assert.False(union.TryFormat(bytes[..2], out bytesWritten, "F2", culture));
+        Assert.Equal(0, bytesWritten);
+    }
+
+    private sealed class FormatOnlyValue : IFormattable
+    {
+        public string ToString(string? format, IFormatProvider? formatProvider)
+            => 12.5m.ToString(format, formatProvider);
+
+        public override string ToString() => "unformatted";
+    }
+
+    [Fact]
     public void IFormattable_ToString_WhenT0IsFormattable_UsesFormat()
     {
         Unio<int, string> union = 42;

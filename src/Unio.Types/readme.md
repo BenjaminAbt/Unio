@@ -4,6 +4,8 @@ Pre-built, high-performance sentinel and value types for use with [Unio](https:/
 
 ## Usage
 
+Targets .NET 9, .NET 10 and .NET 11 RC1. Compatible with Native AOT and trimming; reference AOT metadata is verified on .NET 10 and newer. Serialization of wrapped application values still requires metadata for those types.
+
 ```csharp
 using Unio;
 using Unio.Types;

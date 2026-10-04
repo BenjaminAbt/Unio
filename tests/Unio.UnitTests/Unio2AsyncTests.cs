@@ -5,8 +5,7 @@ using System.Globalization;
 namespace Unio.UnitTests;
 
 /// <summary>
-/// Unit tests for <see cref="Unio{T0,T1}.MatchAsync"/>, <see cref="Unio{T0,T1}.MatchAsync{TState,TResult}"/>,
-/// <see cref="Unio{T0,T1}.SwitchAsync"/> and <see cref="Unio{T0,T1}.SwitchAsync{TState}"/>.
+/// Unit tests for the Task-returning Match and Switch overloads, with and without caller state.
 /// </summary>
 public class Unio2AsyncTests
 {

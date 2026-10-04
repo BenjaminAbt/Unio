@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <!-- This executable is in the solution for build validation, not NuGet packaging. -->
+    <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
+    <PublishAot>true</PublishAot>
+    <!-- The ASP.NET Core shared framework is not fully annotated with AOT metadata. -->
+    <VerifyReferenceAotCompatibility>false</VerifyReferenceAotCompatibility>
+
+    <IlcTreatWarningsAsErrors>true</IlcTreatWarningsAsErrors>
+    <ILLinkTreatWarningsAsErrors>true</ILLinkTreatWarningsAsErrors>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/Unio.AspNetCore/Unio.AspNetCore.csproj" />
+  </ItemGroup>
+
+</Project>

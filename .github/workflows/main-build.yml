@@ -23,13 +23,16 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: read
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
 
       - name: Download NuGet packages
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8.0.1
         with:
           name: nuget-packages
           path: ./artifacts
@@ -59,7 +62,7 @@ jobs:
 
       - name: Create Draft Release
         if: steps.check-tag.outputs.exists == 'false'
-        uses: release-drafter/release-drafter@v6
+        uses: release-drafter/release-drafter@v7.9.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:

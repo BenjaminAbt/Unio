@@ -483,7 +483,7 @@ internal static class CodeGenerator
             sb.AppendLine("                break;");
         }
         sb.AppendLine("        }");
-        sb.AppendLine("        string s = ToString();");
+        sb.AppendLine("        string s = ToString(format.IsEmpty ? null : new string(format), provider);");
         sb.AppendLine("        if (s.AsSpan().TryCopyTo(destination)) { charsWritten = s.Length; return true; }");
         sb.AppendLine("        charsWritten = 0; return false;");
         sb.AppendLine("    }");
@@ -503,7 +503,7 @@ internal static class CodeGenerator
             sb.AppendLine("                break;");
         }
         sb.AppendLine("        }");
-        sb.AppendLine("        string s = ToString();");
+        sb.AppendLine("        string s = ToString(format.IsEmpty ? null : new string(format), provider);");
         sb.AppendLine("        int byteCount = System.Text.Encoding.UTF8.GetByteCount(s);");
         sb.AppendLine("        if (byteCount <= utf8Destination.Length) { bytesWritten = System.Text.Encoding.UTF8.GetBytes(s, utf8Destination); return true; }");
         sb.AppendLine("        bytesWritten = 0; return false;");

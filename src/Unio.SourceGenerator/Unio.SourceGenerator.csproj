@@ -23,7 +23,6 @@
   <PropertyGroup Label="Overrides">
     <!-- Source generators must target netstandard2.0 only -->
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
 

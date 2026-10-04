@@ -7,37 +7,47 @@ tag-template: 'v$RESOLVED_VERSION'
 # Categories for organizing release notes
 categories:
   - title: '🚀 Features'
-    labels:
-      - 'feature'
-      - 'enhancement'
+    when:
+      labels:
+        - 'feature'
+        - 'enhancement'
   - title: '🐛 Bug Fixes'
-    labels:
-      - 'bug'
-      - 'fix'
+    when:
+      labels:
+        - 'bug'
+        - 'fix'
   - title: '🔧 Maintenance'
-    labels:
-      - 'maintenance'
-      - 'chore'
-      - 'refactor'
-      - 'dependencies'
+    when:
+      labels:
+        - 'maintenance'
+        - 'chore'
+        - 'refactor'
+        - 'dependencies'
   - title: '📚 Documentation'
-    labels:
-      - 'documentation'
-      - 'docs'
+    when:
+      labels:
+        - 'documentation'
+        - 'docs'
   - title: '⚡ Performance'
-    labels:
-      - 'performance'
+    when:
+      labels:
+        - 'performance'
   - title: '🔒 Security'
-    labels:
-      - 'security'
-
-# Exclude certain labels from release notes
-exclude-labels:
-  - 'skip-changelog'
-  - 'wip'
+    when:
+      labels:
+        - 'security'
+  # Exclude these changes before categorization and version resolution.
+  - type: pre-exclude
+    when:
+      labels:
+        - 'skip-changelog'
+        - 'wip'
+  # NBGV supplies the workflow version; keep patch as the resolver fallback.
+  - type: version-resolver
+    semver-increment: patch
 
 # Change template (how each PR is listed)
-change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-template: '- $TITLE $AUTHORS (#$NUMBER)'
 change-title-escapes: '\<*_&' # Escape special markdown characters
 
 # Template for the release body
@@ -111,7 +121,3 @@ autolabeler:
     files:
       - 'perf/**/*'
       - '**/*Benchmark*.cs'
-
-# Version resolver (uses version from workflow input)
-version-resolver:
-  default: patch

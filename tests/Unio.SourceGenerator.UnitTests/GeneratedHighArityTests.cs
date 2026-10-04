@@ -3,8 +3,8 @@
 namespace Unio.SourceGenerator.UnitTests;
 
 /// <summary>
-/// Unit tests for source-generated high-arity union structs (<see cref="Result4"/> and <see cref="BigUnion"/>)
-/// verifying correct behaviour for 4-type and 9-type (maximum arity) unions.
+/// Unit tests for source-generated union classes (<see cref="Result4"/> and <see cref="BigUnion"/>)
+/// verifying correct behaviour for 4-type and 9-type unions.
 /// </summary>
 public class GeneratedHighArityTests
 {
