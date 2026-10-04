@@ -4,6 +4,12 @@ High-performance discriminated unions for C#. Designed with strongly typed gener
 
 ## Usage
 
+Targets .NET 9, .NET 10 and .NET 11 RC1. The core is compatible with Native AOT and trimming, including `UnioBase<...>` and source-generated named unions. It uses no runtime code generation or reflection.
+
+The package enables `IsAotCompatible` and verifies reference AOT metadata on .NET 10 and newer. See the [Native AOT examples and validation](https://github.com/BenjaminAbt/Unio#native-aot) for publish commands.
+
+Union storage and typed matching do not allocate. Accessing `Value` boxes value types; named union classes, capturing delegates and some formatting paths can allocate.
+
 ```csharp
 using Unio;
 

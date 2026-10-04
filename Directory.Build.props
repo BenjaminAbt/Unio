@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Assembly">
-    <TargetFrameworks>net8.0;net9.0;net10.0;net11.0</TargetFrameworks>
+    <TargetFrameworks>net9.0;net10.0;net11.0</TargetFrameworks>
     <RootNamespace>$(MSBuildProjectName)</RootNamespace>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
   </PropertyGroup>
@@ -47,12 +47,6 @@
   <PropertyGroup Condition="'$(IsTestProject)' != 'true' AND '$(IsBenchmarkProject)' != 'true'">
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Label="Performance">
-    <!-- Enable Dynamic Profile-Guided Optimization for runtime performance -->
-    <TieredPGO>true</TieredPGO>
-    <DynamicPGO>true</DynamicPGO>
   </PropertyGroup>
 
   <PropertyGroup Label="Package">

@@ -1,5 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup Label="Native AOT">
+    <IsAotCompatible>true</IsAotCompatible>
+    <!-- Microsoft.AspNetCore.App includes assemblies without AOT metadata.
+         Keep code analysis enabled and verify the supported API with the native sample. -->
+    <VerifyReferenceAotCompatibility>false</VerifyReferenceAotCompatibility>
+  </PropertyGroup>
+
   <PropertyGroup Label="Package">
     <PackageId>Unio.AspNetCore</PackageId>
     <IsPackable>true</IsPackable>

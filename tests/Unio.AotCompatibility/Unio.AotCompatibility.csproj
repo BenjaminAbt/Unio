@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <PublishAot>true</PublishAot>
+    <!-- ASP.NET Core references framework assemblies without AOT metadata. -->
+    <VerifyReferenceAotCompatibility>false</VerifyReferenceAotCompatibility>
+    <IlcTreatWarningsAsErrors>true</IlcTreatWarningsAsErrors>
+    <ILLinkTreatWarningsAsErrors>true</ILLinkTreatWarningsAsErrors>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Unio.AspNetCore/Unio.AspNetCore.csproj" />
+    <ProjectReference Include="../../src/Unio.Extensions/Unio.Extensions.csproj" />
+    <!-- Keep every library API for analysis, independently of application usage.
+         Smoke samples instantiate generic unions separately: combining full rooting
+         with high-arity unions retains exponentially many TryPick remainder types. -->
+    <TrimmerRootAssembly Include="Unio" />
+    <TrimmerRootAssembly Include="Unio.Types" />
+    <TrimmerRootAssembly Include="Unio.Extensions" />
+    <TrimmerRootAssembly Include="Unio.AspNetCore" />
+  </ItemGroup>
+</Project>

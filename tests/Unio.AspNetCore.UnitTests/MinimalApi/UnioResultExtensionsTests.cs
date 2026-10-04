@@ -1,6 +1,8 @@
 // Copyright © BEN ABT (https://benjamin-abt.com) - all rights reserved
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json.Serialization;
 using Unio.AspNetCore.MinimalApi;
 using Unio.Types;
 
@@ -12,6 +14,47 @@ namespace Unio.AspNetCore.UnitTests.MinimalApi;
 /// </summary>
 public class UnioResultExtensionsTests
 {
+    [Fact]
+    public async Task ToHttpResult_WithJsonContext_WritesSourceGeneratedJson()
+    {
+        Unio<ResponseBody, NotFound> union = new ResponseBody(42);
+        using ServiceProvider services = new ServiceCollection().AddLogging().BuildServiceProvider();
+        DefaultHttpContext context = new() { RequestServices = services };
+        using MemoryStream stream = new();
+        context.Response.Body = stream;
+
+        await union.ToHttpResult(ResponseJsonContext.Default).ExecuteAsync(context);
+
+        Assert.Equal(StatusCodes.Status200OK, context.Response.StatusCode);
+        Assert.Equal("""{"value":42}""", System.Text.Encoding.UTF8.GetString(stream.ToArray()));
+    }
+
+    [Fact]
+    public void ToHttpResult_WithJsonContext_DoesNotNeedMarkerMetadata()
+    {
+        Unio<ResponseBody, NotFound> union = new NotFound();
+
+        IResult result = union.ToHttpResult(ResponseJsonContext.Default);
+
+        Assert.Equal(404, Assert.IsAssignableFrom<IStatusCodeHttpResult>(result).StatusCode);
+    }
+
+    [Fact]
+    public void ToHttpResult_WithJsonContext_RejectsMissingMetadata()
+    {
+        Unio<DateTime, NotFound> union = DateTime.UnixEpoch;
+
+        Assert.Throws<NotSupportedException>(() => union.ToHttpResult(ResponseJsonContext.Default));
+    }
+
+    [Fact]
+    public void ToHttpResult_WithJsonContext_RejectsNullContext()
+    {
+        Unio<ResponseBody, NotFound> union = new NotFound();
+
+        Assert.Throws<ArgumentNullException>(() => union.ToHttpResult(null!));
+    }
+
     [Fact]
     public void ToHttpResult_WithNotFoundMarker_Returns404()
     {
@@ -144,3 +187,9 @@ public class UnioResultExtensionsTests
         Assert.Equal(StatusCodes.Status403Forbidden, statusResult.StatusCode);
     }
 }
+
+internal sealed record ResponseBody(int Value);
+
+[JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
+[JsonSerializable(typeof(ResponseBody))]
+internal partial class ResponseJsonContext : JsonSerializerContext;

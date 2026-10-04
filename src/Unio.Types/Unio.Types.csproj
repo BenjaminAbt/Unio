@@ -1,5 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup Label="Native AOT">
+    <IsAotCompatible>true</IsAotCompatible>
+    <VerifyReferenceAotCompatibility Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0'))">true</VerifyReferenceAotCompatibility>
+  </PropertyGroup>
+
   <PropertyGroup Label="Package">
     <PackageId>Unio.Types</PackageId>
     <IsPackable>true</IsPackable>

@@ -398,7 +398,7 @@ public readonly struct Unio<T0, T1, T2> : IEquatable<Unio<T0, T1, T2>>,
                 if (_value2 is ISpanFormattable sf2) return sf2.TryFormat(destination, out charsWritten, format, provider);
                 break;
         }
-        string s = ToString();
+        string s = ToString(format.IsEmpty ? null : new string(format), provider);
         if (s.AsSpan().TryCopyTo(destination)) { charsWritten = s.Length; return true; }
         charsWritten = 0; return false;
     }
@@ -418,7 +418,7 @@ public readonly struct Unio<T0, T1, T2> : IEquatable<Unio<T0, T1, T2>>,
                 if (_value2 is IUtf8SpanFormattable uf2) return uf2.TryFormat(utf8Destination, out bytesWritten, format, provider);
                 break;
         }
-        string s = ToString();
+        string s = ToString(format.IsEmpty ? null : new string(format), provider);
         int byteCount = System.Text.Encoding.UTF8.GetByteCount(s);
         if (byteCount <= utf8Destination.Length) { bytesWritten = System.Text.Encoding.UTF8.GetBytes(s, utf8Destination); return true; }
         bytesWritten = 0; return false;

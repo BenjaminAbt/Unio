@@ -16,6 +16,6 @@ public partial class Result3 : UnioBase<int, string, bool>;
 [GenerateUnio]
 public partial class Result4 : UnioBase<int, string, bool, double>;
 
-/// <summary>A named union with 9 types (maximum arity).</summary>
+/// <summary>A named union with 9 types.</summary>
 [GenerateUnio]
 public partial class BigUnion : UnioBase<int, string, bool, double, long, byte, float, char, decimal>;

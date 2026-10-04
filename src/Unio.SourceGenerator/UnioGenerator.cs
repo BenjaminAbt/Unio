@@ -17,7 +17,6 @@ namespace Unio.SourceGenerator;
 public sealed class UnioGenerator : IIncrementalGenerator
 {
     private const string GenerateUnioAttributeFullName = "Unio.GenerateUnioAttribute";
-    private const string UnioBasePrefix = "Unio.UnioBase";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -37,12 +36,10 @@ public sealed class UnioGenerator : IIncrementalGenerator
             static (spc, source) => Execute(source.Item1, source.Item2, spc));
     }
 
-    /// <summary>Fast syntactic filter: partial class with at least one attribute and a base list.</summary>
+    /// <summary>Inspect attributed classes so invalid declarations also receive diagnostics.</summary>
     private static bool IsCandidate(SyntaxNode node) =>
         node is ClassDeclarationSyntax cds
-        && cds.AttributeLists.Count > 0
-        && cds.BaseList is not null
-        && cds.Modifiers.Any(SyntaxKind.PartialKeyword);
+        && cds.AttributeLists.Count > 0;
 
     /// <summary>Semantic filter: returns the class syntax node if it carries the <c>[GenerateUnio]</c> attribute; otherwise <c>null</c>.</summary>
     private static ClassDeclarationSyntax? GetSemanticTarget(GeneratorSyntaxContext context)
@@ -76,18 +73,34 @@ public sealed class UnioGenerator : IIncrementalGenerator
             return;
         }
 
-        foreach (ClassDeclarationSyntax classSyntax in types.Distinct())
+        HashSet<ISymbol> processed = new(SymbolEqualityComparer.Default);
+        foreach (ClassDeclarationSyntax classSyntax in types)
         {
             SemanticModel semanticModel = compilation.GetSemanticModel(classSyntax.SyntaxTree);
             INamedTypeSymbol? structSymbol = semanticModel.GetDeclaredSymbol(classSyntax, context.CancellationToken);
-            if (structSymbol is null)
+            if (structSymbol is null || !processed.Add(structSymbol))
             {
                 continue;
             }
 
-            // Find the UnioBase<...> base type
+            if (!classSyntax.Modifiers.Any(SyntaxKind.PartialKeyword))
+            {
+                context.ReportDiagnostic(Diagnostic.Create(Diagnostics.MustBePartial, classSyntax.Identifier.GetLocation(), structSymbol.Name));
+                continue;
+            }
+
+            // Nested and generic declarations require a different generated type shape.
+            if (structSymbol.ContainingType is not null || structSymbol.Arity != 0
+                || structSymbol.IsStatic || structSymbol.IsAbstract || structSymbol.IsFileLocal)
+            {
+                context.ReportDiagnostic(Diagnostic.Create(Diagnostics.UnsupportedDeclaration, classSyntax.Identifier.GetLocation(), structSymbol.Name));
+                continue;
+            }
+
+            // Match the actual base symbol, not a name prefix (e.g. UnioBaseImpostor).
             INamedTypeSymbol? unioBase = structSymbol.BaseType;
-            if (unioBase is null || !unioBase.OriginalDefinition.ToDisplayString().StartsWith(UnioBasePrefix, StringComparison.Ordinal))
+            if (unioBase is null || !SymbolEqualityComparer.Default.Equals(
+                unioBase.OriginalDefinition, compilation.GetTypeByMetadataName($"Unio.UnioBase`{unioBase.Arity}")))
             {
                 context.ReportDiagnostic(Diagnostic.Create(
                     Diagnostics.MissingUnioBase,
@@ -108,12 +121,14 @@ public sealed class UnioGenerator : IIncrementalGenerator
             }
 
             // Check for duplicate type arguments
-            HashSet<string> seenTypes = new(StringComparer.Ordinal);
+            HashSet<ITypeSymbol> seenTypes = new(SymbolEqualityComparer.Default);
+            bool hasDuplicates = false;
             foreach (ITypeSymbol typeArg in typeArgs)
             {
                 string typeName = typeArg.ToDisplayString();
-                if (!seenTypes.Add(typeName))
+                if (!seenTypes.Add(typeArg))
                 {
+                    hasDuplicates = true;
                     context.ReportDiagnostic(Diagnostic.Create(
                         Diagnostics.DuplicateTypeArguments,
                         classSyntax.Identifier.GetLocation(),
@@ -122,8 +137,16 @@ public sealed class UnioGenerator : IIncrementalGenerator
                 }
             }
 
+            if (hasDuplicates)
+            {
+                continue;
+            }
+
             string source = GenerateUnionClass(structSymbol, typeArgs);
-            context.AddSource($"{structSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted)).Replace(".", "_")}.g.cs", SourceText.From(source, Encoding.UTF8));
+            string hintName = structSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat
+                .WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted)
+                .WithMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.None));
+            context.AddSource($"{hintName}.g.cs", SourceText.From(source, Encoding.UTF8));
         }
     }
 
@@ -138,7 +161,7 @@ public sealed class UnioGenerator : IIncrementalGenerator
     private static string GenerateUnionClass(INamedTypeSymbol structSymbol, ImmutableArray<ITypeSymbol> typeArgs)
     {
         StringBuilder sb = new StringBuilder();
-        string className = structSymbol.Name;
+        string className = "@" + structSymbol.Name;
         string? ns = structSymbol.ContainingNamespace.IsGlobalNamespace
             ? null
             : structSymbol.ContainingNamespace.ToDisplayString();
@@ -165,7 +188,6 @@ public sealed class UnioGenerator : IIncrementalGenerator
 
         string genericArgs = string.Join(", ", typeNamesGlobal);
         string unioType = $"global::Unio.Unio<{genericArgs}>";
-        string unioBaseType = $"global::Unio.UnioBase<{genericArgs}>";
 
         sb.AppendLine("// <auto-generated/>");
         sb.AppendLine("#nullable enable");
