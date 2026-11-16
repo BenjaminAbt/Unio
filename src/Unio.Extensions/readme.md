@@ -2,7 +2,7 @@
 
 Functional and fluent extensions for `Unio<T0, T1>` with allocation-conscious APIs and `Task`-based async composition.
 
-Targets .NET 9, .NET 10 and .NET 11 RC1. Compatible with Native AOT and trimming; reference AOT metadata is verified on .NET 10 and newer.
+Targets .NET 9, .NET 10 and .NET 11. Compatible with Native AOT and trimming; reference AOT metadata is verified on .NET 10 and newer.
 
 ## Features
 

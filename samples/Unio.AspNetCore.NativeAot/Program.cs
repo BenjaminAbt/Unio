@@ -12,7 +12,7 @@ internal static class Program
 {
     private static async Task Main(string[] args)
     {
-        if (args.Contains("--smoke"))
+        if (args.Contains("--smoke", StringComparer.Ordinal))
         {
             if (RuntimeFeature.IsDynamicCodeSupported)
             {

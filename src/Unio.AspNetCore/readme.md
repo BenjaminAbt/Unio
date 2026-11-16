@@ -2,7 +2,7 @@
 
 ASP.NET Core integration for Unio discriminated unions.
 
-Targets .NET 9, .NET 10 and .NET 11 RC1. Supports unions with 2–9 branches.
+Targets .NET 9, .NET 10 and .NET 11. Supports unions with 2–9 branches.
 
 ## Native AOT
 

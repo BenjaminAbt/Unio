@@ -290,7 +290,7 @@ Test coverage areas per arity:
 ## Build & Development
 
 ### Prerequisites
-- .NET 11 RC1 SDK (11.0.100-rc.1.26425.128) selected by `global.json`, with .NET 9 and .NET 10 runtimes for multi-target tests
+- .NET 11 SDK (11.0.100) selected by `global.json`, with .NET 9 and .NET 10 runtimes for multi-target tests
 - Just command runner (optional, for convenience commands)
 
 ### Common Commands
@@ -321,7 +321,7 @@ just ci              # Full CI: clean → restore → format-check → build →
 ### Target Frameworks
 - .NET 9.0
 - .NET 10.0
-- .NET 11.0 RC1
+- .NET 11.0
 
 ### Native AOT
 

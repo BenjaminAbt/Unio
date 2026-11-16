@@ -4,7 +4,7 @@ set shell := ["pwsh", "-c"]
 
 # ===== Configurable defaults =====
 CONFIG  := "Debug"
-TFM     := "net10.0"
+TFM     := "net11.0"
 BENCH_PRJ := "perf/Unio.Benchmarks/Unio.Benchmarks.csproj"
 
 # ===== Default / Help =====

@@ -19,4 +19,4 @@ Use a top-level, non-generic partial class with 2–20 distinct branch types. Ne
 
 The generated code supports Native AOT and trimming without runtime reflection or dynamic code. The generator itself runs inside Roslyn at build time and is packaged only as an analyzer; it is not a runtime dependency and does not need `IsAotCompatible`.
 
-The analyzer targets `netstandard2.0` for compiler-host compatibility and requires a Roslyn 5.0-compatible compiler (.NET 10 SDK or newer). This does not add older .NET runtime support: the Unio runtime packages target .NET 9, .NET 10 and .NET 11 RC1.
+The analyzer targets `netstandard2.0` for compiler-host compatibility and requires a Roslyn 5.0-compatible compiler (.NET 10 SDK or newer). This does not add older .NET runtime support: the Unio runtime packages target .NET 9, .NET 10 and .NET 11.

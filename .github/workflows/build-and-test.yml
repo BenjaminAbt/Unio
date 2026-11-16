@@ -41,7 +41,7 @@ jobs:
             9.0.x
             10.0.x
 
-      - name: Setup .NET 11 RC1
+      - name: Setup .NET 11
         uses: actions/setup-dotnet@v6.0.0
         with:
           global-json-file: global.json
@@ -104,7 +104,7 @@ jobs:
           dotnet-version: |
             9.0.x
             10.0.x
-      - name: Setup .NET 11 RC1
+      - name: Setup .NET 11
         uses: actions/setup-dotnet@v6.0.0
         with:
           global-json-file: global.json
