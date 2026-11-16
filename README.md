@@ -113,7 +113,7 @@ dotnet add package Unio.Extensions
 
 ## Native AOT
 
-Runtime packages target **.NET 9, .NET 10 and .NET 11 RC1**. .NET 8 support has been removed.
+Runtime packages target **.NET 9, .NET 10 and .NET 11**. .NET 8 support has been removed.
 
 | Package | Native AOT / trimming | Reference metadata verification |
 |---|---|---|
@@ -130,7 +130,7 @@ For a consuming application:
 ```xml
 <PropertyGroup>
   <OutputType>Exe</OutputType>
-  <TargetFramework>net10.0</TargetFramework>
+  <TargetFramework>net11.0</TargetFramework>
   <PublishAot>true</PublishAot>
 </PropertyGroup>
 ```
@@ -138,9 +138,9 @@ For a consuming application:
 Publish and execute the [core example](samples/Unio.NativeAot):
 
 ```bash
-dotnet publish samples/Unio.NativeAot -c Release -f net10.0 -r linux-x64 -o artifacts/aot/core
+dotnet publish samples/Unio.NativeAot -c Release -f net11.0 -r linux-x64 -o artifacts/aot/core
 ./artifacts/aot/core/Unio.NativeAot
-dotnet publish samples/Unio.AspNetCore.NativeAot -c Release -f net10.0 -r linux-x64 -o artifacts/aot/http
+dotnet publish samples/Unio.AspNetCore.NativeAot -c Release -f net11.0 -r linux-x64 -o artifacts/aot/http
 ./artifacts/aot/http/Unio.AspNetCore.NativeAot --smoke
 ```
 
@@ -807,7 +807,7 @@ Unio is built for maximum runtime performance:
 Run benchmarks yourself:
 
 ```bash
-dotnet run --configuration Release --project perf/Unio.Benchmarks/Unio.Benchmarks.csproj --framework net10.0
+dotnet run --configuration Release --project perf/Unio.Benchmarks/Unio.Benchmarks.csproj --framework net11.0
 ```
 
 Expected characteristics:
@@ -833,17 +833,26 @@ The benchmark projects pin the compared package versions in [Directory.Packages.
 The checked-in generic union implementations are generated from `tools/Unio.CodeGen/CodeGenerator.cs`. Change the template and regenerate all arities together:
 
 ```bash
-dotnet run --project tools/Unio.CodeGen --framework net10.0 -- src/Unio
+dotnet run --project tools/Unio.CodeGen --framework net11.0 -- src/Unio
 ```
 
 ## Building & Testing
 
-Use the .NET 11 RC1 SDK (11.0.100-rc.1.26425.128) selected by `global.json` and install the .NET 9/10 runtimes to run all unit tests. The build-time source generator targets `netstandard2.0`; runtime packages target .NET 9/10/11.
+Use the .NET 11 SDK (11.0.100) selected by `global.json` and install the .NET 9/10 runtimes to run all unit tests. The build-time source generator targets `netstandard2.0`; runtime packages target .NET 9/10/11.
+
+| Target | C# version | Dependency compatibility |
+|---|---|---|
+| `net9.0` | 13 (framework default) | Test SDK 18.12.0, xUnit 4.0.3 and Coverlet 10.1.1 support .NET 8+. Roslyn 5.12.0 tests use its .NET Standard 2.0 assets. |
+| `net10.0` | 14 (framework default) | Same test dependencies; Roslyn 5.12.0 tests use its .NET 10 assets. |
+| `net11.0` | 15 (framework default) | Same test dependencies; Roslyn 5.12.0 matches the .NET 11 SDK compiler. |
+| `netstandard2.0` generator | Latest stable compiler syntax | Roslyn stays at 5.0.0 to preserve the generator's .NET 10 SDK minimum requirement. |
+
+Package versions are pinned in [Directory.Packages.props](Directory.Packages.props). Tests use `xunit.v3.mtp-off` and the VSTest runner selected in `global.json` because `coverlet.collector` does not support MTP v2. Benchmarks use stable BenchmarkDotNet 0.15.8 on .NET 9/10 and 0.16.0-preview.2 on .NET 11: the stable release does not recognize the .NET 11 runtime. OneOf 3.0.271 is already the latest stable release.
 
 ```bash
 dotnet test -c Release
 dotnet pack -c Release --no-build -o artifacts/packages
-dotnet publish tests/Unio.AotCompatibility -c Release -f net10.0 -r linux-x64 -o artifacts/aot/analysis
+dotnet publish tests/Unio.AotCompatibility -c Release -f net11.0 -r linux-x64 -o artifacts/aot/analysis
 ./artifacts/aot/analysis/Unio.AotCompatibility
 ```
 
