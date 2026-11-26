@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="res/unio.png" alt="Unio logo: a color-shifting chameleon perched on a glowing union branch" width="180" />
+<img src="res/unio.png" alt="Unio logo: a color-shifting chameleon perched on a glowing union branch above the Unio wordmark" width="180" />
 
 # Unio
 
@@ -291,6 +291,10 @@ Generated code stays minimal because all union members (`Index`, `IsT#`, `AsT#`,
 public sealed partial class Result : IEquatable<Result>
 {
     private Result(Unio<User, NotFound, ValidationError> union) : base(union) { }
+
+    public Result(User value) : base((Unio<User, NotFound, ValidationError>)value) { }
+    public Result(NotFound value) : base((Unio<User, NotFound, ValidationError>)value) { }
+    public Result(ValidationError value) : base((Unio<User, NotFound, ValidationError>)value) { }
 
     public static implicit operator Result(User value);
     public static implicit operator Result(NotFound value);

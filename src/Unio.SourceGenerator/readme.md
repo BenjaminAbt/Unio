@@ -13,7 +13,7 @@ public partial class StringOrInt : UnioBase<string, int>;
 
 The generator adds constructors, implicit conversions and typed equality to a sealed partial class. The union API is inherited from `UnioBase<...>`.
 
-Use a top-level, non-generic partial class with 2–20 distinct branch types. Nested, generic, abstract, static and file-local classes receive `UNIO005`; missing `partial` receives `UNIO006`. Duplicate branch types receive `UNIO003` as an error.
+Use a top-level, non-generic partial class inheriting `UnioBase<...>` with 2–20 distinct branch types. Missing `UnioBase<...>` receives `UNIO001`; invalid arities (`< 2` or `> 20`) receive `UNIO002`; duplicate branch types receive `UNIO003`; nested, generic, abstract, static and file-local classes receive `UNIO005`; missing `partial` receives `UNIO006`.
 
 ## Native AOT and requirements
 
