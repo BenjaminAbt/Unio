@@ -6,6 +6,8 @@ set shell := ["pwsh", "-c"]
 CONFIG  := "Debug"
 TFM     := "net11.0"
 BENCH_PRJ := "perf/Unio.Benchmarks/Unio.Benchmarks.csproj"
+COV_DIR := "TestResults/coverage"
+COV_MIN := "100"
 
 # ===== Default / Help =====
 default: help
@@ -42,7 +44,9 @@ test *ARGS:
     dotnet test --configuration "{{CONFIG}}" --framework "{{TFM}}" --nologo --verbosity minimal {{ARGS}}
 
 test-cov:
-    dotnet test --configuration "{{CONFIG}}" --framework "{{TFM}}" --nologo --verbosity minimal /p:CollectCoverage=true /p:CoverletOutputFormat="cobertura,lcov,opencover" /p:CoverletOutput="./TestResults/coverage/coverage"
+    if (Test-Path "{{COV_DIR}}") { Remove-Item "{{COV_DIR}}" -Recurse -Force }
+    dotnet test --configuration "{{CONFIG}}" --framework "{{TFM}}" --nologo --verbosity minimal --results-directory "{{COV_DIR}}" --collect:"XPlat Code Coverage"
+    ./eng/Assert-CodeCoverage.ps1 -ResultsDirectory "{{COV_DIR}}" -Threshold {{COV_MIN}}
 
 test-filter QUERY:
     dotnet test --configuration "{{CONFIG}}" --framework "{{TFM}}" --nologo --verbosity minimal --filter "{{QUERY}}"

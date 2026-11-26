@@ -293,7 +293,59 @@ public class MarkerTests
     }
 
     [Fact]
-    public void Markers_WorkWithUnio_3Way ()
+    public void AllMarkers_ImplementEqualityHashingOperatorsAndFormatting()
+    {
+        AssertMarker<Yes>("Yes", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<No>("No", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Maybe>("Maybe", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<True>("True", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<False>("False", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Unknown>("Unknown", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<All>("All", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Some>("Some", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<None>("None", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Empty>("Empty", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Pending>("Pending", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Cancelled>("Cancelled", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Unio.Types.Timeout>("Timeout", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Skipped>("Skipped", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Invalid>("Invalid", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Disabled>("Disabled", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Expired>("Expired", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<RateLimited>("RateLimited", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<NotFound>("NotFound", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Forbidden>("Forbidden", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Unauthorized>("Unauthorized", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Conflict>("Conflict", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<BadRequest>("BadRequest", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Accepted>("Accepted", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<NoContent>("NoContent", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Created>("Created", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Updated>("Updated", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Deleted>("Deleted", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Unchanged>("Unchanged", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Success>("Success", static (a, b) => a == b, static (a, b) => a != b);
+        AssertMarker<Error>("Error", static (a, b) => a == b, static (a, b) => a != b);
+    }
+
+    private static void AssertMarker<T>(string expectedName, Func<T, T, bool> equalsOp, Func<T, T, bool> notEqualsOp)
+        where T : struct, IEquatable<T>
+    {
+        T left = default;
+        T right = default;
+
+        Assert.True(left.Equals(right));
+        Assert.True(left.Equals((object)right));
+        Assert.False(left.Equals((object?)null));
+        Assert.False(left.Equals("other"));
+        Assert.Equal(0, left.GetHashCode());
+        Assert.Equal(expectedName, left.ToString());
+        Assert.True(equalsOp(left, right));
+        Assert.False(notEqualsOp(left, right));
+    }
+
+    [Fact]
+    public void Markers_WorkWithUnio_3Way()
     {
         Unio<int, NotFound, Forbidden> result = new Forbidden();
         Assert.True(result.IsT2);

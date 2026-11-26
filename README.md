@@ -1,160 +1,59 @@
+<div align="center">
+
+<img src="res/unio.png" alt="Unio logo: a color-shifting chameleon perched on a glowing union branch above the Unio wordmark" width="180" />
+
 # Unio
 
-<p align="center">
-    <img src="res/unio.png" alt="Unio" width="160" />
-</p>
+**High-performance discriminated unions for .NET**
 
-**High-performance discriminated unions for C# - zero-allocation `readonly struct` core, source generator with class-based named types.**
+Zero-allocation `readonly struct` unions (`Unio<T0, T1>` .. `Unio<T0, ..., T19>`) with exhaustive `Match`/`Switch`, `TryGet` patterns, a Roslyn incremental source generator for named union types, 39 pre-built result types, and ASP.NET Core Minimal API integration.
 
-High-performance discriminated unions for C# with exhaustive matching, `TryGet` patterns, full value equality semantics, a Roslyn incremental source generator for named union types and 39 ready-to-use sentinel and value-carrying types.
+[![Build](https://img.shields.io/github/actions/workflow/status/BenjaminAbt/Unio/main-build.yml?branch=main&logo=githubactions&logoColor=white&label=build)](https://github.com/BenjaminAbt/Unio/actions/workflows/main-build.yml)
+[![Coverage: 100% line and branch coverage, enforced in CI](https://img.shields.io/badge/coverage-100%25-brightgreen)](#build-and-test)
+[![NuGet](https://img.shields.io/nuget/v/Unio?logo=nuget&label=nuget&color=004880)](https://nubrowse.com/packages/Unio)
+[![NuGet downloads](https://img.shields.io/nuget/dt/Unio?logo=nuget&label=downloads&color=004880)](https://nubrowse.com/packages/Unio)
+[![License: MIT](https://img.shields.io/github/license/BenjaminAbt/Unio?color=blue)](LICENSE)
 
-[![Unio](https://img.shields.io/nuget/v/Unio.svg?label=Unio)](https://www.nuget.org/packages/Unio)
-[![Unio.SourceGenerator](https://img.shields.io/nuget/v/Unio.SourceGenerator.svg?label=Unio.SourceGenerator)](https://www.nuget.org/packages/Unio.SourceGenerator)
-[![Unio.Types](https://img.shields.io/nuget/v/Unio.Types.svg?label=Unio.Types)](https://www.nuget.org/packages/Unio.Types)
-[![Unio.AspNetCore](https://img.shields.io/nuget/v/Unio.AspNetCore.svg?label=Unio.AspNetCore)](https://www.nuget.org/packages/Unio.AspNetCore)
-[![Unio.Extensions](https://img.shields.io/nuget/v/Unio.Extensions.svg?label=Unio.Extensions)](https://www.nuget.org/packages/Unio.Extensions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![.NET 9 | 10 | 11](https://img.shields.io/badge/.NET-9%20%7C%2010%20%7C%2011-512BD4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
+[![Native AOT compatible](https://img.shields.io/badge/Native%20AOT-compatible-512BD4?logo=dotnet&logoColor=white)](#native-aot-and-trimming)
+[![Trimming compatible](https://img.shields.io/badge/trimming-compatible-512BD4?logo=dotnet&logoColor=white)](#native-aot-and-trimming)
+[![Strong-named assemblies](https://img.shields.io/badge/strong--named-yes-blue)](https://learn.microsoft.com/dotnet/standard/assembly/strong-named)
+[![SourceLink enabled](https://img.shields.io/badge/SourceLink-enabled-blue)](https://learn.microsoft.com/dotnet/standard/library-guidance/sourcelink)
 
----
+[![GitHub stars](https://img.shields.io/github/stars/BenjaminAbt/Unio?logo=github)](https://github.com/BenjaminAbt/Unio/stargazers)
+[![Last commit](https://img.shields.io/github/last-commit/BenjaminAbt/Unio/main?logo=github)](https://github.com/BenjaminAbt/Unio/commits/main)
+[![Open issues](https://img.shields.io/github/issues/BenjaminAbt/Unio?logo=github)](https://github.com/BenjaminAbt/Unio/issues)
 
-## Table of Contents
+</div>
 
-- [Why Unio?](#why-unio)
-- [Packages](#packages)
-- [Installation](#installation)
-- [Native AOT](#native-aot)
-- [Quick Start](#quick-start)
-  - [Generic Union Types](#generic-union-types)
-  - [Named Union Types (Source Generator)](#named-union-types-source-generator)
-  - [Pre-built Types](#pre-built-types)
-- [Supported Arities](#supported-arities)
-- [API Reference](#api-reference)
-  - [Union Type Members](#union-type-members)
-  - [Implicit Conversions](#implicit-conversions)
-  - [Equality & Hashing](#equality--hashing)
-  - [Match & Switch](#match--switch)
-  - [TryGet Pattern](#tryget-pattern)
-- [Unio.Types - Pre-built Sentinel & Value Types](#uniotypes--pre-built-sentinel--value-types)
-  - [Marker Types (Empty Sentinels)](#marker-types-empty-sentinels)
-  - [Value-Carrying Types](#value-carrying-types)
-  - [Type Reference Table](#type-reference-table)
-- [Source Generator](#source-generator)
-  - [How It Works](#how-it-works)
-  - [Generated API Surface](#generated-api-surface)
-  - [Diagnostics](#diagnostics)
-- [Real-World Examples](#real-world-examples)
-  - [Result Pattern (API Controller)](#result-pattern-api-controller)
-  - [CRUD Operations](#crud-operations)
-  - [Error Handling with Recovery](#error-handling-with-recovery)
-  - [Validation Pipeline](#validation-pipeline)
-  - [State Machine](#state-machine)
-  - [Option / Maybe Pattern](#option--maybe-pattern)
-- [Performance](#performance)
-  - [Design Decisions](#design-decisions)
-  - [Benchmark Results](#benchmark-results)
-- [Acknowledgements](#acknowledgements)
-- [Code Generation Tool](#code-generation-tool)
-- [Building & Testing](#building--testing)
-- [Project Structure](#project-structure)
-- [License](#license)
+## NuGet
 
----
+| Package | Version | Downloads | Install |
+| --- | --- | --- | --- |
+| **[Unio](https://nubrowse.com/packages/Unio)**<br><sub>Core `readonly struct` unions (`Unio<T0, T1>` .. `Unio<T0, ..., T19>`), `UnioBase<...>`, and `[GenerateUnio]`</sub> | [![NuGet](https://img.shields.io/nuget/v/Unio?logo=nuget&label=nuget&color=004880)](https://nubrowse.com/packages/Unio) | [![Downloads](https://img.shields.io/nuget/dt/Unio?label=downloads&color=004880)](https://nubrowse.com/packages/Unio) | `dotnet add package Unio` |
+| **[Unio.SourceGenerator](https://nubrowse.com/packages/Unio.SourceGenerator)**<br><sub>Roslyn incremental source generator for class-based named union types</sub> | [![NuGet](https://img.shields.io/nuget/v/Unio.SourceGenerator?logo=nuget&label=nuget&color=004880)](https://nubrowse.com/packages/Unio.SourceGenerator) | [![Downloads](https://img.shields.io/nuget/dt/Unio.SourceGenerator?label=downloads&color=004880)](https://nubrowse.com/packages/Unio.SourceGenerator) | `dotnet add package Unio.SourceGenerator` |
+| **[Unio.Types](https://nubrowse.com/packages/Unio.Types)**<br><sub>39 pre-built sentinel markers and value-carrying result types</sub> | [![NuGet](https://img.shields.io/nuget/v/Unio.Types?logo=nuget&label=nuget&color=004880)](https://nubrowse.com/packages/Unio.Types) | [![Downloads](https://img.shields.io/nuget/dt/Unio.Types?label=downloads&color=004880)](https://nubrowse.com/packages/Unio.Types) | `dotnet add package Unio.Types` |
+| **[Unio.AspNetCore](https://nubrowse.com/packages/Unio.AspNetCore)**<br><sub>ASP.NET Core Minimal API integration (`ToHttpResult()`)</sub> | [![NuGet](https://img.shields.io/nuget/v/Unio.AspNetCore?logo=nuget&label=nuget&color=004880)](https://nubrowse.com/packages/Unio.AspNetCore) | [![Downloads](https://img.shields.io/nuget/dt/Unio.AspNetCore?label=downloads&color=004880)](https://nubrowse.com/packages/Unio.AspNetCore) | `dotnet add package Unio.AspNetCore` |
+| **[Unio.Extensions](https://nubrowse.com/packages/Unio.Extensions)**<br><sub>Fluent functional extensions (`Map`, `Bind`, `Tap`, `Ensure`, `Recover`) and `Task` helpers</sub> | [![NuGet](https://img.shields.io/nuget/v/Unio.Extensions?logo=nuget&label=nuget&color=004880)](https://nubrowse.com/packages/Unio.Extensions) | [![Downloads](https://img.shields.io/nuget/dt/Unio.Extensions?label=downloads&color=004880)](https://nubrowse.com/packages/Unio.Extensions) | `dotnet add package Unio.Extensions` |
+
+The runtime NuGet packages target .NET 9, 10, and 11; `Unio.SourceGenerator` targets `netstandard2.0` as a build-time Roslyn analyzer. Building the solution requires the .NET 11 SDK.
 
 ## Why Unio?
 
-Discriminated unions are a powerful pattern for modeling mutually exclusive states without exceptions or null. C# does not yet have native union types, so developers rely on libraries to fill that gap - but existing solutions often use classes and `object` boxing, adding GC pressure and losing type safety at runtime.
+Discriminated unions model mutually exclusive states without exceptions or `null`. C# does not yet have native union types, and existing libraries often rely on class hierarchies or `object` storage that box value types and add GC pressure.
 
-**Unio** provides a modern approach:
+**Unio** takes a modern, performance-first approach:
 
-- **Typed generic fields** - no casts to `object`, no boxing
-- **Exhaustive matching** - `Match<TResult>` and `Switch` force handling of all cases
-- **Allocation-free matching** - `Match<TState, TResult>` and `Switch<TState>` pass context via a state parameter instead of a capturing closure; use the Task-returning overloads for asynchronous work
-- **Safe access** - `TryGetT0..TryGetTn` pattern prevents runtime exceptions
-- **Full value equality** - `IEquatable<T>`, `==`, `!=`, `GetHashCode`
-- **Source generator** - define named unions like `StringOrInt` with zero boilerplate
-- **Pre-built types** - 39 sentinel and value types for common patterns (NotFound, Success, Error, etc.)
-- **Performance** - typed `readonly struct` storage avoids boxing during construction and matching; hot paths use `[AggressiveInlining]` hints
-- **Native AOT** - runtime packages enable AOT and trim analyzers; native publish and execution are checked in CI
+- **Typed generic fields** — no casts to `object`, no boxing during construction or matching
+- **Exhaustive matching** — `Match<TResult>` and `Switch` enforce handling of every union branch at compile time
+- **Allocation-free matching** — `Match<TState, TResult>` and `Switch<TState>` pass context to `static` lambdas instead of allocating closures; `Task`-returning overloads cover async workflows
+- **Safe access** — `TryGetT0..TryGetTn` and `TryPickT0..TryPickTn` follow the familiar `TryParse` idiom without exceptions
+- **Full structural equality** — `IEquatable<T>`, `==`, `!=`, `GetHashCode()`, plus `IFormattable`, `ISpanFormattable`, and `IUtf8SpanFormattable`
+- **Source generator** — declare named unions like `StringOrInt` with `[GenerateUnio]` and zero boilerplate
+- **Pre-built types** — 39 sentinel and value-carrying types for common domain and HTTP outcomes (`Success<T>`, `NotFound`, `ValidationError`, etc.)
+- **Native AOT & trimming** — all runtime packages enable AOT and trim analyzers and are verified as native binaries in CI
 
----
-
-## Packages
-
-| Package | Description | NuGet |
-|---|---|---|
-| `Unio` | Core union types `Unio<T0,T1>` through `Unio<T0,...,T19>` as `readonly struct`, `UnioBase<...>` abstract base classes, marker attribute & interfaces | [![NuGet](https://img.shields.io/nuget/vpre/Unio.svg)](https://www.nuget.org/packages/Unio) |
-| `Unio.SourceGenerator` | Roslyn incremental source generator for named unions | [![NuGet](https://img.shields.io/nuget/vpre/Unio.SourceGenerator.svg)](https://www.nuget.org/packages/Unio.SourceGenerator) |
-| `Unio.Types` | 39 pre-built sentinel and value-carrying types | [![NuGet](https://img.shields.io/nuget/vpre/Unio.Types.svg)](https://www.nuget.org/packages/Unio.Types) |
-| `Unio.AspNetCore` | ASP.NET Core Minimal API integration (`ToHttpResult()` extension) | [![NuGet](https://img.shields.io/nuget/vpre/Unio.AspNetCore.svg)](https://www.nuget.org/packages/Unio.AspNetCore) |
-| `Unio.Extensions` | Fluent functional extensions for `Unio<T0,T1>` including `Task` async helpers | [![NuGet](https://img.shields.io/nuget/vpre/Unio.Extensions.svg)](https://www.nuget.org/packages/Unio.Extensions) |
-
----
-
-## Installation
-
-```bash
-# Core library (required)
-dotnet add package Unio
-
-# Source generator for named union types (optional)
-dotnet add package Unio.SourceGenerator
-
-# Pre-built sentinel & value types (optional)
-dotnet add package Unio.Types
-
-# ASP.NET Core Minimal API integration (optional)
-dotnet add package Unio.AspNetCore
-
-# Functional extensions (optional)
-dotnet add package Unio.Extensions
-```
-
----
-
-## Native AOT
-
-Runtime packages target **.NET 9, .NET 10 and .NET 11**. .NET 8 support has been removed.
-
-| Package | Native AOT / trimming | Reference metadata verification |
-|---|---|---|
-| `Unio` | Supported, including all arities 2–20 and `UnioBase<...>` | Enabled for .NET 10+ |
-| `Unio.Types` | Supported | Enabled for .NET 10+ |
-| `Unio.Extensions` | Supported | Enabled for .NET 10+ |
-| `Unio.SourceGenerator` | Generated code is supported; the generator runs only at build time | Not a runtime assembly |
-| `Unio.AspNetCore` | Supported with source-generated JSON metadata for response bodies | Disabled for the ASP.NET Core framework reference |
-
-The runtime libraries declare `<IsAotCompatible>true</IsAotCompatible>`, which enables the AOT, trimming and single-file analyzers. `VerifyReferenceAotCompatibility` is an additional dependency metadata check (IL3058), not a replacement for compiling and executing native code. It is enabled for .NET 10+ because earlier framework references lack the required assembly metadata. ASP.NET Core includes framework assemblies without this metadata, so the HTTP extension keeps this optional check disabled while retaining code analysis and native execution tests. See Microsoft's [AOT library guidance](https://learn.microsoft.com/dotnet/core/deploying/native-aot/#aot-compatibility-analyzers).
-
-For a consuming application:
-
-```xml
-<PropertyGroup>
-  <OutputType>Exe</OutputType>
-  <TargetFramework>net11.0</TargetFramework>
-  <PublishAot>true</PublishAot>
-</PropertyGroup>
-```
-
-Publish and execute the [core example](samples/Unio.NativeAot):
-
-```bash
-dotnet publish samples/Unio.NativeAot -c Release -f net11.0 -r linux-x64 -o artifacts/aot/core
-./artifacts/aot/core/Unio.NativeAot
-dotnet publish samples/Unio.AspNetCore.NativeAot -c Release -f net11.0 -r linux-x64 -o artifacts/aot/http
-./artifacts/aot/http/Unio.AspNetCore.NativeAot --smoke
-```
-
-On Windows use `-r win-x64` and the resulting `.exe` files. Native publishing requires the platform's [native build prerequisites](https://learn.microsoft.com/dotnet/core/deploying/native-aot/#prerequisites). The HTTP example also runs as a Minimal API when started without `--smoke`.
-
-The core example exercises generic and source-generated unions of every supported arity, matching, async operations, equality, formatting and the Types/Extensions packages. Both examples treat AOT/linker warnings as errors. A separate [compatibility app](tests/Unio.AotCompatibility) roots all runtime libraries to analyze unused APIs too. Keeping full rooting separate avoids retaining exponentially many generic remainder types from high-arity `TryPick` operations. CI publishes and runs all three apps for each target framework on Linux and Windows.
-
-For ASP.NET Core, use `result.ToHttpResult(ApiJsonContext.Default)` with a `JsonSerializerContext` containing every possible response body type. Alternatively, register that context using `ConfigureHttpJsonOptions` and call `ToHttpResult()`. Marker responses need no JSON metadata. See the [HTTP package documentation](src/Unio.AspNetCore/readme.md) for a complete example.
-
-User-provided delegates and payload types must also be AOT-compatible. The core requires no runtime reflection, dynamic code or custom linker descriptors. Named union classes and the `Value` property (which boxes value types) can allocate; Native AOT does not change those semantics.
-
----
-
-## Quick Start
+## Usage
 
 ### Generic Union Types
 
@@ -186,7 +85,7 @@ result.Switch(
 
 ### Named Union Types (Source Generator)
 
-Create strongly-typed, named union types with zero boilerplate. Install `Unio.SourceGenerator`, then:
+Create strongly-typed, named union types with zero boilerplate using `Unio.SourceGenerator`:
 
 ```csharp
 using Unio;
@@ -198,7 +97,7 @@ public partial class StringOrInt : UnioBase<string, int>;
 public partial class ApiResult : UnioBase<User, NotFound, ValidationError>;
 ```
 
-The source generator produces the full union API automatically:
+The source generator produces a `sealed` class with implicit conversions and typed equality while inheriting all union operations from `UnioBase<...>`:
 
 ```csharp
 StringOrInt value = "hello";
@@ -215,14 +114,14 @@ StringOrInt a = 42;
 StringOrInt b = 42;
 bool equal = a == b;  // true
 
-// TryGet, Switch - everything is generated
+// TryGet, Switch - everything is available
 if (value.TryGetT0(out string str))
     Console.WriteLine(str);
 ```
 
-### Pre-built Types
+### Pre-built Types (`Unio.Types`)
 
-Install `Unio.Types` for ready-to-use sentinel types:
+Use `Unio.Types` for ready-made marker structs and value-carrying wrappers:
 
 ```csharp
 using Unio;
@@ -245,9 +144,25 @@ Unio<Success<Order>, ValidationError, Conflict> CreateOrder(OrderRequest req)
 }
 ```
 
+### ASP.NET Core Minimal APIs (`Unio.AspNetCore`)
+
+Map union results directly to `IResult` HTTP responses with `ToHttpResult()`:
+
+```csharp
+using Unio;
+using Unio.AspNetCore.MinimalApi;
+using Unio.Types;
+
+app.MapGet("/users/{id:int}", (int id, IUserService svc) =>
+{
+    Unio<User, NotFound, Forbidden> result = svc.GetUser(id);
+    return result.ToHttpResult(); // User -> 200 OK, NotFound -> 404, Forbidden -> 403
+});
+```
+
 ### Functional Extensions (`Unio.Extensions`)
 
-Install `Unio.Extensions` for fluent map/bind/tap/recover APIs and `Task`-based async composition.
+Compose transformations, validation, side effects, recovery, and `Task`-based pipelines fluently:
 
 ```csharp
 using Unio;
@@ -264,110 +179,55 @@ Unio<double, string> asyncMapped = await ((Unio<int, string>)21)
     .BindT0Async(static i => Task.FromResult(i * 2.0));
 ```
 
----
-
-## Supported Arities
-
-Unio supports 2 to 20 type parameters (2–9 shown as examples):
-
-| Type | Parameters |
-|---|---|
-| `Unio<T0, T1>` | 2 types |
-| `Unio<T0, T1, T2>` | 3 types |
-| `Unio<T0, T1, T2, T3>` | 4 types |
-| `Unio<T0, T1, T2, T3, T4>` | 5 types |
-| `Unio<T0, T1, T2, T3, T4, T5>` | 6 types |
-| `Unio<T0, T1, T2, T3, T4, T5, T6>` | 7 types |
-| `Unio<T0, T1, T2, T3, T4, T5, T6, T7>` | 8 types |
-| `Unio<T0, T1, T2, T3, T4, T5, T6, T7, T8>` | 9 types |
-| `Unio<T0, ..., T19>` | up to 20 types |
-
-The same arities (2–20) apply to the source generator - `UnioBase<T0, ..., T19>` supports all 20 arities.
-
----
-
 ## API Reference
 
 ### Union Type Members
 
-Each `Unio<...>` (both core and source-generated) provides:
+Each `Unio<...>` (both generic `readonly struct` and `UnioBase<...>` named unions) provides **2 to 20 type parameters** (`Unio<T0, T1>` through `Unio<T0, ..., T19>`):
 
 | Member | Return Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `Index` | `int` | Zero-based index of the currently stored type |
-| `Value` | `object` | Currently stored value (boxed) |
+| `Value` | `object` | Currently stored value (boxed for value types) |
 | `IsT0` .. `IsTn` | `bool` | Returns `true` if the union holds the type at that index |
 | `AsT0` .. `AsTn` | `T0` .. `Tn` | Returns the value; throws `InvalidOperationException` if wrong type |
 | `TryGetT0(out T0)` .. `TryGetTn(out Tn)` | `bool` | Returns `true` and sets `out` parameter if the type matches |
-| `TryPickT0(out T0, out ...)` .. `TryPickTn(out Tn, out ...)` | `bool` | Returns `true` and clears remainder if the type matches; otherwise returns `false` and provides the remainder value/union |
-| `Match<TResult>(Func<T0, TResult>, ...)` | `TResult` | Exhaustive functional match - one function per type |
-| `Match<TState, TResult>(TState, Func<TState, T0, TResult>, ...)` | `TResult` | Allocation-free match - passes `state` to `static` lambdas instead of capturing variables |
-| `Switch(Action<T0>, ...)` | `void` | Exhaustive side-effect switch - one action per type |
-| `Switch<TState>(TState, Action<TState, T0>, ...)` | `void` | Allocation-free switch - passes `state` to `static` lambdas instead of capturing variables |
+| `TryPickT0(out T0, out ...)` .. `TryPickTn(out Tn, out ...)` | `bool` | Returns `true` if matched; otherwise returns `false` and provides the remainder value or union |
+| `ValueOrT0(T0)` .. `ValueOrTn(Func<Tn>)` | `T0` .. `Tn` | Returns the stored value if active, or an eager/lazy fallback |
+| `MapT0(Func<T0, TNew>)` .. `MapTn(...)` | `Unio<...>` | Transforms one branch while preserving the remaining union types |
+| `Match<TResult>(Func<T0, TResult>, ...)` | `TResult` | Exhaustive functional match — one function per type |
+| `Match<TState, TResult>(TState, Func<TState, T0, TResult>, ...)` | `TResult` | Allocation-free match — passes `state` to `static` lambdas |
+| `Switch(Action<T0>, ...)` | `void` | Exhaustive side-effect switch — one action per type |
+| `Switch<TState>(TState, Action<TState, T0>, ...)` | `void` | Allocation-free switch — passes `state` to `static` lambdas |
 | `Match<TResult>(Func<T0, Task<TResult>>, ...)` | `Task<TResult>` | Exhaustive async functional match |
-| `Match<TState, TResult>(TState, Func<TState, T0, Task<TResult>>, ...)` | `Task<TResult>` | Allocation-free async match - passes `state` to `static` lambdas |
+| `Match<TState, TResult>(TState, Func<TState, T0, Task<TResult>>, ...)` | `Task<TResult>` | Allocation-free async match — passes `state` to `static` lambdas |
 | `Switch(Func<T0, Task>, ...)` | `Task` | Exhaustive async side-effect switch |
-| `Switch<TState>(TState, Func<TState, T0, Task>, ...)` | `Task` | Allocation-free async switch - passes `state` to `static` lambdas |
-| `Equals(other)` | `bool` | Structural equality via `IEquatable<T>` |
-| `GetHashCode()` | `int` | Hash code based on index + active value |
-| `ToString()` | `string` | Delegates to the active value's `ToString()` |
-| `==` / `!=` | `bool` | Value equality operators |
+| `Switch<TState>(TState, Func<TState, T0, Task>, ...)` | `Task` | Allocation-free async switch — passes `state` to `static` lambdas |
+| `Equals(other)` / `==` / `!=` / `GetHashCode()` | `bool` / `int` | Structural value equality via `IEquatable<T>` |
+| `ToString(...)` / `TryFormat(...)` | `string` / `bool` | Delegates formatting via `IFormattable`, `ISpanFormattable`, and `IUtf8SpanFormattable` |
 
-### Implicit Conversions
+### Implicit Conversions & Equality
 
-Every union type has implicit conversion operators from each of its type parameters:
+Every union type defines implicit conversion operators from each constituent type and implements `IEquatable<T>` with structural equality:
 
 ```csharp
-Unio<int, string, bool> union;
+Unio<int, string, bool> a = 42;      // stores int at index 0
+Unio<int, string, bool> b = 42;
+Unio<int, string, bool> c = "hello"; // stores string at index 1
 
-// All of these work via implicit conversion:
-union = 42;              // stores int at index 0
-union = "hello";         // stores string at index 1
-union = true;            // stores bool at index 2
+bool same = a == b;       // true  - same index and value
+bool different = a == c;  // false - different active types
+
+var set = new HashSet<Unio<int, string, bool>> { a, b, c };
+// set.Count == 2
 ```
 
-### Equality & Hashing
+### Allocation-Free Matching with `TState`
 
-Unions implement `IEquatable<T>` with full structural equality:
-
-```csharp
-Unio<int, string> a = 42;
-Unio<int, string> b = 42;
-Unio<int, string> c = "hello";
-
-a == b;  // true  - same type, same value
-a == c;  // false - different types
-a != c;  // true
-
-// Works in dictionaries and HashSets
-var set = new HashSet<Unio<int, string>> { a, b, c };
-// set.Count == 2  (a and b are equal)
-```
-
-### Match & Switch
-
-`Match` and `Switch` enforce exhaustive handling - every branch must be covered:
+When a lambda captures local variables, the C# compiler allocates a closure object per call. Pass context via `TState` with `static` lambdas (or a `ValueTuple` for multiple values) to eliminate closure allocations on hot paths:
 
 ```csharp
-// Match returns a value - functional pattern
-string result = union.Match(
-    i => $"integer: {i}",
-    s => $"string: {s}",
-    b => $"boolean: {b}");
-
-// Switch executes an action - side-effect pattern
-union.Switch(
-    i => Console.WriteLine($"int: {i}"),
-    s => Console.WriteLine($"string: {s}"),
-    b => Console.WriteLine($"bool: {b}"));
-```
-
-#### Allocation-Free Matching with `TState`
-
-When a lambda captures a local variable, the compiler creates a new closure object on the heap every time the delegate is invoked. The `Match<TState, TResult>`, `Switch<TState>`, overloads eliminate this allocation by passing a state value directly alongside each `static` lambda:
-
-```csharp
-// ❌ captures `prefix` - allocates a new closure object per call
+// ❌ captures `prefix` - allocates a closure object per call
 string result = union.Match(
     i => $"{prefix}: {i}",
     s => $"{prefix}: {s}",
@@ -378,210 +238,68 @@ string result = union.Match(prefix,
     static (p, i) => $"{p}: {i}",
     static (p, s) => $"{p}: {s}",
     static (p, b) => $"{p}: {b}");
-```
 
-For `Switch<TState>`, wrap any mutable targets you need to write to in a `ValueTuple`:
-
-```csharp
-// Passes (logger, config) as a ValueTuple state - no closure allocation
-union.Switch((logger, config),
-    static (s, i) => s.logger.LogInformation("int {V}", i),
-    static (s, str) => s.logger.LogDebug("string {V}", str),
-    static (_, b)  => { /* ... */ });
-```
-
-The same pattern applies to the async variants:
-
-```csharp
-// ❌ captures `db` - allocates per call
-string result = await union.Match(
-    async i => await db.GetIntAsync(i),
-    async s => await db.GetStringAsync(s));
-
-// ✅ passes `db` as TState to static lambdas - zero allocation
-string result = await union.Match(db,
-    static async (d, i) => await d.GetIntAsync(i),
-    static async (d, s) => await d.GetStringAsync(s));
-
-// Switch variant - pass multiple values via ValueTuple
+// Multiple state values via ValueTuple (sync or async)
 await union.Switch((db, logger),
-    static async (s, i) => { await s.db.SaveAsync(i); s.logger.LogInformation("Saved int"); },
-    static async (s, str) => await s.db.LogAsync(str));
+    static async (s, i)   => { await s.db.SaveAsync(i); s.logger.LogInformation("Saved {V}", i); },
+    static async (s, str) => await s.db.LogAsync(str),
+    static (_, _)         => Task.CompletedTask);
 ```
 
-This pattern is especially valuable in loops, high-throughput pipelines and ASP.NET Core request handlers where per-call allocation matters.
+## Unio.Types
 
-### TryGet Pattern
+`Unio.Types` provides 39 pre-built `readonly struct` types with `IEquatable<T>`, `==`/`!=` operators, and `[AggressiveInlining]` equality members.
 
-Safe access without exceptions, following the `TryParse` idiom:
+### Marker Types (Zero-Size Sentinels)
 
-```csharp
-Unio<int, string> result = GetResult();
-
-if (result.TryGetT0(out int number))
-{
-    // number is available here, no exception possible
-    ProcessNumber(number);
-}
-else if (result.TryGetT1(out string text))
-{
-    ProcessText(text);
-}
-```
-
----
-
-## Unio.Types - Pre-built Sentinel & Value Types
-
-The `Unio.Types` package provides 39 high-performance, pre-built types designed for common discriminated union patterns. All marker types are `readonly struct` with `IEquatable<T>`, `==`/`!=` operators and `[AggressiveInlining]` on equality checks.
-
-### Marker Types (Empty Sentinels)
-
-Marker types are zero-size sentinel structs with no data. They represent states or outcomes:
-
-#### Boolean / Ternary
-
-| Type | Description | Example |
-|---|---|---|
-| `Yes` | Affirmative result | `Unio<Data, Yes, No>` |
-| `No` | Negative result | `Unio<Yes, No>` |
-| `Maybe` | Indeterminate result | `Unio<Yes, No, Maybe>` |
-| `True` | Boolean true marker | `Unio<True, False>` |
-| `False` | Boolean false marker | `Unio<True, False>` |
-| `Unknown` | Unknown state | `Unio<Result, Unknown>` |
-
-#### Collection / Quantity
-
-| Type | Description | Example |
-|---|---|---|
-| `All` | All items matched | `Unio<All, Some, None>` |
-| `Some` | Partial match | `Unio<All, Some, None>` |
-| `None` | No items / empty result | `Unio<Data, None>` |
-| `Empty` | Empty / blank | `Unio<Content, Empty>` |
-
-#### State
-
-| Type | Description | Example |
-|---|---|---|
-| `Pending` | Operation in progress | `Unio<Result, Pending>` |
-| `Cancelled` | Operation cancelled | `Unio<Result, Cancelled, Timeout>` |
-| `Timeout` | Operation timed out | `Unio<Result, Timeout>` |
-| `Skipped` | Operation was skipped | `Unio<Result, Skipped>` |
-| `Invalid` | Invalid state / input | `Unio<Data, Invalid>` |
-| `Disabled` | Feature / resource disabled | `Unio<Config, Disabled>` |
-| `Expired` | Token / session / resource expired | `Unio<Session, Expired>` |
-| `RateLimited` | Rate limit hit | `Unio<Response, RateLimited>` |
-
-#### HTTP / API
-
-| Type | Description | HTTP | Example |
-|---|---|---|---|
-| `NotFound` | Resource not found | 404 | `Unio<User, NotFound>` |
-| `Forbidden` | Access denied | 403 | `Unio<User, Forbidden>` |
-| `Unauthorized` | Authentication required | 401 | `Unio<Data, Unauthorized>` |
-| `Conflict` | Resource conflict | 409 | `Unio<Updated, Conflict>` |
-| `BadRequest` | Invalid request | 400 | `Unio<Data, BadRequest>` |
-| `Accepted` | Accepted for processing | 202 | `Unio<Result, Accepted>` |
-| `NoContent` | No content to return | 204 | `Unio<Data, NoContent>` |
-
-#### CRUD Operations
-
-| Type | Description | Example |
-|---|---|---|
-| `Created` | Resource was created | `Unio<Created, Conflict>` |
-| `Updated` | Resource was updated | `Unio<Updated, NotFound>` |
-| `Deleted` | Resource was deleted | `Unio<Deleted, NotFound>` |
-| `Unchanged` | No change occurred | `Unio<Updated, Unchanged>` |
-
-#### Result
-
-| Type | Description | Example |
-|---|---|---|
-| `Success` | Operation succeeded | `Unio<Success, Error>` |
-| `Error` | Operation failed | `Unio<Success, Error>` |
+| Category | Types | Notes |
+| --- | --- | --- |
+| **Boolean / Ternary** | `Yes`, `No`, `Maybe`, `True`, `False`, `Unknown` | Zero-size state sentinels |
+| **Collection** | `All`, `Some`, `None`, `Empty` | Option / match-quantity sentinels |
+| **State** | `Pending`, `Cancelled`, `Timeout`, `Skipped`, `Invalid`, `Disabled`, `Expired`, `RateLimited` | Workflow and lifecycle states |
+| **HTTP / API** | `BadRequest` (400), `Unauthorized` (401), `Forbidden` (403), `NotFound` (404), `Conflict` (409), `Accepted` (202), `NoContent` (204) | Automatically mapped by `Unio.AspNetCore` |
+| **CRUD** | `Created` (201), `Updated`, `Deleted`, `Unchanged` | Persistence outcome markers |
+| **Result** | `Success`, `Error` | Binary outcome markers |
 
 ### Value-Carrying Types
 
-Value-carrying types wrap a value of type `T` with semantic meaning:
+All value-carrying wrappers support implicit conversion from `T`, `IEquatable<T>`, `==`/`!=`, and descriptive `ToString()` formatting:
 
 | Type | Property | Description | Example |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `Success<T>` | `T Value` | Success with result value | `new Success<Order>(order)` |
-| `Error<T>` | `T Value` | Error with details | `new Error<string>("msg")` |
+| `Error<T>` | `T Value` | Error with typed details | `new Error<string>("msg")` |
 | `Result<T>` | `T Value` | Generic result wrapper | `new Result<int>(42)` |
 | `NotFound<T>` | `T Value` | Not found with identifier | `new NotFound<int>(userId)` |
-| `Created<T>` | `T Value` | Created with entity/ID | `new Created<int>(newId)` |
+| `Created<T>` | `T Value` | Created with entity or ID (HTTP 201) | `new Created<int>(newId)` |
 | `Updated<T>` | `T Value` | Updated with entity | `new Updated<User>(user)` |
 | `ValidationError` | `string Message` | Validation error message | `new ValidationError("Name required")` |
-| `ValidationError<T>` | `T Value` | Validation error details | `new ValidationError<string[]>(errors)` |
-
-All value-carrying types support:
-- **Implicit conversion** from `T` - `Success<int> s = 42;`
-- **`IEquatable<T>`** - structural equality on the wrapped value
-- **`==` / `!=` operators**
-- **`ToString()`** - e.g. `"Success(42)"`, `"ValidationError(Name required)"`
-
-### Type Reference Table
-
-All 39 types at a glance:
-
-| Category | Types |
-|---|---|
-| Boolean / Ternary | `Yes`, `No`, `Maybe`, `True`, `False`, `Unknown` |
-| Collection | `All`, `Some`, `None`, `Empty` |
-| State | `Pending`, `Cancelled`, `Timeout`, `Skipped`, `Invalid`, `Disabled`, `Expired`, `RateLimited` |
-| HTTP / API | `NotFound`, `Forbidden`, `Unauthorized`, `Conflict`, `BadRequest`, `Accepted`, `NoContent` |
-| CRUD | `Created`, `Updated`, `Deleted`, `Unchanged` |
-| Result | `Success`, `Error` |
-| Value Carriers | `Success<T>`, `Error<T>`, `Result<T>`, `NotFound<T>`, `Created<T>`, `Updated<T>`, `ValidationError`, `ValidationError<T>` |
-
----
+| `ValidationError<T>` | `T Value` | Typed validation error details | `new ValidationError<string[]>(errors)` |
 
 ## Source Generator
 
-### How It Works
-
-The `Unio.SourceGenerator` is a Roslyn **incremental source generator** (`IIncrementalGenerator`). It runs at compile time and generates complete union class implementations from minimal declarations.
-
-**Step 1:** Declare a `partial class` with `[GenerateUnio]` inheriting from `UnioBase<...>`:
-
-```csharp
-using Unio;
-
-[GenerateUnio]
-public partial class StringOrInt : UnioBase<string, int>;
-```
-
-**Step 2:** The generator detects the class at compile time via:
-1. **Syntactic filter** - fast check: is it a `partial class` with attributes and a base list?
-2. **Semantic filter** - does it have `[GenerateUnio]`? Does it inherit from `UnioBase<...>`?
-3. **Code generation** - emit a complete `.g.cs` file with the full API
-
-**Step 3:** The generator produces a `sealed` class that **inherits from `UnioBase<string, int>`** - a pre-built abstract base class in the `Unio` package. All union operations (Match, Switch, TryGet, ValueOr, etc.) are inherited from `UnioBase`; the generated code only adds the constructor, implicit conversion operators and typed equality members. This keeps generated code minimal while naming types as full classes with class semantics.
-
-### Generated API Surface
-
-For a declaration like
+`Unio.SourceGenerator` is a Roslyn incremental generator (`IIncrementalGenerator`) that turns a minimal `partial class` declaration into a `sealed` named union inheriting from `UnioBase<...>`.
 
 ```csharp
 [GenerateUnio]
 public partial class Result : UnioBase<User, NotFound, ValidationError>;
 ```
 
-the generator produces a class inheriting from `UnioBase<User, NotFound, ValidationError>`. All operations from the base class are immediately available and the generator only emits:
+Generated code stays minimal because all union members (`Index`, `IsT#`, `AsT#`, `TryGetT#`, `Match`, `Switch`, `MapT#`, `ValueOrT#`, formatting) are inherited from `UnioBase<...>`:
 
 ```csharp
 public sealed partial class Result : IEquatable<Result>
 {
-    // Constructor
     private Result(Unio<User, NotFound, ValidationError> union) : base(union) { }
 
-    // Implicit conversion operators (one per type)
-    public static implicit operator Result(User value);       // → UnioBase.IsT0 etc.
+    public Result(User value) : base((Unio<User, NotFound, ValidationError>)value) { }
+    public Result(NotFound value) : base((Unio<User, NotFound, ValidationError>)value) { }
+    public Result(ValidationError value) : base((Unio<User, NotFound, ValidationError>)value) { }
+
+    public static implicit operator Result(User value);
     public static implicit operator Result(NotFound value);
     public static implicit operator Result(ValidationError value);
 
-    // Typed equality (strongly typed to Result - not UnioBase)
     public bool Equals(Result? other);
     public override bool Equals(object? obj);
     public override int GetHashCode();
@@ -590,65 +308,21 @@ public sealed partial class Result : IEquatable<Result>
 }
 ```
 
-All other members (`Index`, `IsT0`–`IsT2`, `AsT0`–`AsT2`, `TryGetT0`–`TryGetT2`, `Match<TResult>`, `Match<TState,TResult>`, `Switch`, `Switch<TState>`, `MapT0`–`MapT2`, `ValueOrT0`–`ValueOrT2`, `ToString`, `IFormattable`, `ISpanFormattable`, `IUtf8SpanFormattable`) are **inherited from `UnioBase`**.
-
 ### Diagnostics
 
-The source generator reports errors at compile time:
-
 | Code | Severity | Description |
-|---|---|---|
+| --- | --- | --- |
 | `UNIO001` | Error | Class marked with `[GenerateUnio]` does not inherit from `UnioBase<...>` |
 | `UNIO002` | Error | `UnioBase<...>` has unsupported arity (must be 2–20) |
 | `UNIO003` | Error | Duplicate type arguments in `UnioBase<...>` |
-| `UNIO005` | Error | Nested, generic, abstract, static or file-local union declaration |
-| `UNIO006` | Error | Union class is not partial |
+| `UNIO005` | Error | Nested, generic, abstract, static, or file-local union declaration |
+| `UNIO006` | Error | Union class is not `partial` |
 
-Use top-level, non-generic partial classes. The generator adds `sealed` automatically. `UNIO004` is reserved and is not emitted.
-
-Example:
-
-```csharp
-// UNIO001: Missing UnioBase<...> base class
-[GenerateUnio]
-public partial class Bad;
-
-// UNIO002: Invalid arity
-[GenerateUnio]
-public partial class TooFew : UnioBase<int>;  // only 1 type - minimum is 2
-```
-
----
+Use top-level, non-generic `partial` classes; `UNIO004` is reserved.
 
 ## Real-World Examples
 
-### Result Pattern (API Controller)
-
-```csharp
-using Unio;
-using Unio.Types;
-
-public Unio<User, NotFound, Forbidden> GetUser(int id, ClaimsPrincipal caller)
-{
-    if (!caller.IsInRole("Admin"))
-        return new Forbidden();
-
-    User? user = _repository.Find(id);
-    if (user is null)
-        return new NotFound();
-
-    return user;
-}
-
-// In controller:
-var result = GetUser(42, User);
-var response = result.Match(
-    user  => Ok(user),
-    _     => NotFound(),
-    _     => Forbid());
-```
-
-### CRUD Operations
+### CRUD & Validation
 
 ```csharp
 using Unio;
@@ -662,55 +336,7 @@ public Unio<Created<int>, ValidationError, Conflict> CreateProduct(ProductDto dt
     if (_repo.ExistsByName(dto.Name))
         return new Conflict();
 
-    int id = _repo.Insert(dto);
-    return new Created<int>(id);
-}
-
-var result = CreateProduct(dto);
-result.Switch(
-    created => Console.WriteLine($"Created with ID: {created.Value}"),
-    error   => Console.WriteLine($"Validation failed: {error.Message}"),
-    _       => Console.WriteLine("Product already exists"));
-```
-
-### Error Handling with Recovery
-
-```csharp
-using Unio;
-
-Unio<int, FormatException, OverflowException> SafeParse(string input)
-{
-    try { return int.Parse(input, CultureInfo.InvariantCulture); }
-    catch (FormatException ex) { return ex; }
-    catch (OverflowException ex) { return ex; }
-}
-
-var parsed = SafeParse("abc");
-var value = parsed.Match(
-    number   => number,
-    _        => -1,     // default for format errors
-    _        => int.MaxValue);  // cap for overflow
-```
-
-### Validation Pipeline
-
-```csharp
-using Unio;
-using Unio.Types;
-
-public Unio<Success<Order>, ValidationError<string[]>> ValidateAndProcess(OrderRequest req)
-{
-    var errors = new List<string>();
-
-    if (req.Quantity <= 0) errors.Add("Quantity must be positive");
-    if (string.IsNullOrEmpty(req.ProductId)) errors.Add("ProductId is required");
-    if (req.Price < 0) errors.Add("Price cannot be negative");
-
-    if (errors.Count > 0)
-        return new ValidationError<string[]>(errors.ToArray());
-
-    var order = new Order(req.ProductId, req.Quantity, req.Price);
-    return new Success<Order>(order);
+    return new Created<int>(_repo.Insert(dto));
 }
 ```
 
@@ -724,150 +350,165 @@ using Unio.Types;
 public partial class JobState : UnioBase<Pending, Success<JobResult>, Error<string>, Cancelled, Timeout>;
 
 JobState state = new Pending();
-
-// Process...
 state = new Success<JobResult>(result);
 
-// Report
-Console.WriteLine(state.Match(
-    _       => "⏳ Pending...",
-    success => $"✅ Done: {success.Value}",
-    error   => $"❌ Failed: {error.Value}",
-    _       => "🚫 Cancelled",
-    _       => "⏰ Timed out"));
+string status = state.Match(
+    _       => "Pending...",
+    success => $"Done: {success.Value}",
+    error   => $"Failed: {error.Value}",
+    _       => "Cancelled",
+    _       => "Timed out");
 ```
 
-### Option / Maybe Pattern
+### Error Handling & Option Pattern
 
 ```csharp
 using Unio;
 using Unio.Types;
 
-// Simple Option<T> via union
-Unio<string, None> FindName(int id)
+Unio<int, FormatException, OverflowException> SafeParse(string input)
 {
-    var name = _db.FindName(id);
-    return name is not null ? name : new None();
+    try { return int.Parse(input, CultureInfo.InvariantCulture); }
+    catch (FormatException ex) { return ex; }
+    catch (OverflowException ex) { return ex; }
 }
 
-var result = FindName(42);
-var display = result.Match(
-    name => name,
-    _    => "(unknown)");
+Unio<string, None> FindName(int id) =>
+    _db.FindName(id) is { } name ? name : new None();
 ```
 
----
+<a id="native-aot"></a>
 
-## Performance
+## Native AOT and trimming
+
+All runtime packages declare `<IsAotCompatible>true</IsAotCompatible>`, enabling AOT, trimming, and single-file analyzers on every build:
+
+| Package | Native AOT / trimming | Reference metadata verification |
+| --- | --- | --- |
+| `Unio` | Supported across all arities 2–20 and `UnioBase<...>` | Enabled for .NET 10+ |
+| `Unio.Types` | Supported | Enabled for .NET 10+ |
+| `Unio.Extensions` | Supported | Enabled for .NET 10+ |
+| `Unio.SourceGenerator` | Generated code is supported; generator runs at build time | Not a runtime assembly |
+| `Unio.AspNetCore` | Supported with source-generated `JsonSerializerContext` | Disabled for `Microsoft.AspNetCore.App` |
+
+`VerifyReferenceAotCompatibility` (IL3058) is enabled on .NET 10+ where framework references include AOT metadata. `Microsoft.AspNetCore.App` contains assemblies without this metadata, so `Unio.AspNetCore` keeps code analysis enabled and verifies native execution via `samples/Unio.AspNetCore.NativeAot`.
+
+Publish and run the native smoke apps and full-API rooting check:
 
 ```shell
-| Method                              | Mean      | Error     | Ratio  | Allocated |
-|------------------------------------ |----------:|----------:|-------:|----------:|
-| Unio_Match_2Arity                   | 0.7800 ns | 0.8268 ns |   1.00 |      0 B  |
-| OneOf_Match_2Arity                  | 0.7415 ns | 0.2101 ns |   0.95 |      0 B  |
-| Unio_Match_5Arity                   | 1.0782 ns | 1.2554 ns |   1.00 |      0 B  |
-| OneOf_Match_5Arity                  | 1.0814 ns | 0.1313 ns |   1.01 |      0 B  |
-| Unio_Match_WithState_2Arity         | 4.8533 ns | 1.1143 ns |   1.00 |     48 B  |
-| OneOf_Match_CapturingLambda_2Arity  | 5.6056 ns | 0.2197 ns |   1.16 |     72 B  |
-| Unio_Match_WithState_5Arity         | 5.0281 ns | 0.6369 ns |   1.00 |     48 B  |
-| OneOf_Match_CapturingLambda_5Arity  | 5.7137 ns | 0.2740 ns |   1.14 |     72 B  |
-| Unio_Switch_WithState_2Arity        | 0.6918 ns | 0.0947 ns |   1.00 |      0 B  |
-| OneOf_Switch_CapturingLambda_2Arity | 1.9457 ns | 0.5249 ns |   2.81 |     32 B  |
-| Unio_Switch_WithState_5Arity        | 1.1188 ns | 0.1413 ns |   1.00 |      0 B  |
-| OneOf_Switch_CapturingLambda_5Arity | 1.9274 ns | 0.0991 ns |   1.72 |     32 B  |
-| Unio_ToString                       | 0.4430 ns | 0.0746 ns |   1.00 |      0 B  |
-| OneOf_ToString                      | 5.1127 ns | 0.3844 ns |  11.54 |     56 B  |
-| Unio_TryGetT0_5Arity                | 0.0014 ns | 0.0432 ns |      ? |      0 B  |
-| OneOf_TryPickT0_5Arity              | 2.6490 ns | 0.1678 ns |      ? |      0 B  |
-| Unio_TryGetT4_5Arity_Miss           | 0.0149 ns | 0.0103 ns |   1.00 |      0 B  |
-| OneOf_TryPickT4_5Arity_Miss         | 4.1028 ns | 0.6939 ns | 276.00 |      0 B  |
-| Unio_TryGetT1_Miss                  | 0.0185 ns | 0.0697 ns |   1.03 |      0 B  |
-| OneOf_TryPickT1_Miss                | 0.1901 ns | 0.0629 ns |  10.52 |      0 B  |
-```
+dotnet publish samples/Unio.NativeAot -c Release -f net11.0 -r linux-x64 -o artifacts/aot/core
+./artifacts/aot/core/Unio.NativeAot
 
-### Design Decisions
+dotnet publish samples/Unio.AspNetCore.NativeAot -c Release -f net11.0 -r linux-x64 -o artifacts/aot/http
+./artifacts/aot/http/Unio.AspNetCore.NativeAot --smoke
 
-Unio is built for maximum runtime performance:
-
-| Decision | Benefit |
-|---|---|
-| `readonly struct` for core type | No heap allocation - stack-allocated for small value types |
-| `UnioBase<...>` abstract class | Named (source-generated) union types get class semantics and reference identity |
-| Typed generic fields (`T0? _value0`) | No `object` boxing - value types stored directly |
-| `[MethodImpl(AggressiveInlining)]` | Inlining hints for the JIT and Native AOT compilers on hot paths |
-| `byte _index` discriminator | Minimal overhead: 1 byte to track the active type |
-| `switch` expressions | JIT compiles to efficient jump tables |
-| Host-controlled optimization | JIT tiering/PGO is configured by the consuming application; Native AOT has no JIT |
-| Source-generated named types | Inherit from `UnioBase` - only constructor + implicit operators generated |
-| Marker types (empty structs) | 1 byte size, zero-cost equality, `AggressiveInlining` |
-| `Match<TState, TResult>` / `Switch<TState>` | State passed as parameter to `static` lambdas - capturing closures never allocated |
-
-### Benchmark Results
-
-Run benchmarks yourself:
-
-```bash
-dotnet run --configuration Release --project perf/Unio.Benchmarks/Unio.Benchmarks.csproj --framework net11.0
-```
-
-Expected characteristics:
-- **Creation**: Value-type construction via private constructor + implicit operator (no additional heap allocation)
-- **IsT# / Index**: Single byte comparison, fully inlined
-- **AsT#**: Single byte comparison + field access, fully inlined
-- **TryGet**: Single byte comparison + field access + bool return, fully inlined
-- **Match / Switch**: `switch` expression compiled to jump table by JIT
-- **Match\<TState\> / Switch\<TState\>**: Same as above, but with delegate arguments that are `static` — **0 B allocated** vs. a closure object per call for the capturing variant
-- **Equality**: Index comparison + `EqualityComparer<T>.Default`, fully inlined
-
----
-
-## Acknowledgements
-
-Unio was inspired by [OneOf](https://github.com/mcintyre321/OneOf), which pioneered discriminated unions in C#. However, a more modern, high-performance implementation was needed - with a `readonly struct` core type, `UnioBase<...>` for named class-based unions, typed generic fields and full value equality semantics.
-
-
-The benchmark projects pin the compared package versions in [Directory.Packages.props](Directory.Packages.props). The measurements above describe the benchmark configuration; they are not Native AOT performance measurements.
-
-## Code Generation Tool
-
-The checked-in generic union implementations are generated from `tools/Unio.CodeGen/CodeGenerator.cs`. Change the template and regenerate all arities together:
-
-```bash
-dotnet run --project tools/Unio.CodeGen --framework net11.0 -- src/Unio
-```
-
-## Building & Testing
-
-Use the .NET 11 SDK (11.0.100) selected by `global.json` and install the .NET 9/10 runtimes to run all unit tests. The build-time source generator targets `netstandard2.0`; runtime packages target .NET 9/10/11.
-
-| Target | C# version | Dependency compatibility |
-|---|---|---|
-| `net9.0` | 13 (framework default) | Test SDK 18.12.0, xUnit 4.0.3 and Coverlet 10.1.1 support .NET 8+. Roslyn 5.12.0 tests use its .NET Standard 2.0 assets. |
-| `net10.0` | 14 (framework default) | Same test dependencies; Roslyn 5.12.0 tests use its .NET 10 assets. |
-| `net11.0` | 15 (framework default) | Same test dependencies; Roslyn 5.12.0 matches the .NET 11 SDK compiler. |
-| `netstandard2.0` generator | Latest stable compiler syntax | Roslyn stays at 5.0.0 to preserve the generator's .NET 10 SDK minimum requirement. |
-
-Package versions are pinned in [Directory.Packages.props](Directory.Packages.props). Tests use `xunit.v3.mtp-off` and the VSTest runner selected in `global.json` because `coverlet.collector` does not support MTP v2. Benchmarks use stable BenchmarkDotNet 0.15.8 on .NET 9/10 and 0.16.0-preview.2 on .NET 11: the stable release does not recognize the .NET 11 runtime. OneOf 3.0.271 is already the latest stable release.
-
-```bash
-dotnet test -c Release
-dotnet pack -c Release --no-build -o artifacts/packages
 dotnet publish tests/Unio.AotCompatibility -c Release -f net11.0 -r linux-x64 -o artifacts/aot/analysis
 ./artifacts/aot/analysis/Unio.AotCompatibility
 ```
 
-Also publish and execute both examples using the commands in [Native AOT](#native-aot).
+On Windows use `-r win-x64` and the `.exe` binaries. Publishing with Native AOT requires the [platform toolchain](https://learn.microsoft.com/dotnet/core/deploying/native-aot/#prerequisites). For ASP.NET Core response bodies, pass `result.ToHttpResult(ApiJsonContext.Default)` or configure `ConfigureHttpJsonOptions` with a source-generated `JsonSerializerContext` (see [Unio.AspNetCore documentation](src/Unio.AspNetCore/readme.md)).
 
-## Project Structure
+## Build and test
 
-- `src/`: runtime packages and the build-time source generator.
-- `tests/`: unit/regression tests and the fully rooted Native AOT compatibility app.
-- `samples/`: runnable Native AOT console and ASP.NET Core examples.
-- `tools/Unio.CodeGen/`: templates for checked-in union implementations.
-- `perf/Unio.Benchmarks/`: BenchmarkDotNet comparisons.
+Use the .NET 11 SDK (`11.0.100`) pinned in `global.json` and install the .NET 9 and .NET 10 runtimes to run the full multi-targeted test suite.
 
----
+```shell
+dotnet build -c Release
+dotnet test -c Release --no-build
+```
+
+Line and branch coverage of all five packages must stay at **100 %**. CI collects coverage on every build and fails below this threshold. Run the same check locally with `just test-cov`, or call `./eng/Assert-CodeCoverage.ps1 -ResultsDirectory TestResults -Threshold 100` after a test run with `--collect:"XPlat Code Coverage"`.
+
+| Target | C# version | Notes |
+| --- | --- | --- |
+| `net9.0` | 13 | Runtime packages & unit tests |
+| `net10.0` | 14 | Runtime packages, `VerifyReferenceAotCompatibility`, & unit tests |
+| `net11.0` | 15 | Runtime packages, benchmarks, & unit tests |
+| `netstandard2.0` | Latest | `Unio.SourceGenerator` (Roslyn 5.0.0 for .NET 10+ SDK compatibility) |
+
+Checked-in union arities (`Unio2`..`Unio20` and `UnioBase`) are generated from `tools/Unio.CodeGen`:
+
+```shell
+dotnet run --project tools/Unio.CodeGen --framework net11.0 -- src/Unio
+```
+
+## Release
+
+Every push to `main` builds, tests, validates Native AOT on Linux and Windows, and creates a draft GitHub release with the NuGet (`.nupkg`) and symbol (`.snupkg`) packages. Publishing that release triggers `.github/workflows/release-publish.yml`, which pushes all packages to NuGet.org via [Trusted Publishing](https://learn.microsoft.com/nuget/nuget-org/trusted-publishing) using short-lived OIDC tokens instead of stored API keys.
+
+## Benchmark
+
+Run the BenchmarkDotNet suite on .NET 11:
+
+```shell
+dotnet run -c Release --project perf/Unio.Benchmarks/Unio.Benchmarks.csproj --framework net11.0
+```
+
+| Method | Mean | Error | Ratio | Allocated |
+| --- | ---: | ---: | ---: | ---: |
+| `Unio_Match_2Arity` | 0.7800 ns | 0.8268 ns | 1.00 | 0 B |
+| `OneOf_Match_2Arity` | 0.7415 ns | 0.2101 ns | 0.95 | 0 B |
+| `Unio_Match_5Arity` | 1.0782 ns | 1.2554 ns | 1.00 | 0 B |
+| `OneOf_Match_5Arity` | 1.0814 ns | 0.1313 ns | 1.01 | 0 B |
+| `Unio_Match_WithState_2Arity` | 4.8533 ns | 1.1143 ns | 1.00 | 48 B |
+| `OneOf_Match_CapturingLambda_2Arity` | 5.6056 ns | 0.2197 ns | 1.16 | 72 B |
+| `Unio_Match_WithState_5Arity` | 5.0281 ns | 0.6369 ns | 1.00 | 48 B |
+| `OneOf_Match_CapturingLambda_5Arity` | 5.7137 ns | 0.2740 ns | 1.14 | 72 B |
+| `Unio_Switch_WithState_2Arity` | 0.6918 ns | 0.0947 ns | 1.00 | 0 B |
+| `OneOf_Switch_CapturingLambda_2Arity` | 1.9457 ns | 0.5249 ns | 2.81 | 32 B |
+| `Unio_Switch_WithState_5Arity` | 1.1188 ns | 0.1413 ns | 1.00 | 0 B |
+| `OneOf_Switch_CapturingLambda_5Arity` | 1.9274 ns | 0.0991 ns | 1.72 | 32 B |
+| `Unio_ToString` | 0.4430 ns | 0.0746 ns | 1.00 | 0 B |
+| `OneOf_ToString` | 5.1127 ns | 0.3844 ns | 11.54 | 56 B |
+| `Unio_TryGetT0_5Arity` | 0.0014 ns | 0.0432 ns | ? | 0 B |
+| `OneOf_TryPickT0_5Arity` | 2.6490 ns | 0.1678 ns | ? | 0 B |
+| `Unio_TryGetT4_5Arity_Miss` | 0.0149 ns | 0.0103 ns | 1.00 | 0 B |
+| `OneOf_TryPickT4_5Arity_Miss` | 4.1028 ns | 0.6939 ns | 276.00 | 0 B |
+| `Unio_TryGetT1_Miss` | 0.0185 ns | 0.0697 ns | 1.03 | 0 B |
+| `OneOf_TryPickT1_Miss` | 0.1901 ns | 0.0629 ns | 10.52 | 0 B |
+
+### Design Decisions
+
+| Decision | Benefit |
+| --- | --- |
+| `readonly struct` core (`Unio<...>`) | Zero heap allocation — stack-allocated storage |
+| Typed generic fields (`T0? _value0`) | Value types stored directly without `object` boxing |
+| `byte _index` discriminator + `switch` expressions | 1-byte tag compiled to jump tables by JIT / Native AOT |
+| `[MethodImpl(AggressiveInlining)]` | Hot-path inlining across accessors, equality, and matching |
+| `Match<TState, TResult>` / `Switch<TState>` | `static` lambdas avoid per-call closure allocations |
+| `UnioBase<...>` + sealed generated classes | Reference semantics for named unions with minimal generated IL |
+
+Unio was inspired by [OneOf](https://github.com/mcintyre321/OneOf), redesigned around a `readonly struct` core, typed generic storage, allocation-free state matching, and Native AOT support.
+
+## Samples
+
+- [Native AOT Console Sample](./samples/Unio.NativeAot/)
+- [ASP.NET Core Minimal API Native AOT Sample](./samples/Unio.AspNetCore.NativeAot/)
+
+## Maintained
+
+by [@BenjaminAbt](https://github.com/BenjaminAbt) ([benjamin-abt.com](https://benjamin-abt.com))
 
 ## License
 
-[MIT](LICENSE) © [BEN ABT](https://benjamin-abt.com)
+MIT License
+
+Copyright (c) 2025-2026 BEN ABT (https://benjamin-abt.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

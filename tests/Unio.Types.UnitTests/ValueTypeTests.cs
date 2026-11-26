@@ -289,6 +289,68 @@ public class ValueTypeTests
     }
 
     [Fact]
+    public void AllValueCarryingTypes_CoverEqualityOperatorsHashingAndFormatting()
+    {
+        AssertCarrier(new Success<int>(1), 1, 2, static v => v, static c => c.Value, static (a, b) => a == b, static (a, b) => a != b, "Success(1)");
+        AssertCarrier(new Error<int>(1), 1, 2, static v => v, static c => c.Value, static (a, b) => a == b, static (a, b) => a != b, "Error(1)");
+        AssertCarrier(new Result<int>(1), 1, 2, static v => v, static c => c.Value, static (a, b) => a == b, static (a, b) => a != b, "Result(1)");
+        AssertCarrier(new NotFound<int>(1), 1, 2, static v => v, static c => c.Value, static (a, b) => a == b, static (a, b) => a != b, "NotFound(1)");
+        AssertCarrier(new Created<int>(1), 1, 2, static v => v, static c => c.Value, static (a, b) => a == b, static (a, b) => a != b, "Created(1)");
+        AssertCarrier(new Updated<int>(1), 1, 2, static v => v, static c => c.Value, static (a, b) => a == b, static (a, b) => a != b, "Updated(1)");
+        AssertCarrier(new ValidationError<int>(1), 1, 2, static v => v, static c => c.Value, static (a, b) => a == b, static (a, b) => a != b, "ValidationError(1)");
+
+        ValidationError sameA = "required";
+        ValidationError sameB = new("required");
+        ValidationError diff = "invalid";
+        ValidationError empty = default;
+
+        Assert.Equal("required", sameA.Message);
+        Assert.True(sameA.Equals(sameB));
+        Assert.False(sameA.Equals(diff));
+        Assert.True(sameA.Equals((object)sameB));
+        Assert.False(sameA.Equals((object)diff));
+        Assert.False(sameA.Equals((object?)null));
+        Assert.False(sameA.Equals(123));
+        Assert.True(sameA == sameB);
+        Assert.False(sameA == diff);
+        Assert.False(sameA != sameB);
+        Assert.True(sameA != diff);
+        Assert.Equal(sameA.GetHashCode(), sameB.GetHashCode());
+        Assert.Equal(0, empty.GetHashCode());
+        Assert.Equal("ValidationError(required)", sameA.ToString());
+    }
+
+    private static void AssertCarrier<TCarrier, TValue>(
+        TCarrier constructed,
+        TValue v1,
+        TValue v2,
+        Func<TValue, TCarrier> implicitConvert,
+        Func<TCarrier, TValue> unwrap,
+        Func<TCarrier, TCarrier, bool> eqOp,
+        Func<TCarrier, TCarrier, bool> neqOp,
+        string expectedText)
+        where TCarrier : struct, IEquatable<TCarrier>
+    {
+        TCarrier same = implicitConvert(v1);
+        TCarrier other = implicitConvert(v2);
+
+        Assert.Equal(v1, unwrap(constructed));
+        Assert.Equal(v1, unwrap(same));
+        Assert.True(constructed.Equals(same));
+        Assert.False(constructed.Equals(other));
+        Assert.True(constructed.Equals((object)same));
+        Assert.False(constructed.Equals((object)other));
+        Assert.False(constructed.Equals((object?)null));
+        Assert.False(constructed.Equals("different-type"));
+        Assert.True(eqOp(constructed, same));
+        Assert.False(eqOp(constructed, other));
+        Assert.False(neqOp(constructed, same));
+        Assert.True(neqOp(constructed, other));
+        Assert.Equal(constructed.GetHashCode(), same.GetHashCode());
+        Assert.Equal(expectedText, constructed.ToString());
+    }
+
+    [Fact]
     public void ValueTypes_WorkWithUnio_Match()
     {
         Unio<Created<int>, NotFound, ValidationError> result = new Created<int>(7);

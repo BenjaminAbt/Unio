@@ -24,7 +24,7 @@ public sealed class UnioGenerator : IIncrementalGenerator
         IncrementalValuesProvider<ClassDeclarationSyntax> typeDeclarations = context.SyntaxProvider
             .CreateSyntaxProvider(
                 predicate: static (node, _) => IsCandidate(node),
-                transform: static (ctx, _) => GetSemanticTarget(ctx))
+                transform: static (ctx, ct) => GetSemanticTarget(ctx, ct))
             .Where(static s => s is not null)!;
 
         // Combine with compilation
@@ -42,18 +42,14 @@ public sealed class UnioGenerator : IIncrementalGenerator
         && cds.AttributeLists.Count > 0;
 
     /// <summary>Semantic filter: returns the class syntax node if it carries the <c>[GenerateUnio]</c> attribute; otherwise <c>null</c>.</summary>
-    private static ClassDeclarationSyntax? GetSemanticTarget(GeneratorSyntaxContext context)
+    private static ClassDeclarationSyntax? GetSemanticTarget(GeneratorSyntaxContext context, CancellationToken cancellationToken)
     {
         ClassDeclarationSyntax classSyntax = (ClassDeclarationSyntax)context.Node;
-        INamedTypeSymbol? symbol = context.SemanticModel.GetDeclaredSymbol(classSyntax);
-        if (symbol is null)
-        {
-            return null;
-        }
+        INamedTypeSymbol symbol = context.SemanticModel.GetDeclaredSymbol(classSyntax, cancellationToken)!;
 
         foreach (AttributeData attr in symbol.GetAttributes())
         {
-            if (string.Equals(attr.AttributeClass?.ToDisplayString(), GenerateUnioAttributeFullName, StringComparison.Ordinal))
+            if (string.Equals(attr.AttributeClass!.ToDisplayString(), GenerateUnioAttributeFullName, StringComparison.Ordinal))
             {
                 return classSyntax;
             }
@@ -77,8 +73,8 @@ public sealed class UnioGenerator : IIncrementalGenerator
         foreach (ClassDeclarationSyntax classSyntax in types)
         {
             SemanticModel semanticModel = compilation.GetSemanticModel(classSyntax.SyntaxTree);
-            INamedTypeSymbol? structSymbol = semanticModel.GetDeclaredSymbol(classSyntax, context.CancellationToken);
-            if (structSymbol is null || !processed.Add(structSymbol))
+            INamedTypeSymbol structSymbol = semanticModel.GetDeclaredSymbol(classSyntax, context.CancellationToken)!;
+            if (!processed.Add(structSymbol))
             {
                 continue;
             }
@@ -97,8 +93,20 @@ public sealed class UnioGenerator : IIncrementalGenerator
                 continue;
             }
 
-            // Match the actual base symbol, not a name prefix (e.g. UnioBaseImpostor).
             INamedTypeSymbol? unioBase = structSymbol.BaseType;
+            if (unioBase is not null
+                && string.Equals(unioBase.Name, "UnioBase", StringComparison.Ordinal)
+                && (unioBase.TypeArguments.Length < 2 || unioBase.TypeArguments.Length > 20))
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    Diagnostics.InvalidArity,
+                    classSyntax.Identifier.GetLocation(),
+                    structSymbol.Name,
+                    unioBase.TypeArguments.Length));
+                continue;
+            }
+
+            // Match the actual base symbol, not a name prefix (e.g. UnioBaseImpostor).
             if (unioBase is null || !SymbolEqualityComparer.Default.Equals(
                 unioBase.OriginalDefinition, compilation.GetTypeByMetadataName($"Unio.UnioBase`{unioBase.Arity}")))
             {
@@ -110,15 +118,6 @@ public sealed class UnioGenerator : IIncrementalGenerator
             }
 
             ImmutableArray<ITypeSymbol> typeArgs = unioBase.TypeArguments;
-            if (typeArgs.Length < 2 || typeArgs.Length > 20)
-            {
-                context.ReportDiagnostic(Diagnostic.Create(
-                    Diagnostics.InvalidArity,
-                    classSyntax.Identifier.GetLocation(),
-                    structSymbol.Name,
-                    typeArgs.Length));
-                continue;
-            }
 
             // Check for duplicate type arguments
             HashSet<ITypeSymbol> seenTypes = new(SymbolEqualityComparer.Default);
@@ -166,16 +165,9 @@ public sealed class UnioGenerator : IIncrementalGenerator
             ? null
             : structSymbol.ContainingNamespace.ToDisplayString();
         int arity = typeArgs.Length;
-        string accessibility = structSymbol.DeclaredAccessibility switch
-        {
-            Accessibility.Public => "public",
-            Accessibility.Internal => "internal",
-            Accessibility.Private => "private",
-            Accessibility.Protected => "protected",
-            Accessibility.ProtectedOrInternal => "protected internal",
-            Accessibility.ProtectedAndInternal => "private protected",
-            _ => "internal"
-        };
+        string accessibility = structSymbol.DeclaredAccessibility == Accessibility.Public
+            ? "public"
+            : "internal";
 
         // Fully-qualified type names to avoid ambiguity
         string[] typeNamesGlobal = new string[arity];
