@@ -3,7 +3,7 @@
 // Regression test for: generated code references `global::Unio.Unio<>` and
 // `global::Unio.UnioBase<>`. Without `global::`, a project with a namespace segment
 // named "Unio" (e.g. My.Unio.Features) would cause the compiler to resolve `Unio.Unio<>`
-// as `My.Unio.Unio<>` — which does not exist — resulting in a CS0246/CS0234 error.
+// as `My.Unio.Unio<>` - which does not exist - resulting in a CS0246/CS0234 error.
 // The generator already emits `global::Unio.*` for these references, so this test
 // acts as a permanent guard against any future regression.
 

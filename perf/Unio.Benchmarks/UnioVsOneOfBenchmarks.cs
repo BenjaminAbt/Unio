@@ -240,7 +240,7 @@ public class UnioVsOneOfBenchmarks
 
     /// <summary>
     /// Unio uses <c>Match&lt;TState, TResult&gt;</c> with a <see langword="static"/> lambda
-    /// — no closure object is allocated regardless of the local value.
+    /// - no closure object is allocated regardless of the local value.
     /// </summary>
     [BenchmarkCategory("Match_State_2Arity"), Benchmark(Baseline = true)]
     public string Unio_Match_WithState_2Arity()
