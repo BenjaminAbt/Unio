@@ -1,0 +1,11 @@
+{
+  "platformOptions": {
+    "Coverlet": {
+      "format": "cobertura",
+      "include": "[Unio*]*",
+      "exclude": "[*.UnitTests]*,[*]System.Text.RegularExpressions.Generated*",
+      "excludeByAttribute": "GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute",
+      "excludeByFile": "**/obj/**,**/*.g.cs,**/*Program.cs,**/*Startup.cs,**/*GlobalUsings.cs"
+    }
+  }
+}

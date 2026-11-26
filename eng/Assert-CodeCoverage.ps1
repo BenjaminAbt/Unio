@@ -22,7 +22,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$reports = @(Get-ChildItem -Path $ResultsDirectory -Recurse -Filter '*.cobertura.xml' -ErrorAction SilentlyContinue)
+$reports = @(Get-ChildItem -Path $ResultsDirectory -Recurse -Filter '*cobertura*.xml' -ErrorAction SilentlyContinue)
 if ($reports.Count -eq 0) {
   throw "Expected at least one Cobertura report in '$ResultsDirectory', found 0 reports."
 }

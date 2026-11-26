@@ -57,7 +57,7 @@ jobs:
           echo "Calculated version: ${{ steps.nbgv.outputs.SemVer2 }}"
 
       - name: Build and Test
-        run: dotnet test --configuration ${{ inputs.configuration }} --verbosity normal --results-directory TestResults --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" /p:Version=${{ steps.nbgv.outputs.SemVer2 }}
+        run: dotnet test --configuration ${{ inputs.configuration }} --results-directory TestResults --report-trx --coverlet -p:Version=${{ steps.nbgv.outputs.SemVer2 }}
 
       - name: Check code coverage
         shell: pwsh
@@ -70,7 +70,7 @@ jobs:
           name: test-results
           path: |
             **/TestResults/**/*.trx
-            **/TestResults/**/*.cobertura.xml
+            **/TestResults/**/*cobertura*.xml
 
       - name: Pack NuGet packages
         run: dotnet pack --configuration ${{ inputs.configuration }} --no-build --include-symbols -p:SymbolPackageFormat=snupkg --output ./artifacts /p:PackageVersion=${{ steps.nbgv.outputs.SemVer2 }}
