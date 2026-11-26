@@ -40,18 +40,18 @@ The runtime NuGet packages target .NET 9, 10, and 11; `Unio.SourceGenerator` tar
 
 ## Why Unio?
 
-Discriminated unions model mutually exclusive states without exceptions or `null`. Even with C# 15's [built-in `union` types](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/union) (.NET 11), the default compiler-generated form stores values in an `object?` field—boxing value types and adding GC pressure—and requires .NET 11+. Existing libraries often rely on class hierarchies or `object` storage with similar trade-offs. See [Unio vs. C# 15 Built-in `union`](#unio-vs-c-15-built-in-union) for a detailed feature and benchmark comparison.
+Discriminated unions model mutually exclusive states without exceptions or `null`. Even with C# 15's [built-in `union` types](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/union) (.NET 11), the default compiler-generated form stores values in an `object?` field-boxing value types and adding GC pressure-and requires .NET 11+. Existing libraries often rely on class hierarchies or `object` storage with similar trade-offs. See [Unio vs. C# 15 Built-in `union`](#unio-vs-c-15-built-in-union) for a detailed feature and benchmark comparison.
 
 **Unio** takes a modern, performance-first approach:
 
-- **Typed generic fields** — no casts to `object`, no boxing during construction or matching
-- **Exhaustive matching** — `Match<TResult>` and `Switch` enforce handling of every union branch at compile time
-- **Allocation-free matching** — `Match<TState, TResult>` and `Switch<TState>` pass context to `static` lambdas instead of allocating closures; `Task`-returning overloads cover async workflows
-- **Safe access** — `TryGetT0..TryGetTn` and `TryPickT0..TryPickTn` follow the familiar `TryParse` idiom without exceptions
-- **Full structural equality** — `IEquatable<T>`, `==`, `!=`, `GetHashCode()`, plus `IFormattable`, `ISpanFormattable`, and `IUtf8SpanFormattable`
-- **Source generator** — declare named unions like `StringOrInt` with `[GenerateUnio]` and zero boilerplate
-- **Pre-built types** — 39 sentinel and value-carrying types for common domain and HTTP outcomes (`Success<T>`, `NotFound`, `ValidationError`, etc.)
-- **Native AOT & trimming** — all runtime packages enable AOT and trim analyzers and are verified as native binaries in CI
+- **Typed generic fields** - no casts to `object`, no boxing during construction or matching
+- **Exhaustive matching** - `Match<TResult>` and `Switch` enforce handling of every union branch at compile time
+- **Allocation-free matching** - `Match<TState, TResult>` and `Switch<TState>` pass context to `static` lambdas instead of allocating closures; `Task`-returning overloads cover async workflows
+- **Safe access** - `TryGetT0..TryGetTn` and `TryPickT0..TryPickTn` follow the familiar `TryParse` idiom without exceptions
+- **Full structural equality** - `IEquatable<T>`, `==`, `!=`, `GetHashCode()`, plus `IFormattable`, `ISpanFormattable`, and `IUtf8SpanFormattable`
+- **Source generator** - declare named unions like `StringOrInt` with `[GenerateUnio]` and zero boilerplate
+- **Pre-built types** - 39 sentinel and value-carrying types for common domain and HTTP outcomes (`Success<T>`, `NotFound`, `ValidationError`, etc.)
+- **Native AOT & trimming** - all runtime packages enable AOT and trim analyzers and are verified as native binaries in CI
 
 ## Usage
 
@@ -195,14 +195,14 @@ Each `Unio<...>` (both generic `readonly struct` and `UnioBase<...>` named union
 | `TryPickT0(out T0, out ...)` .. `TryPickTn(out Tn, out ...)` | `bool` | Returns `true` if matched; otherwise returns `false` and provides the remainder value or union |
 | `ValueOrT0(T0)` .. `ValueOrTn(Func<Tn>)` | `T0` .. `Tn` | Returns the stored value if active, or an eager/lazy fallback |
 | `MapT0(Func<T0, TNew>)` .. `MapTn(...)` | `Unio<...>` | Transforms one branch while preserving the remaining union types |
-| `Match<TResult>(Func<T0, TResult>, ...)` | `TResult` | Exhaustive functional match — one function per type |
-| `Match<TState, TResult>(TState, Func<TState, T0, TResult>, ...)` | `TResult` | Allocation-free match — passes `state` to `static` lambdas |
-| `Switch(Action<T0>, ...)` | `void` | Exhaustive side-effect switch — one action per type |
-| `Switch<TState>(TState, Action<TState, T0>, ...)` | `void` | Allocation-free switch — passes `state` to `static` lambdas |
+| `Match<TResult>(Func<T0, TResult>, ...)` | `TResult` | Exhaustive functional match - one function per type |
+| `Match<TState, TResult>(TState, Func<TState, T0, TResult>, ...)` | `TResult` | Allocation-free match - passes `state` to `static` lambdas |
+| `Switch(Action<T0>, ...)` | `void` | Exhaustive side-effect switch - one action per type |
+| `Switch<TState>(TState, Action<TState, T0>, ...)` | `void` | Allocation-free switch - passes `state` to `static` lambdas |
 | `Match<TResult>(Func<T0, Task<TResult>>, ...)` | `Task<TResult>` | Exhaustive async functional match |
-| `Match<TState, TResult>(TState, Func<TState, T0, Task<TResult>>, ...)` | `Task<TResult>` | Allocation-free async match — passes `state` to `static` lambdas |
+| `Match<TState, TResult>(TState, Func<TState, T0, Task<TResult>>, ...)` | `Task<TResult>` | Allocation-free async match - passes `state` to `static` lambdas |
 | `Switch(Func<T0, Task>, ...)` | `Task` | Exhaustive async side-effect switch |
-| `Switch<TState>(TState, Func<TState, T0, Task>, ...)` | `Task` | Allocation-free async switch — passes `state` to `static` lambdas |
+| `Switch<TState>(TState, Func<TState, T0, Task>, ...)` | `Task` | Allocation-free async switch - passes `state` to `static` lambdas |
 | `Equals(other)` / `==` / `!=` / `GetHashCode()` | `bool` / `int` | Structural value equality via `IEquatable<T>` |
 | `ToString(...)` / `TryFormat(...)` | `string` / `bool` | Delegates formatting via `IFormattable`, `ISpanFormattable`, and `IUtf8SpanFormattable` |
 
@@ -471,7 +471,7 @@ dotnet run -c Release --project perf/Unio.Benchmarks/Unio.Benchmarks.csproj --fr
 
 | Decision | Benefit |
 | --- | --- |
-| `readonly struct` core (`Unio<...>`) | Zero heap allocation — stack-allocated storage |
+| `readonly struct` core (`Unio<...>`) | Zero heap allocation - stack-allocated storage |
 | Typed generic fields (`T0? _value0`) | Value types stored directly without `object` boxing |
 | `byte _index` discriminator + `switch` expressions | 1-byte tag compiled to jump tables by JIT / Native AOT |
 | `[MethodImpl(AggressiveInlining)]` | Hot-path inlining across accessors, equality, and matching |
@@ -482,7 +482,7 @@ Unio was inspired by [OneOf](https://github.com/mcintyre321/OneOf), redesigned a
 
 ## Unio vs. C# 15 Built-in `union`
 
-C# 15 (.NET 11) introduces language-level [union types](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/union) (`public union Pet(Cat, Dog, Bird);`), backed by `[Union]` and `IUnion` in `System.Runtime.CompilerServices`. While both solve the same core problem—representing a closed set of mutually exclusive types with compile-time exhaustiveness—they make fundamentally different design trade-offs.
+C# 15 (.NET 11) introduces language-level [union types](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/union) (`public union Pet(Cat, Dog, Bird);`), backed by `[Union]` and `IUnion` in `System.Runtime.CompilerServices`. While both solve the same core problem-representing a closed set of mutually exclusive types with compile-time exhaustiveness-they make fundamentally different design trade-offs.
 
 ### Core Architectural Difference
 
@@ -513,14 +513,14 @@ string b = unio.Match(
 | Feature | Unio | C# 15 Built-in `union` |
 | --- | --- | --- |
 | **Target frameworks** | .NET 9, .NET 10, .NET 11 | .NET 11+ / C# 15 only |
-| **Ad-hoc generic unions** | Yes (`Unio<T0, T1>` .. `Unio<T0, ..., T19>`) without declaring a type | No — every union must be declared as a named `union` type |
+| **Ad-hoc generic unions** | Yes (`Unio<T0, T1>` .. `Unio<T0, ..., T19>`) without declaring a type | No - every union must be declared as a named `union` type |
 | **Named unions** | Yes, via `[GenerateUnio]` source generator (`sealed class : UnioBase<...>`) | Yes, first-class `union Name(T0, T1, ...);` syntax (also supports generic `union Option<T>(...)`) |
-| **Value-type storage** | Typed generic fields — **0 B allocation, no boxing** | Single `object?` field — **boxes value types** (manual custom `[Union]` required to avoid boxing) |
+| **Value-type storage** | Typed generic fields - **0 B allocation, no boxing** | Single `object?` field - **boxes value types** (manual custom `[Union]` required to avoid boxing) |
 | **Struct footprint** | Size of all case fields + 1-byte tag (larger for many/large structs) | Fixed pointer size (8 B on x64) regardless of arity or case struct sizes |
 | **Pattern matching** | `Match` / `Switch` methods (`TState` overloads avoid closure allocations) | Native `switch` expressions & `is` patterns (direct local variable access, nested property/positional patterns) |
 | **Exhaustiveness** | Compile-time enforced via required `Match`/`Switch` delegate parameters | Compiler warnings on `switch` expressions (note: `default` struct contains `null` and can throw `SwitchExpressionException` if `null` arm is omitted) |
 | **Async matching** | Built-in `Task`-returning `Match` and `Switch` overloads (with `TState`) | Standard `await` inside `switch` arms |
-| **Equality & hashing** | Full structural `IEquatable<T>`, `==`, `!=`, `GetHashCode()` (0 B) | Not generated — falls back to `ValueType.Equals` (boxes) unless implemented manually |
+| **Equality & hashing** | Full structural `IEquatable<T>`, `==`, `!=`, `GetHashCode()` (0 B) | Not generated - falls back to `ValueType.Equals` (boxes) unless implemented manually |
 | **Formatting** | `ToString`, `IFormattable`, `ISpanFormattable`, `IUtf8SpanFormattable` | Default `ValueType.ToString()` unless overridden manually |
 | **Functional pipeline** | `TryGet`, `TryPick`, `ValueOr`, `MapT#`, plus `Unio.Extensions` (`Map`, `Bind`, `Tap`, `Ensure`, `Recover`) | Not included |
 | **Custom members in body** | Possible on `[GenerateUnio]` `partial class` | Supported directly in `union` body (methods, properties, delegating constructors) |
