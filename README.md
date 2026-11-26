@@ -417,7 +417,7 @@ dotnet build -c Release
 dotnet test -c Release --no-build
 ```
 
-Line and branch coverage of all five packages must stay at **100 %**. CI collects coverage on every build and fails below this threshold. Run the same check locally with `just test-cov`, or call `./eng/Assert-CodeCoverage.ps1 -ResultsDirectory TestResults -Threshold 100` after a test run with `--collect:"XPlat Code Coverage"`.
+Line and branch coverage of all five packages must stay at **100 %**. CI collects coverage on every build and fails below this threshold. Run the same check locally with `just test-cov`, or call `./eng/Assert-CodeCoverage.ps1 -ResultsDirectory TestResults -Threshold 100` after `dotnet test --coverlet --results-directory TestResults`.
 
 | Target | C# version | Notes |
 | --- | --- | --- |

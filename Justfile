@@ -41,15 +41,15 @@ format-check:
     dotnet format --verify-no-changes --verbosity minimal
 
 test *ARGS:
-    dotnet test --configuration "{{CONFIG}}" --framework "{{TFM}}" --nologo --verbosity minimal {{ARGS}}
+    dotnet test --configuration "{{CONFIG}}" --framework "{{TFM}}" {{ARGS}}
 
 test-cov:
     if (Test-Path "{{COV_DIR}}") { Remove-Item "{{COV_DIR}}" -Recurse -Force }
-    dotnet test --configuration "{{CONFIG}}" --framework "{{TFM}}" --nologo --verbosity minimal --results-directory "{{COV_DIR}}" --collect:"XPlat Code Coverage"
+    dotnet test --configuration "{{CONFIG}}" --framework "{{TFM}}" --results-directory "{{COV_DIR}}" --coverlet
     ./eng/Assert-CodeCoverage.ps1 -ResultsDirectory "{{COV_DIR}}" -Threshold {{COV_MIN}}
 
 test-filter QUERY:
-    dotnet test --configuration "{{CONFIG}}" --framework "{{TFM}}" --nologo --verbosity minimal --filter "{{QUERY}}"
+    dotnet test --configuration "{{CONFIG}}" --framework "{{TFM}}" --filter "{{QUERY}}"
 
 # ===== Packaging / Release =====
 pack *ARGS:
