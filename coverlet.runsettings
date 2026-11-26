@@ -5,8 +5,9 @@
       <DataCollector friendlyName="XPlat Code Coverage">
         <Configuration>
           <Format>cobertura</Format>
-          <ExcludeByFile>**/obj/**;**/*.g.cs;**/*.generated.cs</ExcludeByFile>
-          <Exclude>[*]System.Text.RegularExpressions.Generated*</Exclude>
+          <Exclude>[*.UnitTests]*,[xunit.*]*,[*]System.Text.RegularExpressions.Generated*</Exclude>
+          <ExcludeByAttribute>GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
+          <ExcludeByFile>**/obj/**,**/*.g.cs,**/*Program.cs,**/*Startup.cs,**/*GlobalUsings.cs</ExcludeByFile>
         </Configuration>
       </DataCollector>
     </DataCollectors>

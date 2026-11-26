@@ -57,14 +57,20 @@ jobs:
           echo "Calculated version: ${{ steps.nbgv.outputs.SemVer2 }}"
 
       - name: Build and Test
-        run: dotnet test --configuration ${{ inputs.configuration }} --verbosity normal --logger "trx;LogFileName=test-results.trx" /p:Version=${{ steps.nbgv.outputs.SemVer2 }}
+        run: dotnet test --configuration ${{ inputs.configuration }} --verbosity normal --results-directory TestResults --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" /p:Version=${{ steps.nbgv.outputs.SemVer2 }}
+
+      - name: Check code coverage
+        shell: pwsh
+        run: ./eng/Assert-CodeCoverage.ps1 -ResultsDirectory TestResults -Threshold 100
 
       - name: Upload test results
         if: always() && inputs.upload-test-results
         uses: actions/upload-artifact@v7.0.1
         with:
           name: test-results
-          path: '**/TestResults/**/*.trx'
+          path: |
+            **/TestResults/**/*.trx
+            **/TestResults/**/*.cobertura.xml
 
       - name: Pack NuGet packages
         run: dotnet pack --configuration ${{ inputs.configuration }} --no-build --include-symbols -p:SymbolPackageFormat=snupkg --output ./artifacts /p:PackageVersion=${{ steps.nbgv.outputs.SemVer2 }}

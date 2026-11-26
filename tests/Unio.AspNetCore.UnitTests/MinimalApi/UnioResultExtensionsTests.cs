@@ -1,8 +1,8 @@
 // Copyright © BEN ABT (https://benjamin-abt.com) - all rights reserved
 
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json.Serialization;
 using Unio.AspNetCore.MinimalApi;
 using Unio.Types;
 
@@ -185,6 +185,42 @@ public class UnioResultExtensionsTests
 
         IStatusCodeHttpResult statusResult = Assert.IsAssignableFrom<IStatusCodeHttpResult>(result);
         Assert.Equal(StatusCodes.Status403Forbidden, statusResult.StatusCode);
+    }
+
+    [Fact]
+    public void ToHttpResult_WithNullValueAndJsonContext_ReturnsEmpty200()
+    {
+        Unio<string?, NotFound> union = (string?)null;
+
+        IResult result = union.ToHttpResult(ResponseJsonContext.Default);
+
+        Assert.Equal(StatusCodes.Status200OK, Assert.IsAssignableFrom<IStatusCodeHttpResult>(result).StatusCode);
+    }
+
+    [Fact]
+    public void ToHttpResult_Arities3Through9_BothOverloads_MapCorrectly()
+    {
+        Unio<ResponseBody, NotFound, Forbidden> u3 = new ResponseBody(3);
+        Unio<ResponseBody, NotFound, Forbidden, BadRequest> u4 = new BadRequest();
+        Unio<ResponseBody, NotFound, Forbidden, BadRequest, Conflict> u5 = new Conflict();
+        Unio<ResponseBody, NotFound, Forbidden, BadRequest, Conflict, Unauthorized> u6 = new Unauthorized();
+        Unio<ResponseBody, NotFound, Forbidden, BadRequest, Conflict, Unauthorized, Created> u7 = new Created();
+        Unio<ResponseBody, NotFound, Forbidden, BadRequest, Conflict, Unauthorized, Created, Accepted> u8 = new Accepted();
+        Unio<ResponseBody, NotFound, Forbidden, BadRequest, Conflict, Unauthorized, Created, Accepted, NoContent> u9 = new NoContent();
+
+        Assert.Equal(StatusCodes.Status200OK, Assert.IsAssignableFrom<IStatusCodeHttpResult>(u3.ToHttpResult(ResponseJsonContext.Default)).StatusCode);
+        Assert.Equal(StatusCodes.Status400BadRequest, Assert.IsAssignableFrom<IStatusCodeHttpResult>(u4.ToHttpResult()).StatusCode);
+        Assert.Equal(StatusCodes.Status400BadRequest, Assert.IsAssignableFrom<IStatusCodeHttpResult>(u4.ToHttpResult(ResponseJsonContext.Default)).StatusCode);
+        Assert.Equal(StatusCodes.Status409Conflict, Assert.IsAssignableFrom<IStatusCodeHttpResult>(u5.ToHttpResult()).StatusCode);
+        Assert.Equal(StatusCodes.Status409Conflict, Assert.IsAssignableFrom<IStatusCodeHttpResult>(u5.ToHttpResult(ResponseJsonContext.Default)).StatusCode);
+        Assert.Equal(StatusCodes.Status401Unauthorized, Assert.IsAssignableFrom<IStatusCodeHttpResult>(u6.ToHttpResult()).StatusCode);
+        Assert.Equal(StatusCodes.Status401Unauthorized, Assert.IsAssignableFrom<IStatusCodeHttpResult>(u6.ToHttpResult(ResponseJsonContext.Default)).StatusCode);
+        Assert.Equal(StatusCodes.Status201Created, Assert.IsAssignableFrom<IStatusCodeHttpResult>(u7.ToHttpResult()).StatusCode);
+        Assert.Equal(StatusCodes.Status201Created, Assert.IsAssignableFrom<IStatusCodeHttpResult>(u7.ToHttpResult(ResponseJsonContext.Default)).StatusCode);
+        Assert.Equal(StatusCodes.Status202Accepted, Assert.IsAssignableFrom<IStatusCodeHttpResult>(u8.ToHttpResult()).StatusCode);
+        Assert.Equal(StatusCodes.Status202Accepted, Assert.IsAssignableFrom<IStatusCodeHttpResult>(u8.ToHttpResult(ResponseJsonContext.Default)).StatusCode);
+        Assert.Equal(StatusCodes.Status204NoContent, Assert.IsAssignableFrom<IStatusCodeHttpResult>(u9.ToHttpResult()).StatusCode);
+        Assert.Equal(StatusCodes.Status204NoContent, Assert.IsAssignableFrom<IStatusCodeHttpResult>(u9.ToHttpResult(ResponseJsonContext.Default)).StatusCode);
     }
 }
 

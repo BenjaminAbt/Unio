@@ -9,7 +9,7 @@
 Zero-allocation `readonly struct` unions (`Unio<T0, T1>` .. `Unio<T0, ..., T19>`) with exhaustive `Match`/`Switch`, `TryGet` patterns, a Roslyn incremental source generator for named union types, 39 pre-built result types, and ASP.NET Core Minimal API integration.
 
 [![Build](https://img.shields.io/github/actions/workflow/status/BenjaminAbt/Unio/main-build.yml?branch=main&logo=githubactions&logoColor=white&label=build)](https://github.com/BenjaminAbt/Unio/actions/workflows/main-build.yml)
-[![Coverage: ≥95% line coverage, enforced in CI](https://img.shields.io/badge/coverage-%E2%89%A595%25-brightgreen)](#build-and-test)
+[![Coverage: 100% line and branch coverage, enforced in CI](https://img.shields.io/badge/coverage-100%25-brightgreen)](#build-and-test)
 [![NuGet](https://img.shields.io/nuget/v/Unio?logo=nuget&label=nuget&color=004880)](https://nubrowse.com/packages/Unio)
 [![NuGet downloads](https://img.shields.io/nuget/dt/Unio?logo=nuget&label=downloads&color=004880)](https://nubrowse.com/packages/Unio)
 [![License: MIT](https://img.shields.io/github/license/BenjaminAbt/Unio?color=blue)](LICENSE)
@@ -413,7 +413,7 @@ dotnet build -c Release
 dotnet test -c Release --no-build
 ```
 
-Line coverage across test projects is enforced at **≥ 95 %** via Coverlet in `Directory.Build.props`. Run coverage locally with `just test-cov`.
+Line and branch coverage of all five packages must stay at **100 %**. CI collects coverage on every build and fails below this threshold. Run the same check locally with `just test-cov`, or call `./eng/Assert-CodeCoverage.ps1 -ResultsDirectory TestResults -Threshold 100` after a test run with `--collect:"XPlat Code Coverage"`.
 
 | Target | C# version | Notes |
 | --- | --- | --- |

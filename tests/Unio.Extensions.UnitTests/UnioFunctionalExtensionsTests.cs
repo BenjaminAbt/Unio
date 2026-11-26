@@ -222,5 +222,109 @@ public class UnioFunctionalExtensionsTests
         Unio<int, string> roundtrip = wrapped.FromResult();
 
         Assert.Equal(value, roundtrip);
+
+        Unio<int, string> errValue = "bad";
+        Unio<Result<int>, Error<string>> wrappedErr = errValue.ToResult();
+        Assert.Equal(errValue, wrappedErr.FromResult());
+    }
+
+    [Fact]
+    public void MapAndBind_AllOverloads_CoverBothBranches()
+    {
+        Unio<int, string> t0 = 5;
+        Unio<int, string> t1 = "7";
+
+        Assert.Equal("#5", UnioFunctionalExtensions.MapT0(t0, static i => $"#{i}").AsT0);
+        Assert.Equal("7", UnioFunctionalExtensions.MapT0(t1, static i => $"#{i}").AsT1);
+
+        Assert.Equal("v=5", t0.MapT0("v=", static (p, i) => $"{p}{i}").AsT0);
+        Assert.Equal("7", t1.MapT0("v=", static (p, i) => $"{p}{i}").AsT1);
+
+        Assert.Equal(5, UnioFunctionalExtensions.MapT1(t0, static s => s.Length).AsT0);
+        Assert.Equal(1, UnioFunctionalExtensions.MapT1(t1, static s => s.Length).AsT1);
+
+        Assert.Equal(5, t0.MapT1(10, static (o, s) => s.Length + o).AsT0);
+        Assert.Equal(11, t1.MapT1(10, static (o, s) => s.Length + o).AsT1);
+
+        Assert.Equal(15, t0.BindT0(10, static (o, i) => i + o).AsT0);
+        Assert.Equal("7", t1.BindT0(10, static (o, i) => i + o).AsT1);
+
+        Assert.Equal(5, t0.BindT1(static s => s.Length).AsT0);
+        Assert.Equal(1, t1.BindT1(static s => s.Length).AsT1);
+
+        Assert.Equal(5, t0.BindT1(10, static (o, s) => s.Length + o).AsT0);
+
+        Assert.Equal(10.0, t0.BiMap(static i => i * 2.0, static s => s.Length).AsT0);
+    }
+
+    [Fact]
+    public async Task AsyncExtensions_CoverBothBranches()
+    {
+        Unio<int, string> t0 = 5;
+        Unio<int, string> t1 = "abc";
+
+        Assert.Equal("abc", (await t1.BindT0Async(static i => Task.FromResult(i * 2.0))).AsT1);
+        Assert.Equal(5, (await t0.BindT1Async(static s => Task.FromResult(s.Length))).AsT0);
+        Assert.Equal(3, (await t1.BindT1Async(static async s => { await Task.Yield(); return s.Length; })).AsT1);
+
+        Assert.Equal("s:abc", await t1.FoldAsync(static i => Task.FromResult($"i:{i}"), static s => Task.FromResult($"s:{s}")));
+
+        int count = 0;
+        Assert.Equal(t0, await t0.TapT0Async(i => { count += i; return Task.CompletedTask; }));
+        Assert.Equal(5, count);
+        Assert.Equal(t1, await t1.TapT0Async(_ => { count += 100; return Task.CompletedTask; }));
+        Assert.Equal(5, count);
+        Assert.Equal(t0, await t0.TapT1Async(_ => { count += 100; return Task.CompletedTask; }));
+        Assert.Equal(5, count);
+    }
+
+    [Fact]
+    public void EnsureTapRecoverFoldOnPickAndLinq_CoverRemainingBranches()
+    {
+        Unio<int, string> t0 = 10;
+        Unio<int, string> t1 = "err";
+
+        Assert.Equal(t0, t0.EnsureT0(static i => i > 5, static _ => "bad"));
+        Assert.Equal(t1, t1.EnsureT0(static i => i > 5, static _ => "bad"));
+
+        Assert.Equal(t0, t0.EnsureT1(static s => s.Length < 10, static _ => -1));
+        Assert.Equal(t1, t1.EnsureT1(static s => s.Length < 10, static _ => -1));
+        Assert.Equal(-1, t1.EnsureT1(static s => s.Length > 10, static _ => -1).AsT0);
+
+        int sum = 0;
+        Assert.Equal(t1, t1.TapT0(i => sum += i));
+        Assert.Equal(t0, t0.TapT0(2, (s, i) => sum += s * i));
+        Assert.Equal(t1, t1.TapT0(2, (s, i) => sum += s * i));
+        Assert.Equal(20, sum);
+
+        Assert.Equal(t0, t0.TapT1(_ => sum += 100));
+        Assert.Equal(t1, t1.TapT1(s => sum += s.Length));
+        Assert.Equal(t0, t0.TapT1(1, (st, _) => sum += st));
+        Assert.Equal(23, sum);
+
+        Assert.Equal(3, t1.RecoverT1(static s => s.Length));
+        Assert.Equal(10, t0.RecoverT1(5, static (st, s) => st + s.Length));
+        Assert.Equal("err", t1.RecoverT0(static i => $"{i}"));
+        Assert.Equal("p:10", t0.RecoverT0("p:", static (p, i) => $"{p}{i}"));
+        Assert.Equal("err", t1.RecoverT0("p:", static (p, i) => $"{p}{i}"));
+
+        Assert.Equal("i:10", t0.Fold(static i => $"i:{i}", static s => $"s:{s}"));
+        Assert.Equal("p:10", t0.Fold("p:", static (p, i) => $"{p}{i}", static (p, s) => $"{p}{s}"));
+        Assert.Equal("p:err", t1.Fold("p:", static (p, i) => $"{p}{i}", static (p, s) => $"{p}{s}"));
+
+        int onHits = 0;
+        Assert.True(t0.OnT0(i => onHits += i));
+        Assert.False(t1.OnT0(_ => onHits += 100));
+        Assert.False(t0.OnT1(_ => onHits += 100));
+        Assert.True(t1.OnT1(s => onHits += s.Length));
+        Assert.Equal(13, onHits);
+
+        Assert.Equal(10, t0.PickT0Or(static s => s.Length));
+        Assert.Equal("err", t1.PickT1Or(static i => $"{i}"));
+        Assert.Equal("10", t0.PickT1Or(static i => $"{i}"));
+
+        Assert.Equal(20, (from x in t0 select x * 2).AsT0);
+        Assert.Equal("err", t1.SelectMany(static x => (Unio<int, string>)(x * 2), static (a, b) => a + b).AsT1);
+        Assert.Equal("mid-err", t0.SelectMany(static _ => (Unio<int, string>)"mid-err", static (a, b) => a + b).AsT1);
     }
 }

@@ -96,14 +96,15 @@
   <!-- Global coverage settings applied to all test projects -->
   <PropertyGroup Condition="'$(IsTestProject)' == 'true'" Label="Coverage">
     <!-- coverlet.collector and the Visual Studio adapter require VSTest mode. -->
+    <RunSettingsFilePath>$(MSBuildThisFileDirectory)coverlet.runsettings</RunSettingsFilePath>
     <CollectCoverage>true</CollectCoverage>
     <CoverletOutputFormat>lcov,opencover,cobertura</CoverletOutputFormat>
     <CoverletOutput>$(MSBuildThisFileDirectory)TestResults/coverage/$(MSBuildProjectName).</CoverletOutput>
     <ExcludeByAttribute>GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
     <ExcludeByFile>**/*Program.cs;**/*Startup.cs;**/*GlobalUsings.cs</ExcludeByFile>
     <UseSourceLink>true</UseSourceLink>
-    <Threshold>95</Threshold>
-    <ThresholdType>line</ThresholdType>
+    <Threshold>100</Threshold>
+    <ThresholdType>line,branch</ThresholdType>
     <ThresholdStat>total</ThresholdStat>
   </PropertyGroup>
 
