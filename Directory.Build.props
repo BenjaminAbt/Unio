@@ -41,6 +41,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <ContinuousIntegrationBuild Condition="'$(ContinuousIntegrationBuild)' == '' AND ('$(CI)' == 'true' OR '$(GITHUB_ACTIONS)' == 'true')">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IsTestProject)' != 'true' AND '$(IsBenchmarkProject)' != 'true'">
@@ -52,9 +53,11 @@
     <IsPackable>false</IsPackable>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <MinClientVersion>2.12</MinClientVersion>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols Condition="'$(IsPackable)' == 'true'">true</IncludeSymbols>
-    <SymbolPackageFormat Condition="'$(IsPackable)' == 'true'">snupkg</SymbolPackageFormat>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EnablePackageValidation>true</EnablePackageValidation>
 
     <Title>Unio - Discriminated Unions for C#</Title>
     <Description>
