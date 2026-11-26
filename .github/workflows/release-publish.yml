@@ -36,31 +36,103 @@ jobs:
           global-json-file: global.json
 
       - name: Verify packages
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
+          set -euo pipefail
+
+          if [[ ! "$RELEASE_TAG" =~ ^v(.+)$ ]]; then
+            echo "Error: Release tag '$RELEASE_TAG' does not start with 'v'!"
+            exit 1
+          fi
+          EXPECTED_VERSION="${BASH_REMATCH[1]}"
+          echo "Expected package version from tag '$RELEASE_TAG': $EXPECTED_VERSION"
+
           echo "Packages to be published:"
           ls -la ./artifacts/*.nupkg
           echo "Symbol packages to be published:"
           ls -la ./artifacts/*.snupkg
 
-          # Verify package count
-          PACKAGE_COUNT=$(ls ./artifacts/*.nupkg | wc -l)
-          if [ "$PACKAGE_COUNT" -eq 0 ]; then
-            echo "Error: No packages found!"
-            exit 1
-          fi
+          python3 - "$EXPECTED_VERSION" <<'PY'
+          import glob
+          import os
+          import sys
+          import xml.etree.ElementTree as ET
+          import zipfile
 
-          SYMBOL_COUNT=$(ls ./artifacts/*.snupkg | wc -l)
-          if [ "$SYMBOL_COUNT" -eq 0 ]; then
-            echo "Error: No symbol packages found!"
-            exit 1
-          fi
+          expected_version = sys.argv[1]
+          expected_ids = {
+              "Unio",
+              "Unio.Types",
+              "Unio.Extensions",
+              "Unio.AspNetCore",
+              "Unio.SourceGenerator",
+          }
 
-          if [ "$PACKAGE_COUNT" -ne "$SYMBOL_COUNT" ]; then
-            echo "Error: Package count ($PACKAGE_COUNT) does not match symbol package count ($SYMBOL_COUNT)!"
-            exit 1
-          fi
+          nupkgs = sorted(glob.glob("./artifacts/*.nupkg"))
+          snupkgs = sorted(glob.glob("./artifacts/*.snupkg"))
 
-          echo "Found $PACKAGE_COUNT package(s) and $SYMBOL_COUNT symbol package(s) to publish"
+          if not nupkgs:
+              sys.exit("Error: No .nupkg files found!")
+          if not snupkgs:
+              sys.exit("Error: No .snupkg files found!")
+
+          def read_nuspec_id_version(pkg_path: str) -> tuple[str, str]:
+              with zipfile.ZipFile(pkg_path, "r") as zf:
+                  nuspecs = [n for n in zf.namelist() if n.endswith(".nuspec") and "/" not in n]
+                  if len(nuspecs) != 1:
+                      sys.exit(f"Error: Expected 1 root .nuspec in {pkg_path}, found {nuspecs}")
+                  root = ET.fromstring(zf.read(nuspecs[0]))
+              ns = {"ns": root.tag.split("}")[0].lstrip("{")} if "}" in root.tag else {}
+              prefix = "ns:" if ns else ""
+              pkg_id = root.findtext(f"{prefix}metadata/{prefix}id", namespaces=ns)
+              pkg_ver = root.findtext(f"{prefix}metadata/{prefix}version", namespaces=ns)
+              if not pkg_id or not pkg_ver:
+                  sys.exit(f"Error: Missing <id> or <version> in {pkg_path}")
+              return pkg_id, pkg_ver
+
+          found_ids = set()
+          for pkg in nupkgs:
+              pkg_id, pkg_ver = read_nuspec_id_version(pkg)
+              expected_name = f"{pkg_id}.{expected_version}.nupkg"
+              actual_name = os.path.basename(pkg)
+              if pkg_id not in expected_ids:
+                  sys.exit(f"Error: Unexpected package ID '{pkg_id}' in {actual_name}")
+              if pkg_ver != expected_version:
+                  sys.exit(f"Error: Version mismatch in {actual_name}: expected '{expected_version}', got '{pkg_ver}'")
+              if actual_name != expected_name:
+                  sys.exit(f"Error: Filename mismatch: expected '{expected_name}', got '{actual_name}'")
+              if pkg_id in found_ids:
+                  sys.exit(f"Error: Duplicate package ID '{pkg_id}'")
+              found_ids.add(pkg_id)
+
+          missing_ids = expected_ids - found_ids
+          if missing_ids:
+              sys.exit(f"Error: Missing expected package(s): {sorted(missing_ids)}")
+
+          found_symbol_ids = set()
+          for sym in snupkgs:
+              sym_id, sym_ver = read_nuspec_id_version(sym)
+              expected_name = f"{sym_id}.{expected_version}.snupkg"
+              actual_name = os.path.basename(sym)
+              if sym_id not in expected_ids:
+                  sys.exit(f"Error: Unexpected symbol package ID '{sym_id}' in {actual_name}")
+              if sym_ver != expected_version:
+                  sys.exit(f"Error: Symbol package version mismatch in {actual_name}: expected '{expected_version}', got '{sym_ver}'")
+              if actual_name != expected_name:
+                  sys.exit(f"Error: Symbol package filename mismatch: expected '{expected_name}', got '{actual_name}'")
+              found_symbol_ids.add(sym_id)
+
+          if found_symbol_ids != found_ids:
+              sys.exit(
+                  f"Error: Symbol packages {sorted(found_symbol_ids)} do not match packages {sorted(found_ids)}"
+              )
+
+          print(
+              f"Verified {len(found_ids)} package(s) and {len(found_symbol_ids)} symbol package(s) "
+              f"for version {expected_version}: {', '.join(sorted(found_ids))}"
+          )
+          PY
 
       # Get a short-lived NuGet API key
       - name: NuGet login (OIDC → temp API key)
