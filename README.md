@@ -40,7 +40,7 @@ The runtime NuGet packages target .NET 9, 10, and 11; `Unio.SourceGenerator` tar
 
 ## Why Unio?
 
-Discriminated unions model mutually exclusive states without exceptions or `null`. C# does not yet have native union types, and existing libraries often rely on class hierarchies or `object` storage that box value types and add GC pressure.
+Discriminated unions model mutually exclusive states without exceptions or `null`. Even with C# 15's [built-in `union` types](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/union) (.NET 11), the default compiler-generated form stores values in an `object?` field—boxing value types and adding GC pressure—and requires .NET 11+. Existing libraries often rely on class hierarchies or `object` storage with similar trade-offs. See [Unio vs. C# 15 Built-in `union`](#unio-vs-c-15-built-in-union) for a detailed feature and benchmark comparison.
 
 **Unio** takes a modern, performance-first approach:
 
@@ -479,6 +479,130 @@ dotnet run -c Release --project perf/Unio.Benchmarks/Unio.Benchmarks.csproj --fr
 | `UnioBase<...>` + sealed generated classes | Reference semantics for named unions with minimal generated IL |
 
 Unio was inspired by [OneOf](https://github.com/mcintyre321/OneOf), redesigned around a `readonly struct` core, typed generic storage, allocation-free state matching, and Native AOT support.
+
+## Unio vs. C# 15 Built-in `union`
+
+C# 15 (.NET 11) introduces language-level [union types](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/union) (`public union Pet(Cat, Dog, Bird);`), backed by `[Union]` and `IUnion` in `System.Runtime.CompilerServices`. While both solve the same core problem—representing a closed set of mutually exclusive types with compile-time exhaustiveness—they make fundamentally different design trade-offs.
+
+### Core Architectural Difference
+
+- **C# 15 built-in `union`** compiles a `union` declaration into a `struct` with a single `object?` field, a public constructor per case type, and a `Value` property. Reference-type cases are stored directly, while **value-type cases (`int`, `bool`, `Guid`, custom structs, etc.) are boxed on creation**. Native `switch` and `is` pattern matching unwraps the contents directly at the language level. (Custom `[Union]` structs can opt into a manual non-boxing `TryGetValue`/`HasValue` pattern, at the cost of writing the backing fields and boilerplate yourself.)
+- **`Unio<T0, ..., Tn>`** is a generic `readonly struct` with a `byte _index` discriminator and strongly typed generic fields (`T0? _value0`, `T1? _value1`, ...). **Value types are never boxed** during construction, `TryGet`, `Match`, `Switch`, or equality checks. For named unions, `[GenerateUnio]` generates a minimal `sealed class` inheriting `UnioBase<...>`.
+
+```csharp
+// C# 15 built-in union (named declaration required; value types box to object?)
+public union IntOrString(int, string);
+
+IntOrString native = 42; // boxes int (24 B on x64)
+string a = native switch
+{
+    int i    => $"int: {i}",
+    string s => $"string: {s}",
+    null     => "empty",
+};
+
+// Unio (ad-hoc generic or [GenerateUnio] named class; zero boxing)
+Unio<int, string> unio = 42; // 0 B allocated
+string b = unio.Match(
+    static i => $"int: {i}",
+    static s => $"string: {s}");
+```
+
+### Feature Comparison
+
+| Feature | Unio | C# 15 Built-in `union` |
+| --- | --- | --- |
+| **Target frameworks** | .NET 9, .NET 10, .NET 11 | .NET 11+ / C# 15 only |
+| **Ad-hoc generic unions** | Yes (`Unio<T0, T1>` .. `Unio<T0, ..., T19>`) without declaring a type | No — every union must be declared as a named `union` type |
+| **Named unions** | Yes, via `[GenerateUnio]` source generator (`sealed class : UnioBase<...>`) | Yes, first-class `union Name(T0, T1, ...);` syntax (also supports generic `union Option<T>(...)`) |
+| **Value-type storage** | Typed generic fields — **0 B allocation, no boxing** | Single `object?` field — **boxes value types** (manual custom `[Union]` required to avoid boxing) |
+| **Struct footprint** | Size of all case fields + 1-byte tag (larger for many/large structs) | Fixed pointer size (8 B on x64) regardless of arity or case struct sizes |
+| **Pattern matching** | `Match` / `Switch` methods (`TState` overloads avoid closure allocations) | Native `switch` expressions & `is` patterns (direct local variable access, nested property/positional patterns) |
+| **Exhaustiveness** | Compile-time enforced via required `Match`/`Switch` delegate parameters | Compiler warnings on `switch` expressions (note: `default` struct contains `null` and can throw `SwitchExpressionException` if `null` arm is omitted) |
+| **Async matching** | Built-in `Task`-returning `Match` and `Switch` overloads (with `TState`) | Standard `await` inside `switch` arms |
+| **Equality & hashing** | Full structural `IEquatable<T>`, `==`, `!=`, `GetHashCode()` (0 B) | Not generated — falls back to `ValueType.Equals` (boxes) unless implemented manually |
+| **Formatting** | `ToString`, `IFormattable`, `ISpanFormattable`, `IUtf8SpanFormattable` | Default `ValueType.ToString()` unless overridden manually |
+| **Functional pipeline** | `TryGet`, `TryPick`, `ValueOr`, `MapT#`, plus `Unio.Extensions` (`Map`, `Bind`, `Tap`, `Ensure`, `Recover`) | Not included |
+| **Custom members in body** | Possible on `[GenerateUnio]` `partial class` | Supported directly in `union` body (methods, properties, delegating constructors) |
+| **Ecosystem packages** | `Unio.Types` (39 markers/wrappers), `Unio.AspNetCore` (`ToHttpResult()`), `Unio.Extensions` | Language primitive only |
+| **Native AOT & trimming** | Fully compatible and CI-verified | Fully compatible (built into compiler/runtime) |
+
+### Pros & Cons
+
+#### Unio
+
+**Pros**
+- **Zero-allocation value types**: No boxing when creating, matching, extracting, or comparing unions containing value types (`int`, `Guid`, `DateTime`, marker structs from `Unio.Types`, etc.).
+- **Ad-hoc generic unions**: Return `Unio<User, NotFound, Forbidden>` directly without declaring a dedicated union type for every method signature.
+- **Complete batteries-included API**: Structural `IEquatable<T>` (`==`/`!=`), span/UTF-8 formatting, `TryGet`/`TryPick`/`ValueOr`, fluent `Unio.Extensions`, 39 pre-built `Unio.Types`, and ASP.NET Core `ToHttpResult()`.
+- **Multi-TFM support**: Works today on .NET 9, .NET 10, and .NET 11.
+
+**Cons**
+- **External NuGet dependency**: Requires adding package references rather than using a built-in language keyword.
+- **Method-based matching**: Uses `Match`/`Switch` delegates instead of native C# `switch` expressions and nested property/positional patterns; avoiding closure allocations with locals requires the `TState` overloads and `static` lambdas.
+- **Larger struct size for high arities**: Storing typed fields for every case increases stack/copy size when combining many or large value types.
+
+#### C# 15 Built-in `union`
+
+**Pros**
+- **First-class language syntax**: Concise `public union Pet(Cat, Dog, Bird);` declarations, native `switch`/`is` pattern matching, nested property patterns (`Dog { Breed: "Labrador" }`), and nullability flow analysis.
+- **Zero delegate overhead when matching**: Pre-existing union instances dispatch directly in `switch` expressions and can capture local variables with zero allocations.
+- **Compact fixed-size struct**: Always a single `object?` reference (8 B on x64), regardless of how many cases or how large the case structs are.
+- **Zero dependencies & extensible**: Built into C# 15 / .NET 11, supports generic union declarations (`union Option<T>(None, Some<T>)`), custom members in the union body, and manual non-boxing `[Union]` implementations.
+
+**Cons**
+- **Boxes value types by default**: Every value-type case (including zero-size marker structs or primitives like `int`) allocates on the heap unless you hand-write a custom `[Union]` type with `TryGetValue`/`HasValue`.
+- **No generated equality or formatting**: Does not generate `IEquatable<T>`, `==`, `!=`, `GetHashCode()`, or `ToString()` — calling `.Equals()` falls back to boxing `ValueType.Equals`.
+- **.NET 11+ only**: Cannot be used when targeting .NET 9 or .NET 10.
+- **No ad-hoc generic unions or helper ecosystem**: Every union needs a named declaration, and there are no built-in functional combinators (`Map`/`Bind`/`Recover`), pre-built result types, or ASP.NET Core HTTP mappers.
+
+**When to choose which:**
+- Choose **Unio** when you target .NET 9/10/11, store value types or marker structs on hot paths without boxing, want ad-hoc generic unions (`Unio<T0, T1, ...>`), need built-in structural equality / span formatting, or want the ready-made `Unio.Types` / `Unio.Extensions` / `Unio.AspNetCore` ecosystem.
+- Choose **C# 15 built-in `union`** when you target .NET 11+, primarily wrap reference types (classes/records), want native `switch`/`is` pattern matching with nested patterns and zero dependencies, or need a compact fixed-size struct across many large case types.
+
+### Benchmark Comparison (Unio vs. C# 15 Built-in `union`)
+
+Run the dedicated .NET 11 comparison benchmark:
+
+```shell
+dotnet run -c Release --project perf/Unio.Benchmarks/Unio.Benchmarks.csproj --framework net11.0 -- --filter "*UnioVsBuiltInUnionBenchmarks*"
+```
+
+Measured with BenchmarkDotNet (`ShortRun`, .NET 11.0.0, X64 RyuJIT x86-64-v4, AMD Ryzen 9 9950X):
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/benchmarks/unio-vs-builtin-union-net11-dark.svg">
+  <img src="docs/benchmarks/unio-vs-builtin-union-net11.svg" alt="Column charts comparing Unio and C# 15 built-in union on .NET 11 for mean time per call (ns) and allocated memory per call (B). Exact values follow in the table.">
+</picture>
+
+| Category | Method | Mean | Ratio | Allocated |
+| --- | --- | ---: | ---: | ---: |
+| **Create (Value Type)** | `Unio_Create_Int` | 0.92 ns | 1.00 | 0 B |
+| | `BuiltIn_Create_Int` | 1.88 ns | 2.05 | 24 B |
+| **Create (5-Arity Value Type)** | `Unio_Create_5Arity` | 0.93 ns | 1.00 | 0 B |
+| | `BuiltIn_Create_5Arity` | 1.90 ns | 2.03 | 24 B |
+| **Create (Reference Type)** | `Unio_Create_String` | 0.92 ns | 1.00 | 0 B |
+| | `BuiltIn_Create_String` | 0.92 ns | 1.00 | 0 B |
+| **Round-trip (Create `int` + Match)** | `Unio_CreateAndMatch_Int` | 2.21 ns | 1.00 | 0 B |
+| | `BuiltIn_CreateAndSwitch_Int` | 4.52 ns | 2.04 | 24 B |
+| **Type Check & Extract (Hit)** | `Unio_TryGetT0_Hit` | 0.97 ns | 1.00 | 0 B |
+| | `BuiltIn_IsPattern_Hit` | 1.31 ns | 1.35 | 0 B |
+| **Type Check & Extract (Miss)** | `Unio_TryGetT1_Miss` | 1.08 ns | 1.00 | 0 B |
+| | `BuiltIn_IsPattern_Miss` | 1.17 ns | 1.09 | 0 B |
+| **Match (2-Arity, pre-existing)** | `Unio_Match_2Arity` | 1.13 ns | 1.00 | 0 B |
+| | `BuiltIn_Switch_2Arity` | 0.94 ns | 0.84 | 0 B |
+| **Match (5-Arity, pre-existing)** | `Unio_Match_5Arity` | 1.53 ns | 1.00 | 0 B |
+| | `BuiltIn_Switch_5Arity` | 0.93 ns | 0.61 | 0 B |
+| **Match with Local State (2-Arity)** | `Unio_Match_WithState_2Arity` | 1.49 ns | 1.00 | 0 B |
+| | `BuiltIn_Switch_WithLocal_2Arity` | 1.47 ns | 0.99 | 0 B |
+| **Equality** | `Unio_Equals` | 0.94 ns | 1.00 | 0 B |
+| | `BuiltIn_Equals` | 18.49 ns | 19.77 | 80 B |
+
+**Key takeaways:**
+- **Value-type creation & round-trips**: `Unio` is ~2× faster and allocates **0 B**, whereas C# 15's default `union` boxes `int` into `object?` (**24 B** per creation).
+- **Reference-type creation**: Identical performance and **0 B** allocation for both.
+- **Matching pre-existing instances**: C# 15's native `switch` expression is faster (especially at higher arities: 0.93 ns vs. 1.53 ns at 5-arity) because it avoids passing delegate arguments. With local state, `Unio`'s `Match<TState, TResult>` matches native `switch` performance (1.49 ns vs. 1.47 ns, both 0 B).
+- **Equality**: `Unio`'s generated `IEquatable<T>` runs in 0.94 ns with **0 B**, whereas the built-in `union` falls back to `ValueType.Equals` (18.49 ns, **80 B**).
 
 ## Samples
 

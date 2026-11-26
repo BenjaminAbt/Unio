@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="500" viewBox="0 0 960 500" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title id="t">Unio vs. C# 15 built-in union on .NET 11</title>
+<desc id="d">Linear column charts comparing Unio and C# 15 built-in union on .NET 11. Mean time per call (ns): Create int 0.92 vs 1.88, Create string 0.92 vs 0.92, Round-trip int plus Match 2.21 vs 4.52, Match 5-Arity 1.53 vs 0.93, TryGet/is Hit 0.97 vs 1.31. Allocated memory per call (B): Create int 0 B vs 24 B, Round-trip int 0 B vs 24 B, Equals 0 B vs 80 B.</desc>
+<rect width="960" height="500" fill="#ffffff"/>
+<text x="24.0" y="36.0" font-size="19" font-weight="600" fill="#0b0b0b" text-anchor="start">Unio vs. C# 15 built-in union on .NET 11</text>
+<text x="24.0" y="60.0" font-size="13" font-weight="400" fill="#52514e" text-anchor="start">Linear scale, lower is better. Each panel has its own axis.</text>
+<rect x="24" y="76" width="12" height="12" rx="3" fill="#2a78d6"/>
+<text x="42.0" y="87.0" font-size="13" font-weight="400" fill="#0b0b0b" text-anchor="start">Unio</text>
+<rect x="96" y="76" width="12" height="12" rx="3" fill="#eb6834"/>
+<text x="114.0" y="87.0" font-size="13" font-weight="400" fill="#0b0b0b" text-anchor="start">C# 15 built-in union</text>
+<text x="68.0" y="112.0" font-size="14" font-weight="600" fill="#0b0b0b" text-anchor="start">Mean time per call (ns)</text>
+<text x="60.0" y="404.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="end" style="font-variant-numeric: tabular-nums">0</text>
+<line x1="68" y1="345.6" x2="578" y2="345.6" stroke="#e1e0d9" stroke-width="1"/>
+<text x="60.0" y="349.6" font-size="12" font-weight="400" fill="#52514e" text-anchor="end" style="font-variant-numeric: tabular-nums">1 ns</text>
+<line x1="68" y1="291.2" x2="578" y2="291.2" stroke="#e1e0d9" stroke-width="1"/>
+<text x="60.0" y="295.2" font-size="12" font-weight="400" fill="#52514e" text-anchor="end" style="font-variant-numeric: tabular-nums">2 ns</text>
+<line x1="68" y1="236.8" x2="578" y2="236.8" stroke="#e1e0d9" stroke-width="1"/>
+<text x="60.0" y="240.8" font-size="12" font-weight="400" fill="#52514e" text-anchor="end" style="font-variant-numeric: tabular-nums">3 ns</text>
+<line x1="68" y1="182.4" x2="578" y2="182.4" stroke="#e1e0d9" stroke-width="1"/>
+<text x="60.0" y="186.4" font-size="12" font-weight="400" fill="#52514e" text-anchor="end" style="font-variant-numeric: tabular-nums">4 ns</text>
+<line x1="68" y1="128.0" x2="578" y2="128.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="60.0" y="132.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="end" style="font-variant-numeric: tabular-nums">5 ns</text>
+<path d="M89.00,400.00 V353.95 Q89.00,349.95 93.00,349.95 H109.00 Q113.00,349.95 113.00,353.95 V400.00 Z" fill="#2a78d6"/>
+<text x="101.0" y="344.0" font-size="11.5" font-weight="400" fill="#0b0b0b" text-anchor="middle" style="font-variant-numeric: tabular-nums">0.92</text>
+<path d="M125.00,400.00 V301.73 Q125.00,297.73 129.00,297.73 H145.00 Q149.00,297.73 149.00,301.73 V400.00 Z" fill="#eb6834"/>
+<text x="137.0" y="291.7" font-size="11.5" font-weight="400" fill="#0b0b0b" text-anchor="middle" style="font-variant-numeric: tabular-nums">1.88</text>
+<text x="119.0" y="422.0" font-size="13" font-weight="600" fill="#0b0b0b" text-anchor="middle">Create</text>
+<text x="119.0" y="440.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">(int)</text>
+<path d="M191.00,400.00 V353.95 Q191.00,349.95 195.00,349.95 H211.00 Q215.00,349.95 215.00,353.95 V400.00 Z" fill="#2a78d6"/>
+<text x="203.0" y="344.0" font-size="11.5" font-weight="400" fill="#0b0b0b" text-anchor="middle" style="font-variant-numeric: tabular-nums">0.92</text>
+<path d="M227.00,400.00 V353.95 Q227.00,349.95 231.00,349.95 H247.00 Q251.00,349.95 251.00,353.95 V400.00 Z" fill="#eb6834"/>
+<text x="239.0" y="344.0" font-size="11.5" font-weight="400" fill="#0b0b0b" text-anchor="middle" style="font-variant-numeric: tabular-nums">0.92</text>
+<text x="221.0" y="422.0" font-size="13" font-weight="600" fill="#0b0b0b" text-anchor="middle">Create</text>
+<text x="221.0" y="440.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">(string)</text>
+<path d="M293.00,400.00 V283.78 Q293.00,279.78 297.00,279.78 H313.00 Q317.00,279.78 317.00,283.78 V400.00 Z" fill="#2a78d6"/>
+<text x="305.0" y="273.8" font-size="11.5" font-weight="400" fill="#0b0b0b" text-anchor="middle" style="font-variant-numeric: tabular-nums">2.21</text>
+<path d="M329.00,400.00 V158.11 Q329.00,154.11 333.00,154.11 H349.00 Q353.00,154.11 353.00,158.11 V400.00 Z" fill="#eb6834"/>
+<text x="341.0" y="148.1" font-size="11.5" font-weight="400" fill="#0b0b0b" text-anchor="middle" style="font-variant-numeric: tabular-nums">4.52</text>
+<text x="323.0" y="422.0" font-size="13" font-weight="600" fill="#0b0b0b" text-anchor="middle">Round-trip</text>
+<text x="323.0" y="440.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">(int + Match)</text>
+<path d="M395.00,400.00 V320.77 Q395.00,316.77 399.00,316.77 H415.00 Q419.00,316.77 419.00,320.77 V400.00 Z" fill="#2a78d6"/>
+<text x="407.0" y="310.8" font-size="11.5" font-weight="400" fill="#0b0b0b" text-anchor="middle" style="font-variant-numeric: tabular-nums">1.53</text>
+<path d="M431.00,400.00 V353.41 Q431.00,349.41 435.00,349.41 H451.00 Q455.00,349.41 455.00,353.41 V400.00 Z" fill="#eb6834"/>
+<text x="443.0" y="343.4" font-size="11.5" font-weight="400" fill="#0b0b0b" text-anchor="middle" style="font-variant-numeric: tabular-nums">0.93</text>
+<text x="425.0" y="422.0" font-size="13" font-weight="600" fill="#0b0b0b" text-anchor="middle">Match</text>
+<text x="425.0" y="440.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">(5-Arity)</text>
+<path d="M497.00,400.00 V351.23 Q497.00,347.23 501.00,347.23 H517.00 Q521.00,347.23 521.00,351.23 V400.00 Z" fill="#2a78d6"/>
+<text x="509.0" y="341.2" font-size="11.5" font-weight="400" fill="#0b0b0b" text-anchor="middle" style="font-variant-numeric: tabular-nums">0.97</text>
+<path d="M533.00,400.00 V332.74 Q533.00,328.74 537.00,328.74 H553.00 Q557.00,328.74 557.00,332.74 V400.00 Z" fill="#eb6834"/>
+<text x="545.0" y="322.7" font-size="11.5" font-weight="400" fill="#0b0b0b" text-anchor="middle" style="font-variant-numeric: tabular-nums">1.31</text>
+<text x="527.0" y="422.0" font-size="13" font-weight="600" fill="#0b0b0b" text-anchor="middle">TryGet / is</text>
+<text x="527.0" y="440.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">(Hit)</text>
+<line x1="68" y1="400" x2="578" y2="400" stroke="#c3c2b7" stroke-width="1"/>
+<text x="656.0" y="112.0" font-size="14" font-weight="600" fill="#0b0b0b" text-anchor="start">Allocated memory per call (B)</text>
+<text x="648.0" y="404.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="end" style="font-variant-numeric: tabular-nums">0</text>
+<line x1="656" y1="332.0" x2="940" y2="332.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="648.0" y="336.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="end" style="font-variant-numeric: tabular-nums">20 B</text>
+<line x1="656" y1="264.0" x2="940" y2="264.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="648.0" y="268.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="end" style="font-variant-numeric: tabular-nums">40 B</text>
+<line x1="656" y1="196.0" x2="940" y2="196.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="648.0" y="200.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="end" style="font-variant-numeric: tabular-nums">60 B</text>
+<line x1="656" y1="128.0" x2="940" y2="128.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="648.0" y="132.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="end" style="font-variant-numeric: tabular-nums">80 B</text>
+<text x="685.3" y="394.0" font-size="11.5" font-weight="600" fill="#2a78d6" text-anchor="middle" style="font-variant-numeric: tabular-nums">0 B</text>
+<path d="M709.33,400.00 V322.40 Q709.33,318.40 713.33,318.40 H729.33 Q733.33,318.40 733.33,322.40 V400.00 Z" fill="#eb6834"/>
+<text x="721.3" y="312.4" font-size="11.5" font-weight="400" fill="#0b0b0b" text-anchor="middle" style="font-variant-numeric: tabular-nums">24 B</text>
+<text x="703.3" y="422.0" font-size="13" font-weight="600" fill="#0b0b0b" text-anchor="middle">Create</text>
+<text x="703.3" y="440.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">(int)</text>
+<text x="780.0" y="394.0" font-size="11.5" font-weight="600" fill="#2a78d6" text-anchor="middle" style="font-variant-numeric: tabular-nums">0 B</text>
+<path d="M804.00,400.00 V322.40 Q804.00,318.40 808.00,318.40 H824.00 Q828.00,318.40 828.00,322.40 V400.00 Z" fill="#eb6834"/>
+<text x="816.0" y="312.4" font-size="11.5" font-weight="400" fill="#0b0b0b" text-anchor="middle" style="font-variant-numeric: tabular-nums">24 B</text>
+<text x="798.0" y="422.0" font-size="13" font-weight="600" fill="#0b0b0b" text-anchor="middle">Round-trip</text>
+<text x="798.0" y="440.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">(int)</text>
+<text x="874.7" y="394.0" font-size="11.5" font-weight="600" fill="#2a78d6" text-anchor="middle" style="font-variant-numeric: tabular-nums">0 B</text>
+<path d="M898.67,400.00 V132.00 Q898.67,128.00 902.67,128.00 H918.67 Q922.67,128.00 922.67,132.00 V400.00 Z" fill="#eb6834"/>
+<text x="910.7" y="122.0" font-size="11.5" font-weight="400" fill="#0b0b0b" text-anchor="middle" style="font-variant-numeric: tabular-nums">80 B</text>
+<text x="892.7" y="422.0" font-size="13" font-weight="600" fill="#0b0b0b" text-anchor="middle">Equals</text>
+<text x="892.7" y="440.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">(2-Arity)</text>
+<line x1="656" y1="400" x2="940" y2="400" stroke="#c3c2b7" stroke-width="1"/>
+<text x="24.0" y="484.0" font-size="12" font-weight="400" fill="#52514e" text-anchor="start">BenchmarkDotNet ShortRun on .NET 11.0.0 (X64 RyuJIT, AMD Ryzen 9 9950X). Equality time (0.94 ns vs. 18.49 ns) and full results are in the table below.</text>
+</svg>
