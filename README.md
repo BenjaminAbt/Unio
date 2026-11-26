@@ -529,11 +529,25 @@ string b = unio.Match(
 
 ### Pros & Cons
 
-| | Unio | C# 15 Built-in `union` |
+✅ advantage · ⚖️ trade-off · ❌ disadvantage
+
+| Aspect | Unio | C# 15 Built-in `union` |
 | --- | --- | --- |
-| **Pros** | • **Zero-allocation value types**: no boxing when creating, matching, extracting, or comparing value types (`int`, `Guid`, `DateTime`, marker structs)<br>• **Ad-hoc generic unions**: return `Unio<User, NotFound, Forbidden>` without declaring a type for every signature<br>• **Batteries-included API**: structural `IEquatable<T>` (`==`/`!=`), span/UTF-8 formatting, `TryGet`/`TryPick`/`ValueOr`, `Unio.Extensions`, 39 `Unio.Types`, and `Unio.AspNetCore`<br>• **Multi-TFM support**: works on .NET 9, .NET 10, and .NET 11 | • **First-class language syntax**: concise `public union Pet(Cat, Dog, Bird);` declarations, native `switch`/`is` matching, nested property patterns (`Dog { Breed: "Labrador" }`), and nullability flow analysis<br>• **Zero delegate overhead when matching**: pre-existing instances dispatch directly in `switch` expressions and capture locals with 0 B allocation<br>• **Compact fixed-size struct**: always a single `object?` reference (8 B on x64), regardless of arity or case struct sizes<br>• **Zero dependencies & extensible**: built into C# 15 / .NET 11; supports generic declarations (`union Option<T>(...)`), custom body members, and manual non-boxing `[Union]` structs |
-| **Cons** | • **External NuGet dependency**: requires package references instead of a built-in keyword<br>• **Method-based matching**: uses `Match`/`Switch` delegates instead of native `switch` expressions; avoiding closures with locals requires `TState` overloads + `static` lambdas<br>• **Larger struct size at high arities**: typed fields for every case increase stack/copy size for many or large value types | • **Boxes value types by default**: every value-type case allocates on the heap unless you hand-write a custom `[Union]` type with `TryGetValue`/`HasValue`<br>• **No generated equality or formatting**: no `IEquatable<T>`, `==`, `!=`, `GetHashCode()`, or `ToString()` — `.Equals()` falls back to boxing `ValueType.Equals`<br>• **.NET 11+ only**: unavailable on .NET 9 and .NET 10<br>• **No ad-hoc generic unions or ecosystem**: every union requires a named declaration, with no built-in combinators (`Map`/`Bind`/`Recover`), pre-built result types, or HTTP mappers |
-| **Best suited for** | Targeting .NET 9/10/11, hot paths with value types or marker structs, ad-hoc generic return types, structural equality / span formatting, or using `Unio.Types` / `Unio.Extensions` / `Unio.AspNetCore` | Targeting .NET 11+ only, reference-type (class/record) unions, native `switch`/`is` nested pattern matching with zero dependencies, or compact fixed-size structs across many large case types |
+| **Value types** | ✅ No boxing, 0 B | ❌ Boxed, 24 B per `int` |
+| **Ad-hoc generic unions** | ✅ `Unio<User, NotFound, Forbidden>` | ❌ Named declaration required |
+| **Syntax** | ⚖️ Library type / `[GenerateUnio]` | ✅ `public union Pet(Cat, Dog, Bird);` |
+| **Pattern matching** | ⚖️ `Match` / `Switch` delegates | ✅ Native `switch` / `is`, nested patterns |
+| **Matching existing instances** | ⚖️ 1.1–1.5 ns | ✅ ~0.9 ns |
+| **Equality & formatting** | ✅ Generated, 0 B | ❌ Boxing `ValueType.Equals`, ~20× slower |
+| **Helper API & ecosystem** | ✅ `Extensions`, `Types`, `AspNetCore` | ❌ None |
+| **Struct size** | ⚖️ Grows with arity | ✅ Fixed 8 B |
+| **Dependencies** | ⚖️ NuGet package | ✅ Built into the language |
+| **Target frameworks** | ✅ .NET 9, 10, 11 | ⚖️ .NET 11+ only |
+
+#### When to Choose Which
+
+- **Choose Unio** if you target .NET 9 or 10, store value types on hot paths, want ad-hoc generic return types, or use `Unio.Types` / `Unio.Extensions` / `Unio.AspNetCore`.
+- **Choose the built-in `union`** if you target .NET 11+ only, mostly wrap reference types (classes/records), and prefer native `switch`/`is` patterns with zero dependencies.
 
 ### Benchmark Comparison (Unio vs. C# 15 Built-in `union`)
 
